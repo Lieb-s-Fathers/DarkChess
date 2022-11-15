@@ -2,7 +2,17 @@
 
 This is the project for SUSTech_CS107A.
 
+------
 
+## Important
+
+### commit规范
+
+- commit信息应遵循Angular规范，建议使用Intellij IDEA的插件Git Commit Temperate
+- 每个commit的更改内容应该尽可能保持小范围且集中
+- 尽可能确保commit时源码能够正常编译，正常运行，通过测试
+
+------
 
 ## Develop Log
 
