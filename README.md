@@ -14,6 +14,12 @@ This is the project for SUSTech_CS107A.
 
 ------
 
+### Maybe 可以作为参考 但是是python
+
+[xinjiyier/Dark_chess: 象棋小游戏，暗棋 (github.com)](https://github.com/xinjiyier/Dark_chess)
+
+------
+
 ## Important
 
 ### commit规范
