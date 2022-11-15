@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>E:/Documents/OneDrive - 南方科技大学/SUSTech/Study/CS107 计算机程序设计基础A（H）/DarkChess</OriginalElement>
+  <nodes>
+    <node x="-207.0" y="458.0">view.Chessboard</node>
+    <node x="180.25" y="-183.0">chessComponent.SquareComponent</node>
+    <node x="-207.0" y="359.0">chessComponent.SoldierChessComponent</node>
+    <node x="378.5" y="232.0">chessComponent.EmptySlotComponent</node>
+    <node x="418.0" y="758.0">Main</node>
+    <node x="252.0" y="458.0">model.ChessColor</node>
+    <node x="-15.5" y="232.0">chessComponent.ChessComponent</node>
+    <node x="181.0" y="359.0">chessComponent.ChariotChessComponent</node>
+    <node x="116.0" y="758.0">controller.GameController</node>
+    <node x="722.0" y="458.0">model.ChessboardPoint</node>
+    <node x="487.0" y="458.0">view.ChessGameFrame</node>
+    <node x="-207.0" y="758.0">controller.ClickController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="chessComponent.ChariotChessComponent" target="chessComponent.ChessComponent" relationship="GENERALIZATION">
+      <point x="0.0" y="-27.0" />
+      <point x="366.0" y="334.0" />
+      <point x="171.5" y="334.0" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="chessComponent.SoldierChessComponent" target="chessComponent.ChessComponent" relationship="GENERALIZATION">
+      <point x="0.0" y="-27.0" />
+      <point x="-23.0" y="334.0" />
+      <point x="171.5" y="334.0" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="chessComponent.ChessComponent" target="chessComponent.SquareComponent" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="171.5" y="207.0" />
+      <point x="369.75" y="207.0" />
+      <point x="0.0" y="182.5" />
+    </edge>
+    <edge source="chessComponent.EmptySlotComponent" target="chessComponent.SquareComponent" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="568.0" y="207.0" />
+      <point x="369.75" y="207.0" />
+      <point x="0.0" y="182.5" />
+    </edge>
+  </edges>
+  <settings layout="分层" zoom="0.6875" showDependencies="false" x="350.0" y="359.0" />
+  <SelectedNodes>
+    <node>Main</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>内部类</Category>
+    <Category>字段</Category>
+    <Category>属性</Category>
+    <Category>方法</Category>
+    <Category>构造函数</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
