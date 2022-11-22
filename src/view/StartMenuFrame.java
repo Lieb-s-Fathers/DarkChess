@@ -8,6 +8,7 @@ import java.awt.*;
 public class StartMenuFrame extends JFrame {
     private final int WIDTH;
     private final int HEIGHT;
+    private int extraDistance;
 
     private GameController gameController;
 
@@ -25,8 +26,10 @@ public class StartMenuFrame extends JFrame {
         setLayout(null);
 
 
-        if (isNewGame) {
-            //todo 如果不是新游戏，添加继续游戏按钮
+        extraDistance = isNewGame ? 0 : 100;
+        if (!isNewGame) {
+            //如果不是新游戏，添加继续游戏按钮
+            addContinueButton();
         }
 
         addLabel();
@@ -58,7 +61,7 @@ public class StartMenuFrame extends JFrame {
             mainFrame.setVisible(true);
 
         });
-        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 120);
+        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 120 + extraDistance);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
@@ -66,15 +69,32 @@ public class StartMenuFrame extends JFrame {
 
     private void addLoadButton() {
         JButton button = new JButton("Load");
-        button.setLocation(WIDTH / 2 - 90 , HEIGHT / 5 + 220);
+        button.setLocation(WIDTH / 2 - 90 , HEIGHT / 5 + 220 + extraDistance);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBackground(Color.LIGHT_GRAY);
         add(button);
 
         button.addActionListener(e -> {
-            System.out.println("Click load");
+            System.out.println("click load");
             //todo 创建游戏窗口再加载数据
+
+//            String path = JOptionPane.showInputDialog(this, "Input Path here");
+//            gameController.loadGameFromFile(path);
+        });
+    }
+
+    private void addContinueButton() {
+        JButton button = new JButton("Continue");
+        button.setLocation(WIDTH / 2 - 90 , HEIGHT / 5 + 120);
+        button.setSize(180, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.setBackground(Color.LIGHT_GRAY);
+        add(button);
+
+        button.addActionListener(e -> {
+            System.out.println("click continue");
+            //todo 继续上局游戏
 
 //            String path = JOptionPane.showInputDialog(this, "Input Path here");
 //            gameController.loadGameFromFile(path);
@@ -89,13 +109,9 @@ public class StartMenuFrame extends JFrame {
             System.exit(0);
         });
 
-        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 320);
+        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 320 + extraDistance);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
-
-
-
-
 }
