@@ -33,14 +33,19 @@ public class ClickController {
                 //repaint in swap chess method.
                 chessboard.swapChessComponents(first, squareComponent);
                 chessboard.clickController.swapPlayer();
+                if (squareComponent instanceof EmptySlotComponent){
+                    chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName());
+                }
+                else{
+                    int[][] killedComponent = chessboard.getKilledComponents();
+                    int color = squareComponent.getChessColor() == ChessColor.BLACK ? 0 : 1;
+                    printKilledComponents(killedComponent);
+                    killedComponent[squareComponent.getStyle()][color]++;
+                    chessboard.clickController.calculateScore();
+                    chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
+                }
                 first.setSelected(false);
                 first = null;
-                int[][] killedComponent = chessboard.getKilledComponents();
-                int color = squareComponent.getChessColor() == ChessColor.BLACK ? 0 : 1;
-                killedComponent[squareComponent.getStyle()][color]++;
-                printKilledComponents(killedComponent);
-                chessboard.clickController.calculateScore();
-                chessboard.clickController.printMessage(squareComponent.getChessColor().getName(), squareComponent.getStyle());
             }
         }
     }
@@ -102,7 +107,12 @@ public class ClickController {
         ChessGameFrame.getBlackScoreLabel().setText("Black Score:    " + chessboard.getBlackScore());
     }
 
-    public void printMessage(String color, int component){
-        ChessGameFrame.getMessageLabel().setText(color + " loss " + component);
+    public void printMessage(String color1, String component1){
+        ChessGameFrame.getMessageLabel().setText("move "+ color1 + " " + component1);
+    }
+
+
+    public void printMessage(String color1, String component1, String color2, String component2){
+        ChessGameFrame.getMessageLabel().setText(color1 + " " + component1+" eats "+ color2 +" " +component2);
     }
 }

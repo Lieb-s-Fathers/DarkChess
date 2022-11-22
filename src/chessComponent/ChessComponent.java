@@ -13,6 +13,10 @@ public class ChessComponent extends SquareComponent {
 
     protected String name;// 棋子名字：例如 兵，卒，士等
 
+    public String getName() {
+        return name;
+    }
+
     protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size, int style) {
         super(chessboardPoint, location, chessColor, clickController, size);
         this.style=style;
