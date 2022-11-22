@@ -6,18 +6,13 @@ import model.ChessboardPoint;
 
 import java.awt.*;
 
-/**
- * 表示黑红卒
- */
-public class SoldierChessComponent extends ChessComponent {
-
-    public SoldierChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
+public class AdvisorChessComponent extends ChessComponent{
+    public AdvisorChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         super(chessboardPoint, location, chessColor, clickController, size);
         if (this.getChessColor() == ChessColor.RED) {
-            name = "兵";
+            name = "仕";
         } else {
-            name = "卒";
+            name = "士";
         }
     }
-
 }

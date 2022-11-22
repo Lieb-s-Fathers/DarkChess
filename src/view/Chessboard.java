@@ -1,10 +1,7 @@
 package view;
 
 
-import chessComponent.ChariotChessComponent;
-import chessComponent.EmptySlotComponent;
-import chessComponent.SoldierChessComponent;
-import chessComponent.SquareComponent;
+import chessComponent.*;
 import model.*;
 import controller.ClickController;
 
