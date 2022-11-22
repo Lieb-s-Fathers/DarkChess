@@ -63,16 +63,23 @@ public class ClickController {
      */
 
     private boolean handleSecond(SquareComponent squareComponent) {
-
-        //没翻开或空棋子，进入if
-        if (!squareComponent.isReversal()) {
-            //没翻开且非空棋子不能走
-            if (!(squareComponent instanceof EmptySlotComponent)) {
-                return false;
+        if (first.getStyle() == 6) {
+            boolean canMove = (first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint()) ||
+                    !squareComponent.isReversal()) &&
+                    !(squareComponent instanceof EmptySlotComponent);
+            return canMove;
+        } else {
+            //没翻开或空棋子，进入if
+            if (!squareComponent.isReversal()) {
+                //没翻开且非空棋子不能走
+                if (!(squareComponent instanceof EmptySlotComponent)) {
+                    return false;
+                }
             }
+            boolean canMove = (squareComponent.getChessColor() != chessboard.getCurrentColor()) &&
+                    first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
+            return canMove;
         }
-        return squareComponent.getChessColor() != chessboard.getCurrentColor() &&
-                first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
     }
 
     public void swapPlayer() {

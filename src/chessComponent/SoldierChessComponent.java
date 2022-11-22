@@ -12,7 +12,7 @@ import java.awt.*;
 public class SoldierChessComponent extends ChessComponent {
 
     public SoldierChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
-        super(chessboardPoint, location, chessColor, clickController, size);
+        super(chessboardPoint, location, chessColor, clickController, size, 5);
         if (this.getChessColor() == ChessColor.RED) {
             name = "兵";
         } else {

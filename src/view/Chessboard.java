@@ -16,17 +16,14 @@ import java.util.Random;
  */
 public class Chessboard extends JComponent {
 
-
     private static final int ROW_SIZE = 8;
     private static final int COL_SIZE = 4;
-
-    private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
-    //todo: you can change the initial player
-    private ChessColor currentColor = ChessColor.BLACK;
-
     //all chessComponents in this chessboard are shared only one model controller
     public final ClickController clickController = new ClickController(this);
+    private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
     private final int CHESS_SIZE;
+    //todo: you can change the initial player
+    private ChessColor currentColor = ChessColor.BLACK;
 
 
     public Chessboard(int width, int height) {
@@ -53,6 +50,7 @@ public class Chessboard extends JComponent {
 
     /**
      * 将SquareComponent 放置在 ChessBoard上。里面包含移除原有的component及放置新的component
+     *
      * @param squareComponent
      */
     public void putChessOnBoard(SquareComponent squareComponent) {
@@ -65,6 +63,7 @@ public class Chessboard extends JComponent {
 
     /**
      * 交换chess1 chess2的位置
+     *
      * @param chess1
      * @param chess2
      */
@@ -85,19 +84,39 @@ public class Chessboard extends JComponent {
         chess2.repaint();
     }
 
-
+    //初始化棋盘
     //FIXME:   Initialize chessboard for testing only.
     private void initAllChessOnBoard() {
         Random random = new Random();
+        int[][] componentlist = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
         for (int i = 0; i < squareComponents.length; i++) {
             for (int j = 0; j < squareComponents[i].length; j++) {
-                ChessColor color = random.nextInt(2) == 0 ? ChessColor.RED : ChessColor.BLACK;
-                SquareComponent squareComponent;
-                if (random.nextInt(2) == 0) {
-                    squareComponent = new ChariotChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else {
-                    squareComponent = new SoldierChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                int colorID = random.nextInt(2);
+                int temp = random.nextInt(7);
+                while (componentlist[colorID][temp] == 0) {
+                    temp = random.nextInt(7);
+                    colorID = random.nextInt(2);
                 }
+
+                ChessColor color = colorID == 0 ? ChessColor.RED : ChessColor.BLACK;
+                SquareComponent squareComponent;
+
+                if (temp == 0) {
+                    squareComponent = new GeneralChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp == 1) {
+                    squareComponent = new AdvisorChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp == 2) {
+                    squareComponent = new MinisterChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp == 3) {
+                    squareComponent = new ChariotChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp == 4) {
+                    squareComponent = new HorseChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp == 5) {
+                    squareComponent = new SoldierChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else {
+                    squareComponent = new CannonChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                }
+                componentlist[colorID][temp]--;
                 squareComponent.setVisible(true);
                 putChessOnBoard(squareComponent);
             }
@@ -107,6 +126,7 @@ public class Chessboard extends JComponent {
 
     /**
      * 绘制棋盘格子
+     *
      * @param g
      */
     @Override
@@ -118,6 +138,7 @@ public class Chessboard extends JComponent {
 
     /**
      * 将棋盘上行列坐标映射成Swing组件的Point
+     *
      * @param row 棋盘上的行
      * @param col 棋盘上的列
      * @return
@@ -128,6 +149,7 @@ public class Chessboard extends JComponent {
 
     /**
      * 通过GameController调用该方法
+     *
      * @param chessData
      */
     public void loadGame(List<String> chessData) {

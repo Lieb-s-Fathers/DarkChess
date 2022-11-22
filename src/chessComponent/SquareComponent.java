@@ -7,6 +7,7 @@ import model.ChessboardPoint;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 /**
  * 这个类是一个抽象类，主要表示8*4棋盘上每个格子的棋子情况。
@@ -16,10 +17,25 @@ import java.awt.event.MouseEvent;
  */
 public abstract class SquareComponent extends JComponent {
 
+    protected static final Font CHESS_FONT = new Font("宋体", Font.BOLD, 36);
     private static final Color squareColor = new Color(250, 220, 190);
     protected static int spacingLength;
-    protected static final Font CHESS_FONT = new Font("宋体", Font.BOLD, 36);
-
+    protected final ChessColor chessColor;
+    /**
+     * handle click event
+     */
+    private final ClickController clickController;
+    protected int style;
+    protected boolean isReversal;
+    protected boolean[][] canEat = {
+            {true, true, true, true, true, false, true},
+            {false, true, true, true, true, true, true},
+            {false, false, true, true, true, true, true},
+            {false, false, false, true, true, true, true},
+            {false, false, false, false, true, true, true},
+            {true, false, false, false, false, true, false},
+            {true, true, true, true, true, true, true},
+    };
     /**
      * chessboardPoint: 表示8*4棋盘中，当前棋子在棋格对应的位置，如(0, 0), (1, 0)等等
      * chessColor: 表示这个棋子的颜色，有红色，黑色，无色三种
@@ -27,14 +43,7 @@ public abstract class SquareComponent extends JComponent {
      * selected: 表示这个棋子是否被选中
      */
     private ChessboardPoint chessboardPoint;
-    protected final ChessColor chessColor;
-    protected boolean isReversal;
     private boolean selected;
-
-    /**
-     * handle click event
-     */
-    private final ClickController clickController;
 
     protected SquareComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
@@ -47,16 +56,17 @@ public abstract class SquareComponent extends JComponent {
         this.isReversal = false;
     }
 
+
+    public static void setSpacingLength(int spacingLength) {
+        SquareComponent.spacingLength = spacingLength;
+    }
+
     public boolean isReversal() {
         return isReversal;
     }
 
     public void setReversal(boolean reversal) {
         isReversal = reversal;
-    }
-
-    public static void setSpacingLength(int spacingLength) {
-        SquareComponent.spacingLength = spacingLength;
     }
 
     public ChessboardPoint getChessboardPoint() {
@@ -77,6 +87,10 @@ public abstract class SquareComponent extends JComponent {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public int getStyle() {
+        return style;
     }
 
     /**
@@ -117,8 +131,24 @@ public abstract class SquareComponent extends JComponent {
     //todo: Override this method for Cannon
     public boolean canMoveTo(SquareComponent[][] chessboard, ChessboardPoint destination) {
         SquareComponent destinationChess = chessboard[destination.getX()][destination.getY()];
-        return destinationChess.isReversal|| destinationChess instanceof EmptySlotComponent;
+        ChessboardPoint thisPoint = this.getChessboardPoint();
+        int[][] range = {{thisPoint.getX() + 1, thisPoint.getY()}, {thisPoint.getX() - 1, thisPoint.getY()}, {thisPoint.getX(), thisPoint.getY() + 1}, {thisPoint.getX(), thisPoint.getY() - 1}};
+        int[] destinationChessXY = {destination.getX(), destination.getY()};
+        boolean inRange = checkRange(destinationChessXY, range);
+        boolean canMove = (destinationChess.isReversal && canEat[this.style][destinationChess.style]) || destinationChess instanceof EmptySlotComponent;
+        return canMove && inRange;
         //todo: complete this method
+    }
+
+    public boolean checkRange(int[] destinationChessXY, int[][] range) {
+        boolean isInRange = false;
+        for (int[] point : range) {
+            if (point[0] == destinationChessXY[0] && point[1] == destinationChessXY[1]) {
+                isInRange = true;
+                break;
+            }
+        }
+        return isInRange;
     }
 
 
