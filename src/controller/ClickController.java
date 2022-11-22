@@ -62,14 +62,10 @@ public class ClickController {
      * @param squareComponent first棋子目标移动到的棋子second
      * @return first棋子是否能够移动到second棋子位置
      */
-
+    //todo: 添加杀死棋子计数
     private boolean handleSecond(SquareComponent squareComponent) {
         if (first.getStyle() == 6) {
-            return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint()) &&
-                    (
-                            (!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) ||
-                                    (squareComponent.isReversal() && squareComponent.getChessColor() != chessboard.getCurrentColor())
-                    );
+            return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint()) && ((!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) || (squareComponent.isReversal() && squareComponent.getChessColor() != chessboard.getCurrentColor()));
         } else {
             //没翻开或空棋子，进入if
             if (!squareComponent.isReversal()) {
@@ -78,8 +74,7 @@ public class ClickController {
                     return false;
                 }
             }
-            return (squareComponent.getChessColor() != chessboard.getCurrentColor()) &&
-                    first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
+            return (squareComponent.getChessColor() != chessboard.getCurrentColor()) && first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
         }
     }
 
