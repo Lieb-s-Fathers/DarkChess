@@ -15,7 +15,6 @@ public class ClickController {
         this.chessboard = chessboard;
     }
 
-    //todo: 添加显示合法走位的功能
     public void onClick(SquareComponent squareComponent) {
         //判断第一次点击
         if (first == null) {
@@ -34,13 +33,24 @@ public class ClickController {
                 //repaint in swap chess method.
                 chessboard.swapChessComponents(first, squareComponent);
                 chessboard.clickController.swapPlayer();
-
                 first.setSelected(false);
                 first = null;
+                int[][] killedComponent = chessboard.getKilledComponents();
+                int color = squareComponent.getChessColor() == ChessColor.BLACK ? 0 : 1;
+                killedComponent[squareComponent.getStyle()][color]++;
+                printKilledComponents(killedComponent);
             }
         }
     }
 
+    private void printKilledComponents(int[][] killedComponent) {
+        System.out.print("Black: ");
+        for (int i = 0; i < 7; i++) System.out.printf("%d ", killedComponent[i][0]);
+        System.out.println();
+        System.out.print("Red: ");
+        for (int i = 0; i < 7; i++) System.out.printf("%d ", killedComponent[i][1]);
+        System.out.println();
+    }
 
     /**
      * @param squareComponent 目标选取的棋子
@@ -62,7 +72,7 @@ public class ClickController {
      * @param squareComponent first棋子目标移动到的棋子second
      * @return first棋子是否能够移动到second棋子位置
      */
-    //todo: 添加杀死棋子计数
+    //todo: 添加显示合法走位的功能
     private boolean handleSecond(SquareComponent squareComponent) {
         if (first.getStyle() == 6) {
             return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint()) && ((!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) || (squareComponent.isReversal() && squareComponent.getChessColor() != chessboard.getCurrentColor()));

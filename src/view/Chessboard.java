@@ -25,6 +25,8 @@ public class Chessboard extends JComponent {
     //todo: you can change the initial player
     private ChessColor currentColor = ChessColor.BLACK;
 
+    private  int[][] killedComponents=new int[7][2];
+
 
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout.
@@ -34,6 +36,10 @@ public class Chessboard extends JComponent {
         System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
 
         initAllChessOnBoard();
+    }
+
+    public  int[][] getKilledComponents() {
+        return killedComponents;
     }
 
     public SquareComponent[][] getChessComponents() {
