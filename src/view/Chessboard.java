@@ -26,6 +26,7 @@ public class Chessboard extends JComponent {
     private ChessColor currentColor = ChessColor.BLACK;
 
     private  int[][] killedComponents=new int[7][2];
+    private int[] componentsScore = {30,10,5,5,5,1,5};
 
 
     public Chessboard(int width, int height) {
@@ -41,6 +42,23 @@ public class Chessboard extends JComponent {
     public  int[][] getKilledComponents() {
         return killedComponents;
     }
+
+    public int getRedScore(){
+        int redScore = 0;
+        for (int i = 0; i < 7; i++) {
+            redScore += this.killedComponents[i][0] * this.componentsScore[i];
+        }
+        return redScore;
+    }
+
+    public int getBlackScore(){
+        int blackScore = 0;
+        for (int i = 0; i < 7; i++) {
+            blackScore += this.killedComponents[i][1] * this.componentsScore[i];
+        }
+        return blackScore;
+    }
+
 
     public SquareComponent[][] getChessComponents() {
         return squareComponents;

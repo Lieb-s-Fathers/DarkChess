@@ -17,6 +17,9 @@ public class ChessGameFrame extends JFrame {
     public final int CHESSBOARD_SIZE;
     private GameController gameController;
     private static JLabel statusLabel;
+    private static JLabel redScoreLabel;
+    private static JLabel blackScoreLabel;
+    private static JLabel messageLabel;
 
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS109 Project Demo"); //设置标题
@@ -31,8 +34,11 @@ public class ChessGameFrame extends JFrame {
         setLayout(null);
 
         addChessboard();
-        addLabel();
-        addHelloButton();
+        addTurnLabel();
+        addRedScoreLabel();
+        addBlackScoreLabel();
+        addMessageLabel();
+//        addHelloButton();
         addLoadButton();
         addBackButton();
     }
@@ -51,7 +57,7 @@ public class ChessGameFrame extends JFrame {
     /**
      * 在游戏窗体中添加标签
      */
-    private void addLabel() {
+    private void addTurnLabel() {
         statusLabel = new JLabel("BLACK's TURN");
         statusLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10);
         statusLabel.setSize(200, 60);
@@ -59,8 +65,42 @@ public class ChessGameFrame extends JFrame {
         add(statusLabel);
     }
 
+    private void addRedScoreLabel() {
+        redScoreLabel = new JLabel("Red Score:     0");
+        redScoreLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 50);
+        redScoreLabel.setSize(200, 60);
+        redScoreLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(redScoreLabel);
+    }
+
+    private void addBlackScoreLabel() {
+        blackScoreLabel = new JLabel("Black Score:   0");
+        blackScoreLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 100);
+        blackScoreLabel.setSize(200, 60);
+        blackScoreLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(blackScoreLabel);
+    }
+
+    private void addMessageLabel() {
+        messageLabel = new JLabel("");
+        messageLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 150);
+        messageLabel.setSize(200, 60);
+        messageLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        messageLabel.setForeground(Color.RED);
+        add(messageLabel);
+    }
+
     public static JLabel getStatusLabel() {
         return statusLabel;
+    }
+    public static JLabel getRedScoreLabel() {
+        return redScoreLabel;
+    }
+    public static JLabel getBlackScoreLabel() {
+        return blackScoreLabel;
+    }
+    public static JLabel getMessageLabel() {
+        return messageLabel;
     }
 
     /**
@@ -79,14 +119,14 @@ public class ChessGameFrame extends JFrame {
 
     private void addLoadButton() {
         JButton button = new JButton("Load");
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 240);
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 280);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBackground(Color.LIGHT_GRAY);
         add(button);
 
         button.addActionListener(e -> {
-            System.out.println("Click load");
+            System.out.println("click load");
             String path = JOptionPane.showInputDialog(this, "Input Path here");
             gameController.loadGameFromFile(path);
         });
@@ -97,16 +137,14 @@ public class ChessGameFrame extends JFrame {
     private void addBackButton() {
         JButton button = new JButton("Back");
         button.addActionListener((e) -> {
-//            JOptionPane.showMessageDialog(this, "Hello, world!");
+            System.out.println("click back");
             this.setVisible(false);
             StartMenuFrame firstFrame = new StartMenuFrame(720, 720, false);
             firstFrame.setVisible(true);
         });
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 360);
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 400);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
-
-
 }

@@ -39,6 +39,8 @@ public class ClickController {
                 int color = squareComponent.getChessColor() == ChessColor.BLACK ? 0 : 1;
                 killedComponent[squareComponent.getStyle()][color]++;
                 printKilledComponents(killedComponent);
+                chessboard.clickController.calculateScore();
+                chessboard.clickController.printMessage(squareComponent.getChessColor().getName(), squareComponent.getStyle());
             }
         }
     }
@@ -72,7 +74,7 @@ public class ClickController {
      * @param squareComponent first棋子目标移动到的棋子second
      * @return first棋子是否能够移动到second棋子位置
      */
-    //todo: 添加显示合法走位的功能
+    //todo 添加显示合法走位的功能
     private boolean handleSecond(SquareComponent squareComponent) {
         if (first.getStyle() == 6) {
             return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint()) && ((!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) || (squareComponent.isReversal() && squareComponent.getChessColor() != chessboard.getCurrentColor()));
@@ -88,9 +90,19 @@ public class ClickController {
         }
     }
 
-    //todo: 添加定时功能
+    //todo 添加定时功能
     public void swapPlayer() {
         chessboard.setCurrentColor(chessboard.getCurrentColor() == ChessColor.BLACK ? ChessColor.RED : ChessColor.BLACK);
         ChessGameFrame.getStatusLabel().setText(String.format("%s's TURN", chessboard.getCurrentColor().getName()));
+    }
+
+    //计算分数
+    public void calculateScore(){
+        ChessGameFrame.getRedScoreLabel().setText("Red Score:    " + chessboard.getRedScore());
+        ChessGameFrame.getBlackScoreLabel().setText("Black Score:    " + chessboard.getBlackScore());
+    }
+
+    public void printMessage(String color, int component){
+        ChessGameFrame.getMessageLabel().setText(color + " loss " + component);
     }
 }
