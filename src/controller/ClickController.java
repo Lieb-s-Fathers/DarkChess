@@ -15,6 +15,7 @@ public class ClickController {
         this.chessboard = chessboard;
     }
 
+    //todo: 添加显示合法走位的功能
     public void onClick(SquareComponent squareComponent) {
         //判断第一次点击
         if (first == null) {
@@ -82,6 +83,7 @@ public class ClickController {
         }
     }
 
+    //todo: 添加定时功能
     public void swapPlayer() {
         chessboard.setCurrentColor(chessboard.getCurrentColor() == ChessColor.BLACK ? ChessColor.RED : ChessColor.BLACK);
         ChessGameFrame.getStatusLabel().setText(String.format("%s's TURN", chessboard.getCurrentColor().getName()));

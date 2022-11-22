@@ -7,7 +7,6 @@ import model.ChessboardPoint;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 
 /**
  * 这个类是一个抽象类，主要表示8*4棋盘上每个格子的棋子情况。
@@ -128,7 +127,6 @@ public abstract class SquareComponent extends JComponent {
      * <br>
      * 这个方法主要是检查移动的合法性，如果合法就返回true，反之是false。
      */
-    //todo: Override this method for Cannon
     public boolean canMoveTo(SquareComponent[][] chessboard, ChessboardPoint destination) {
         SquareComponent destinationChess = chessboard[destination.getX()][destination.getY()];
         ChessboardPoint thisPoint = this.getChessboardPoint();
@@ -137,7 +135,6 @@ public abstract class SquareComponent extends JComponent {
         boolean inRange = checkRange(destinationChessXY, range);
         boolean canMove = (destinationChess.isReversal && canEat[this.style][destinationChess.style]) || destinationChess instanceof EmptySlotComponent;
         return canMove && inRange;
-        //todo: complete this method
     }
 
     public boolean checkRange(int[] destinationChessXY, int[][] range) {

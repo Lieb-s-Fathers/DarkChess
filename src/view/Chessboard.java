@@ -85,7 +85,6 @@ public class Chessboard extends JComponent {
     }
 
     //初始化棋盘
-    //FIXME:   Initialize chessboard for testing only.
     private void initAllChessOnBoard() {
         Random random = new Random();
         int[][] componentlist = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
