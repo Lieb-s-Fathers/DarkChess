@@ -34,6 +34,7 @@ public class ChessGameFrame extends JFrame {
         addLabel();
         addHelloButton();
         addLoadButton();
+        addBackButton();
     }
 
 
@@ -92,5 +93,20 @@ public class ChessGameFrame extends JFrame {
 
 
     }
+
+    private void addBackButton() {
+        JButton button = new JButton("Back");
+        button.addActionListener((e) -> {
+//            JOptionPane.showMessageDialog(this, "Hello, world!");
+            this.setVisible(false);
+            StartMenuFrame firstFrame = new StartMenuFrame(720, 720, false);
+            firstFrame.setVisible(true);
+        });
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 360);
+        button.setSize(180, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+    }
+
 
 }
