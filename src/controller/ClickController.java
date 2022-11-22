@@ -64,10 +64,11 @@ public class ClickController {
 
     private boolean handleSecond(SquareComponent squareComponent) {
         if (first.getStyle() == 6) {
-            boolean canMove = (first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint()) ||
-                    !squareComponent.isReversal()) &&
-                    !(squareComponent instanceof EmptySlotComponent);
-            return canMove;
+            return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint()) &&
+                    (
+                            (!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) ||
+                                    (squareComponent.isReversal() && squareComponent.getChessColor() != chessboard.getCurrentColor())
+                    );
         } else {
             //没翻开或空棋子，进入if
             if (!squareComponent.isReversal()) {
@@ -76,9 +77,8 @@ public class ClickController {
                     return false;
                 }
             }
-            boolean canMove = (squareComponent.getChessColor() != chessboard.getCurrentColor()) &&
+            return (squareComponent.getChessColor() != chessboard.getCurrentColor()) &&
                     first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
-            return canMove;
         }
     }
 
