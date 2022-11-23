@@ -7,6 +7,7 @@ import controller.ClickController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -170,6 +171,8 @@ public class Chessboard extends JComponent {
         return new Point(col * CHESS_SIZE + 3, row * CHESS_SIZE + 3);
     }
 
+    //todo: 存取游戏
+
     /**
      * 通过GameController调用该方法
      *
@@ -177,5 +180,17 @@ public class Chessboard extends JComponent {
      */
     public void loadGame(List<String> chessData) {
         chessData.forEach(System.out::println);
+    }
+
+    public void saveGame() {
+
+    }
+
+    //todo: 将棋盘状态转换成List<string> chesssData
+
+    public List<String> toChessData() {
+        List<String> chessData=new ArrayList<String>();
+        //todo: 完善这个方法
+        return chessData;
     }
 }
