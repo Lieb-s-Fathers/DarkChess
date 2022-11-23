@@ -31,6 +31,7 @@ public class ClickController {
 
     public void onClick(SquareComponent squareComponent) {
         //判断第一次点击
+        //FIXME 吃子后第一次点击空白非法swapPlayer
         if (first == null) {
             if (handleFirst(squareComponent)) {
                 squareComponent.setSelected(true);
@@ -165,7 +166,6 @@ public class ClickController {
      * @param squareComponent first棋子目标移动到的棋子second
      * @return first棋子是否能够移动到second棋子位置
      */
-    //todo 添加显示合法走位的功能
     private boolean handleSecond(SquareComponent squareComponent) {
         if (first.getStyle() == 6) {
             return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
