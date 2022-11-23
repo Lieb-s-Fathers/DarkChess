@@ -18,8 +18,7 @@ public class ChessComponent extends SquareComponent {
     }
 
     protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size, int style) {
-        super(chessboardPoint, location, chessColor, clickController, size);
-        this.style=style;
+        super(chessboardPoint, location, chessColor, clickController, size, style);
     }
 
     @Override
