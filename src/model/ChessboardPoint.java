@@ -8,7 +8,6 @@ public class ChessboardPoint {
     private int x, y;
 
     /**
-     *
      * @param x: row
      * @param y: col
      */
@@ -27,6 +26,6 @@ public class ChessboardPoint {
 
     @Override
     public String toString() {
-        return "("+x + ","+y+") " + "on the chessboard is clicked!";
+        return "(" + x + "," + y + ") " + "on the chessboard is clicked!";
     }
 }

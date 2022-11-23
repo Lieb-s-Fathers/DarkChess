@@ -93,12 +93,15 @@ public class ChessGameFrame extends JFrame {
     public static JLabel getStatusLabel() {
         return statusLabel;
     }
+
     public static JLabel getRedScoreLabel() {
         return redScoreLabel;
     }
+
     public static JLabel getBlackScoreLabel() {
         return blackScoreLabel;
     }
+
     public static JLabel getMessageLabel() {
         return messageLabel;
     }

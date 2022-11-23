@@ -21,7 +21,7 @@ public class EmptySlotComponent extends SquareComponent {
     }
 
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         if (getCanBeEaten()) {

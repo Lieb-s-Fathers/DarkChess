@@ -14,7 +14,7 @@ public class StartMenuFrame extends JFrame {
 
     private static JLabel statusLabel;
 
-    public StartMenuFrame(int width, int height, boolean isNewGame){
+    public StartMenuFrame(int width, int height, boolean isNewGame) {
         setTitle("DarkChess");
         this.WIDTH = width;
         this.HEIGHT = height;
@@ -39,7 +39,7 @@ public class StartMenuFrame extends JFrame {
     }
 
     //标题标签
-    private void addLabel(){
+    private void addLabel() {
         statusLabel = new JLabel("Dark Chess");
         statusLabel.setLocation(WIDTH / 2 - 145, HEIGHT / 5);
         statusLabel.setSize(400, 60);
@@ -69,7 +69,7 @@ public class StartMenuFrame extends JFrame {
 
     private void addLoadButton() {
         JButton button = new JButton("Load");
-        button.setLocation(WIDTH / 2 - 90 , HEIGHT / 5 + 220 + extraDistance);
+        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 220 + extraDistance);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBackground(Color.LIGHT_GRAY);
@@ -86,7 +86,7 @@ public class StartMenuFrame extends JFrame {
 
     private void addContinueButton() {
         JButton button = new JButton("Continue");
-        button.setLocation(WIDTH / 2 - 90 , HEIGHT / 5 + 120);
+        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 120);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBackground(Color.LIGHT_GRAY);

@@ -6,7 +6,7 @@ import model.ChessboardPoint;
 
 import java.awt.*;
 
-public class AdvisorChessComponent extends ChessComponent{
+public class AdvisorChessComponent extends ChessComponent {
     public AdvisorChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         super(chessboardPoint, location, chessColor, clickController, size, 1);
         if (this.getChessColor() == ChessColor.RED) {

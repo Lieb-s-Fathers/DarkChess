@@ -2,16 +2,17 @@ package controller;
 
 
 import chessComponent.CannonChessComponent;
-import chessComponent.SquareComponent;
 import chessComponent.EmptySlotComponent;
+import chessComponent.SquareComponent;
 import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
 import view.Chessboard;
 
 import java.util.ArrayList;
+
 public class ClickController {
-    private final int[][] directions = {{1,0},{-1,0},{0,1},{0,-1}};
+    private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     private final Chessboard chessboard;
     private SquareComponent first;
     private ArrayList<SquareComponent> next = new ArrayList<>();
@@ -28,27 +29,26 @@ public class ClickController {
                 squareComponent.setSelected(true);
                 first = squareComponent;
                 first.repaint();
-                if (!(first instanceof CannonChessComponent)){
+                if (!(first instanceof CannonChessComponent)) {
                     ChessboardPoint firstPoint = first.getChessboardPoint();
                     int xx = firstPoint.getX();
                     int yy = firstPoint.getY();
                     for (int i = 0; i < 4; i++) {
                         try {
-                            ChessboardPoint chessboardPoint = new ChessboardPoint(xx+directions[i][0], yy+directions[i][1]);
-                            if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)){
+                            ChessboardPoint chessboardPoint = new ChessboardPoint(xx + directions[i][0], yy + directions[i][1]);
+                            if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
                                 next.add(chessboard.getChessComponents()[chessboardPoint.getX()][chessboardPoint.getY()]);
                             }
+                        } catch (ArrayIndexOutOfBoundsException e) {
                         }
-                        catch (ArrayIndexOutOfBoundsException e) {}
                     }
                     next.forEach((c) -> {
                         c.setCanBeEaten(true);
                         c.repaint();
                     });
-                }
-                else{
-                    for (SquareComponent[] chessComponents : chessboard.getChessComponents()){
-                        for (SquareComponent chessComponent : chessComponents){
+                } else {
+                    for (SquareComponent[] chessComponents : chessboard.getChessComponents()) {
+                        for (SquareComponent chessComponent : chessComponents) {
                             try {
                                 ChessboardPoint chessboardPoint = chessComponent.getChessboardPoint();
                                 if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
@@ -58,10 +58,10 @@ public class ClickController {
                                     c.setCanBeEaten(true);
                                     c.repaint();
                                 });
-                            } catch (ArrayIndexOutOfBoundsException e) {}
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                            }
                         }
                     }
-
 
 
 //                    for (int i = 0; i < 4; i++) {
@@ -94,7 +94,7 @@ public class ClickController {
                 next = new ArrayList<>();
             } else if (handleSecond(squareComponent)) {
                 //repaint in swap chess method.
-                next.forEach((c) ->{
+                next.forEach((c) -> {
                     c.setCanBeEaten(false);
                     c.repaint();
                 });

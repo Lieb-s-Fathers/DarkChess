@@ -2,8 +2,9 @@ package view;
 
 
 import chessComponent.*;
-import model.*;
 import controller.ClickController;
+import model.ChessColor;
+import model.ChessboardPoint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,8 +27,8 @@ public class Chessboard extends JComponent {
     //todo: you can change the initial player
     private ChessColor currentColor = ChessColor.BLACK;
 
-    private  int[][] killedComponents=new int[7][2];
-    private int[] componentsScore = {30,10,5,5,5,1,5};
+    private int[][] killedComponents = new int[7][2];
+    private int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
 
 
     public Chessboard(int width, int height) {
@@ -40,11 +41,11 @@ public class Chessboard extends JComponent {
         initAllChessOnBoard();
     }
 
-    public  int[][] getKilledComponents() {
+    public int[][] getKilledComponents() {
         return killedComponents;
     }
 
-    public int getRedScore(){
+    public int getRedScore() {
         int redScore = 0;
         for (int i = 0; i < 7; i++) {
             redScore += this.killedComponents[i][0] * this.componentsScore[i];
@@ -52,7 +53,7 @@ public class Chessboard extends JComponent {
         return redScore;
     }
 
-    public int getBlackScore(){
+    public int getBlackScore() {
         int blackScore = 0;
         for (int i = 0; i < 7; i++) {
             blackScore += this.killedComponents[i][1] * this.componentsScore[i];
@@ -189,10 +190,10 @@ public class Chessboard extends JComponent {
     //todo: 将棋盘状态转换成List<string> chesssData
 
     public List<String> toChessData() {
-        List<String> chessData=new ArrayList<String>();
+        List<String> chessData = new ArrayList<String>();
         //todo: 完善这个方法
-        StringBuffer componentStyle=null;
-        StringBuffer componentColor=null;
+        StringBuffer componentStyle = null;
+        StringBuffer componentColor = null;
         for (int i = 0; i < 28; i++) {
 
         }
