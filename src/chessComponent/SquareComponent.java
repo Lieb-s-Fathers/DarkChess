@@ -27,13 +27,14 @@ public abstract class SquareComponent extends JComponent {
     protected int style;
     protected boolean isReversal;
     protected boolean[][] canEat = {
-            {true, true, true, true, true, false, true},
-            {false, true, true, true, true, true, true},
-            {false, false, true, true, true, true, true},
-            {false, false, false, true, true, true, true},
-            {false, false, false, false, true, true, true},
-            {true, false, false, false, false, true, false},
-            {true, true, true, true, true, true, true},
+            {true, true, true, true, true, false, true, true},
+            {false, true, true, true, true, true, true, true},
+            {false, false, true, true, true, true, true, true},
+            {false, false, false, true, true, true, true, true},
+            {false, false, false, false, true, true, true, true},
+            {true, false, false, false, false, true, false, true},
+            {true, true, true, true, true, true, true, true},
+            {false, false, false, false, false, false, false, false}
     };
     /**
      * chessboardPoint: 表示8*4棋盘中，当前棋子在棋格对应的位置，如(0, 0), (1, 0)等等
