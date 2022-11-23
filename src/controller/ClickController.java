@@ -4,8 +4,12 @@ package controller;
 import chessComponent.SquareComponent;
 import chessComponent.EmptySlotComponent;
 import model.ChessColor;
+import model.ChessboardPoint;
 import view.ChessGameFrame;
 import view.Chessboard;
+
+import java.util.ArrayList;
+import java.util.spi.CalendarNameProvider;
 
 public class ClickController {
     private final Chessboard chessboard;
@@ -33,10 +37,9 @@ public class ClickController {
                 //repaint in swap chess method.
                 chessboard.swapChessComponents(first, squareComponent);
                 chessboard.clickController.swapPlayer();
-                if (squareComponent instanceof EmptySlotComponent){
+                if (squareComponent instanceof EmptySlotComponent) {
                     chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName());
-                }
-                else{
+                } else {
                     int[][] killedComponent = chessboard.getKilledComponents();
                     int color = squareComponent.getChessColor() == ChessColor.BLACK ? 0 : 1;
                     printKilledComponents(killedComponent);
@@ -75,11 +78,27 @@ public class ClickController {
         return squareComponent.getChessColor() == chessboard.getCurrentColor();
     }
 
+
+    //显示合法走位的功能
+    private int[][] getCanMovePoints() {
+        int i = 0;
+        int[][] canMovePoints = {{-1, -1}, {-1, -1}, {-1, -1}, {-1, -1}};
+        SquareComponent[][] squareComponents = chessboard.getChessComponents();
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 4; y++) {
+                if (first.canMoveTo(squareComponents, squareComponents[x][y].getChessboardPoint())) {
+                    canMovePoints[i][0] = x;
+                    canMovePoints[i++][1] = y;
+                }
+            }
+        }
+        return canMovePoints;
+    }
+
     /**
      * @param squareComponent first棋子目标移动到的棋子second
      * @return first棋子是否能够移动到second棋子位置
      */
-    //todo 添加显示合法走位的功能
     private boolean handleSecond(SquareComponent squareComponent) {
         if (first.getStyle() == 6) {
             return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint()) && ((!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) || (squareComponent.isReversal() && squareComponent.getChessColor() != chessboard.getCurrentColor()));
@@ -102,17 +121,17 @@ public class ClickController {
     }
 
     //计算分数
-    public void calculateScore(){
+    public void calculateScore() {
         ChessGameFrame.getRedScoreLabel().setText("Red Score:    " + chessboard.getRedScore());
         ChessGameFrame.getBlackScoreLabel().setText("Black Score:    " + chessboard.getBlackScore());
     }
 
-    public void printMessage(String color1, String component1){
-        ChessGameFrame.getMessageLabel().setText("move "+ color1 + " " + component1);
+    public void printMessage(String color1, String component1) {
+        ChessGameFrame.getMessageLabel().setText("move " + color1 + " " + component1);
     }
 
 
-    public void printMessage(String color1, String component1, String color2, String component2){
-        ChessGameFrame.getMessageLabel().setText(color1 + " " + component1+" eats "+ color2 +" " +component2);
+    public void printMessage(String color1, String component1, String color2, String component2) {
+        ChessGameFrame.getMessageLabel().setText(color1 + " " + component1 + " eats " + color2 + " " + component2);
     }
 }

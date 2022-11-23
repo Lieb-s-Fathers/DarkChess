@@ -131,13 +131,17 @@ public abstract class SquareComponent extends JComponent {
     public boolean canMoveTo(SquareComponent[][] chessboard, ChessboardPoint destination) {
         SquareComponent destinationChess = chessboard[destination.getX()][destination.getY()];
         ChessboardPoint thisPoint = this.getChessboardPoint();
-        int[][] range = {{thisPoint.getX() + 1, thisPoint.getY()}, {thisPoint.getX() - 1, thisPoint.getY()}, {thisPoint.getX(), thisPoint.getY() + 1}, {thisPoint.getX(), thisPoint.getY() - 1}};
+        int[][] range = getRange(thisPoint, chessboard);
         int[] destinationChessXY = {destination.getX(), destination.getY()};
         boolean inRange = checkRange(destinationChessXY, range);
         boolean canMove = (destinationChess.isReversal && canEat[this.style][destinationChess.style]) || destinationChess instanceof EmptySlotComponent;
         return canMove && inRange;
     }
 
+    public int[][] getRange(ChessboardPoint thisPoint, SquareComponent[][] chessboard) {
+        int[][] range = {{thisPoint.getX() + 1, thisPoint.getY()}, {thisPoint.getX() - 1, thisPoint.getY()}, {thisPoint.getX(), thisPoint.getY() + 1}, {thisPoint.getX(), thisPoint.getY() - 1}};
+        return range;
+    }
     public boolean checkRange(int[] destinationChessXY, int[][] range) {
         boolean isInRange = false;
         for (int[] point : range) {
