@@ -47,8 +47,7 @@ public class ClickController {
                             if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
                                 next.add(chessboard.getChessComponents()[chessboardPoint.getX()][chessboardPoint.getY()]);
                             }
-                        }
-                        catch (ArrayIndexOutOfBoundsException e) {}
+                        } catch (ArrayIndexOutOfBoundsException e) {}
                     }
                     next.forEach((c) -> {
                         c.setCanBeEaten(true);
@@ -134,7 +133,7 @@ public class ClickController {
      */
 
     private boolean handleFirst(SquareComponent squareComponent) {
-        if (!squareComponent.isReversal()) {
+        if (!squareComponent.isReversal()&&!(squareComponent instanceof EmptySlotComponent)) {
             squareComponent.setReversal(true);
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
             save();
