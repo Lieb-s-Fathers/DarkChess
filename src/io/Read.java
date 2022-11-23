@@ -1,12 +1,22 @@
+package io;
+
 import java.io.*;
 
 public class Read {
     private BufferedReader bufferedReader;
     private StreamTokenizer streamTokenizer;
+    private File inFile ;
+    private FileInputStream fileInputStream;
 
-    Read(InputStream inputStream) {
-        this.bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        this.streamTokenizer = new StreamTokenizer(bufferedReader);
+    Read(String inFilePath) {
+        try {
+            this.inFile = new File(inFilePath);
+            this.fileInputStream = new FileInputStream(inFile);
+            this.bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+            this.streamTokenizer = new StreamTokenizer(bufferedReader);
+        }catch (IOException e) {
+        }
+
     }
 
     public int nextInt() throws IOException {
@@ -25,5 +35,6 @@ public class Read {
 
     public void close() throws IOException {
         bufferedReader.close();
+        fileInputStream.close();
     }
 }

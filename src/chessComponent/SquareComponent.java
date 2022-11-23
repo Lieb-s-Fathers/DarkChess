@@ -172,4 +172,9 @@ public abstract class SquareComponent extends JComponent {
         g.setColor(squareColor);
         g.fillRect(1, 1, this.getWidth() - 2, this.getHeight() - 2);
     }
+
+    @Override
+    public String toString(){
+        return this.getChessColor().getName()+" "+this.getStyle()+" "+this.isReversal();
+    }
 }

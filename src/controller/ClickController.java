@@ -2,17 +2,23 @@ package controller;
 
 
 import chessComponent.CannonChessComponent;
+import chessComponent.ChessComponent;
 import chessComponent.SquareComponent;
 import chessComponent.EmptySlotComponent;
+import io.Write;
 import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
 import view.Chessboard;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ClickController {
+    private int steps = 0;
+    static String outFilePath = "save/save.out";
+    private Write out = new Write(outFilePath);
     private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     private final Chessboard chessboard;
     private SquareComponent first;
@@ -103,10 +109,8 @@ public class ClickController {
                     if (chessboard.getBlackScore() >= 60){
                         ChessGameFrame.winboard.setVisible(true);
                     }
-
-
-
-
+                    steps++;
+                    save();
                 }
                 first.setSelected(false);
                 first = null;
@@ -132,6 +136,7 @@ public class ClickController {
         if (!squareComponent.isReversal()) {
             squareComponent.setReversal(true);
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
+            save();
             squareComponent.repaint();
             chessboard.clickController.swapPlayer();
             return false;
@@ -183,17 +188,30 @@ public class ClickController {
     }
 
     //计算分数
-    public void calculateScore() {
+    private void calculateScore() {
         ChessGameFrame.getRedScoreLabel().setText("Red Score:    " + chessboard.getRedScore());
         ChessGameFrame.getBlackScoreLabel().setText("Black Score:    " + chessboard.getBlackScore());
     }
 
-    public void printMessage(String color1, String component1) {
+    private void printMessage(String color1, String component1) {
         ChessGameFrame.getMessageLabel().setText("move " + color1 + " " + component1);
     }
 
 
-    public void printMessage(String color1, String component1, String color2, String component2) {
+    private void printMessage(String color1, String component1, String color2, String component2) {
         ChessGameFrame.getMessageLabel().setText(color1 + " " + component1 + " eats " + color2 + " " + component2);
+    }
+
+    private void save() {
+        // out.printWriter.printf();
+
+        for (SquareComponent[] squareComponents : chessboard.getChessComponents()){
+            for (SquareComponent squareComponent : squareComponents){
+                out.printWriter.println(squareComponent.toString());
+//                out.flush();
+            }
+        }
+        out.printWriter.println();
+        out.flush();
     }
 }
