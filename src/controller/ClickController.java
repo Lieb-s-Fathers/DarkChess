@@ -2,13 +2,14 @@ package controller;
 
 
 import chessComponent.CannonChessComponent;
-import chessComponent.EmptySlotComponent;
 import chessComponent.SquareComponent;
+import chessComponent.EmptySlotComponent;
 import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
 import view.Chessboard;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class ClickController {
@@ -39,8 +40,8 @@ public class ClickController {
                             if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
                                 next.add(chessboard.getChessComponents()[chessboardPoint.getX()][chessboardPoint.getY()]);
                             }
-                        } catch (ArrayIndexOutOfBoundsException e) {
                         }
+                        catch (ArrayIndexOutOfBoundsException e) {}
                     }
                     next.forEach((c) -> {
                         c.setCanBeEaten(true);
@@ -58,24 +59,9 @@ public class ClickController {
                                     c.setCanBeEaten(true);
                                     c.repaint();
                                 });
-                            } catch (ArrayIndexOutOfBoundsException e) {
-                            }
+                            } catch (ArrayIndexOutOfBoundsException e) {}
                         }
                     }
-
-
-//                    for (int i = 0; i < 4; i++) {
-//                        try {
-//                            ChessboardPoint chessboardPoint = new ChessboardPoint(xx + 2 * directions[i][0], yy + 2 * directions[i][1]);
-//                            if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
-//                                next.add(chessboard.getChessComponents()[chessboardPoint.getX()][chessboardPoint.getY()]);
-//                            }
-//                            next.forEach((c) -> {
-//                                c.setCanBeEaten(true);
-//                                c.repaint();
-//                            });
-//                        } catch (ArrayIndexOutOfBoundsException e) {}
-//                    }
                 }
 
             }
@@ -84,22 +70,20 @@ public class ClickController {
                 squareComponent.setSelected(false);
                 first.repaint();
                 first = null;
-//                SquareComponent recordFirst = first;
-//                first = null;
-//                recordFirst.repaint();
+
                 next.forEach((c) -> {
                     c.setCanBeEaten(false);
                     c.repaint();
                 });
                 next = new ArrayList<>();
             } else if (handleSecond(squareComponent)) {
-                //repaint in swap chess method.
-                next.forEach((c) -> {
+                next.forEach((c) ->{
                     c.setCanBeEaten(false);
                     c.repaint();
                 });
                 next = new ArrayList<>();
 
+                //repaint in swap chess method.
                 chessboard.swapChessComponents(first, squareComponent);
                 chessboard.clickController.swapPlayer();    //todo 添加定时功能
                 if (squareComponent instanceof EmptySlotComponent) {
@@ -109,8 +93,20 @@ public class ClickController {
                     int color = squareComponent.getChessColor() == ChessColor.BLACK ? 0 : 1;
                     printKilledComponents(killedComponent);
                     killedComponent[squareComponent.getStyle()][color]++;
-                    chessboard.clickController.calculateScore();
                     chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
+                    chessboard.clickController.calculateScore();
+
+                    if (chessboard.getRedScore() >= 60){
+                        ChessGameFrame.winboard.setVisible(true);
+                    }
+
+                    if (chessboard.getBlackScore() >= 60){
+                        ChessGameFrame.winboard.setVisible(true);
+                    }
+
+
+
+
                 }
                 first.setSelected(false);
                 first = null;
