@@ -53,7 +53,7 @@ public abstract class SquareComponent extends JComponent {
         this.selected = false;
         this.clickController = clickController;
         this.isReversal = false;
-        this.style=style;
+        this.style = style;
     }
 
 
@@ -134,7 +134,7 @@ public abstract class SquareComponent extends JComponent {
         int[][] range = getRange(thisPoint, chessboard);
         int[] destinationChessXY = {destination.getX(), destination.getY()};
         boolean inRange = checkRange(destinationChessXY, range);
-        boolean canMove = (destinationChess.isReversal && canEat[this.style][destinationChess.style]) || destinationChess instanceof EmptySlotComponent;
+        boolean canMove = ((destinationChess.isReversal && canEat[this.style][destinationChess.style]) || destinationChess instanceof EmptySlotComponent) && this.getChessColor() != destinationChess.getChessColor();
         return canMove && inRange;
     }
 
@@ -142,6 +142,7 @@ public abstract class SquareComponent extends JComponent {
         int[][] range = {{thisPoint.getX() + 1, thisPoint.getY()}, {thisPoint.getX() - 1, thisPoint.getY()}, {thisPoint.getX(), thisPoint.getY() + 1}, {thisPoint.getX(), thisPoint.getY() - 1}};
         return range;
     }
+
     public boolean checkRange(int[] destinationChessXY, int[][] range) {
         boolean isInRange = false;
         for (int[] point : range) {

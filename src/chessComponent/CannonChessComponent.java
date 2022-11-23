@@ -23,7 +23,7 @@ public class CannonChessComponent extends ChessComponent {
         int[][] range = getRange(thisPoint, chessboard);
         int[] destinationChessXY = {destination.getX(), destination.getY()};
         boolean inRange = checkRange(destinationChessXY, range);
-        boolean canMove = canEat[this.style][destinationChess.style];
+        boolean canMove = canEat[this.style][destinationChess.style]&& ((!destinationChess.isReversal() && !(destinationChess instanceof EmptySlotComponent)) || (destinationChess.isReversal() && destinationChess.getChessColor() != this.getChessColor()));
         return canMove && inRange;
     }
 

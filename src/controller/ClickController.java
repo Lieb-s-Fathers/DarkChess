@@ -9,7 +9,6 @@ import view.ChessGameFrame;
 import view.Chessboard;
 
 
-
 public class ClickController {
     private final Chessboard chessboard;
     private SquareComponent first;
@@ -85,7 +84,7 @@ public class ClickController {
         SquareComponent[][] squareComponents = chessboard.getChessComponents();
         for (int x = 0; x < 7; x++) {
             for (int y = 0; y < 4; y++) {
-                if (first.canMoveTo(squareComponents, squareComponents[x][y].getChessboardPoint()) && squareComponents[x][y].getChessColor() != first.getChessColor()) {
+                if (first.canMoveTo(squareComponents, squareComponents[x][y].getChessboardPoint())) {
                     canMovePoints[i][0] = x;
                     canMovePoints[i++][1] = y;
                 }
@@ -100,7 +99,7 @@ public class ClickController {
      */
     private boolean handleSecond(SquareComponent squareComponent) {
         if (first.getStyle() == 6) {
-            return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint()) && ((!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) || (squareComponent.isReversal() && squareComponent.getChessColor() != chessboard.getCurrentColor()));
+            return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
         } else {
             //没翻开或空棋子，进入if
             if (!squareComponent.isReversal()) {
@@ -109,7 +108,7 @@ public class ClickController {
                     return false;
                 }
             }
-            return (squareComponent.getChessColor() != chessboard.getCurrentColor()) && first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
+            return first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
         }
     }
 
