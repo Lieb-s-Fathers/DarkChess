@@ -45,5 +45,14 @@ public class ChessComponent extends SquareComponent {
                 g2.drawOval(spacingLength, spacingLength, getWidth() - 2 * spacingLength, getHeight() - 2 * spacingLength);
             }
         }
+        //绘制棋子可以被吃时状态
+        if (getCanBeEaten()) {
+            g.setColor(Color.BLACK);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(4f));
+            g2.drawOval(spacingLength, spacingLength, getWidth() - 2 * spacingLength, getHeight() - 2 * spacingLength);
+        }
+
+
     }
 }

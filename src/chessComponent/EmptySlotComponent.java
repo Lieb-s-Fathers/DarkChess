@@ -20,4 +20,16 @@ public class EmptySlotComponent extends SquareComponent {
         return false;
     }
 
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+
+        if (getCanBeEaten()) {
+            g.setColor(Color.BLACK);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(4f));
+            g2.drawOval(spacingLength, spacingLength, getWidth() - 2 * spacingLength, getHeight() - 2 * spacingLength);
+        }
+    }
+
 }

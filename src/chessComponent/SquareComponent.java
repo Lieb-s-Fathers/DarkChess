@@ -43,6 +43,7 @@ public abstract class SquareComponent extends JComponent {
      */
     private ChessboardPoint chessboardPoint;
     private boolean selected;
+    private boolean canBeEaten;
 
     protected SquareComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size, int style) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
@@ -87,6 +88,14 @@ public abstract class SquareComponent extends JComponent {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean getCanBeEaten() {
+        return canBeEaten;
+    }
+
+    public void setCanBeEaten(boolean canBeEaten) {
+        this.canBeEaten = canBeEaten;
     }
 
     public int getStyle() {
