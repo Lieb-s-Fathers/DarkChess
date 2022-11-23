@@ -56,9 +56,11 @@ public class Winboard extends JFrame{
 
     private void restart() {
         chessGameFrame.dispose();
+        this.dispose();
         ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
         System.out.println("click restart");
         mainFrame.setVisible(true);
+
 //        if (chessGameFrame.getChessboard() != null) {
 //            chessGameFrame.remove(chessGameFrame.getChessboard());
 //        }

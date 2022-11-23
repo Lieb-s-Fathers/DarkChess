@@ -55,11 +55,7 @@ public class StartMenuFrame extends JFrame {
         JButton button = new JButton("Start");
         button.addActionListener((e) -> {
             //窗口跳转
-            ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
-            System.out.println("click start");
-            this.dispose();
-            mainFrame.setVisible(true);
-
+            start();
         });
         button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 120 + extraDistance);
         button.setSize(180, 60);
@@ -113,5 +109,12 @@ public class StartMenuFrame extends JFrame {
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
+    }
+
+    private void start(){
+        ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
+        System.out.println("click start");
+        this.dispose();
+        mainFrame.setVisible(true);
     }
 }
