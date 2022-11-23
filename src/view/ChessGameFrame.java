@@ -21,11 +21,14 @@ public class ChessGameFrame extends JFrame {
     private static JLabel blackScoreLabel;
     private static JLabel messageLabel;
 
+    public static Winboard winboard;
+
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS109 Project Demo"); //设置标题
         this.WIDTH = width;
         this.HEIGHT = height;
         this.CHESSBOARD_SIZE = HEIGHT * 4 / 5;
+        this.winboard = new Winboard(600, 300, this);
 
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null); // Center the window.
