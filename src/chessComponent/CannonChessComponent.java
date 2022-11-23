@@ -28,7 +28,7 @@ public class CannonChessComponent extends ChessComponent {
     }
 
     public int[][] getRange(ChessboardPoint cannonPoint, SquareComponent[][] chessboard) {
-        int[][] range = new int[4][2];
+        int[][] range = {{-1,-1}, {-1,-1}, {-1,-1}, {-1, -1}};
         int x0 = cannonPoint.getX(), y0 = cannonPoint.getY();
         final int[][] DIRECTIONS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         for (int direction = 0; direction < 4; direction++) {
