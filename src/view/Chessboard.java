@@ -27,7 +27,7 @@ public class Chessboard extends JComponent {
     //todo: you can change the initial player
     private ChessColor currentColor = ChessColor.BLACK;
 
-    private int[][] killedComponents = new int[7][2];
+    private int[][] killedComponents = new int[8][2];
     private int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
 
 
