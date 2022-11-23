@@ -4,12 +4,11 @@ package controller;
 import chessComponent.SquareComponent;
 import chessComponent.EmptySlotComponent;
 import model.ChessColor;
-import model.ChessboardPoint;
+
 import view.ChessGameFrame;
 import view.Chessboard;
 
-import java.util.ArrayList;
-import java.util.spi.CalendarNameProvider;
+
 
 public class ClickController {
     private final Chessboard chessboard;
@@ -86,7 +85,7 @@ public class ClickController {
         SquareComponent[][] squareComponents = chessboard.getChessComponents();
         for (int x = 0; x < 7; x++) {
             for (int y = 0; y < 4; y++) {
-                if (first.canMoveTo(squareComponents, squareComponents[x][y].getChessboardPoint())) {
+                if (first.canMoveTo(squareComponents, squareComponents[x][y].getChessboardPoint()) && squareComponents[x][y].getChessColor() != first.getChessColor()) {
                     canMovePoints[i][0] = x;
                     canMovePoints[i++][1] = y;
                 }

@@ -191,6 +191,11 @@ public class Chessboard extends JComponent {
     public List<String> toChessData() {
         List<String> chessData=new ArrayList<String>();
         //todo: 完善这个方法
+        StringBuffer componentStyle=null;
+        StringBuffer componentColor=null;
+        for (int i = 0; i < 28; i++) {
+
+        }
         return chessData;
     }
 }
