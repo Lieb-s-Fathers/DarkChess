@@ -77,10 +77,16 @@ public class StartMenuFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("click load");
             String path = JOptionPane.showInputDialog(this, "Input Path here");
-            this.dispose();
-            ArrayList<String[][]> gameData = loadGameFromFile(path);
-            ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
-            mainFrame.setVisible(true);
+            if (path != null) {
+                try{
+                    ArrayList<String[][]> gameData = loadGameFromFile(path);
+                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
+                    mainFrame.setVisible(true);
+                    this.dispose();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "请输入正确的路径!");
+                }
+            }
         });
     }
 
@@ -94,10 +100,14 @@ public class StartMenuFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("click continue");
-            this.dispose();
-            ArrayList<String[][]> gameData = loadGameFromFile("save/save.out");
-            ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
-            mainFrame.setVisible(true);
+            try{
+                ArrayList<String[][]> gameData = loadGameFromFile("save/save.out");
+                ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
+                mainFrame.setVisible(true);
+                this.dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "存档已丢失，请重新开始游戏");
+            }
         });
     }
 

@@ -184,20 +184,21 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            ClickController.out.close();
 
             System.out.println("click load");
             String path = JOptionPane.showInputDialog(this, "Input Path here");
-
-
-
-            this.dispose();
-            ArrayList<String[][]> gameData = loadGameFromFile(path);
-            ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
-            mainFrame.setVisible(true);
+            if (path != null) {
+                try{
+                    ArrayList<String[][]> gameData = loadGameFromFile(path);
+                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
+                    mainFrame.setVisible(true);
+                    ClickController.out.close();
+                    this.dispose();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "请输入正确的路径!");
+                }
+            }
         });
-
-
     }
 
     private void addBackButton() {
