@@ -27,6 +27,7 @@ public class Winboard extends JFrame{
         this.chessGameFrame = chessGameFrame;
         addLabel();
         addRestart();
+        addBack();
         addExit();
         addReplay();
     }
@@ -91,10 +92,50 @@ public class Winboard extends JFrame{
 //        }
 //    }
 
+    private void restart() {
+        System.out.println("click restart");
+        chessGameFrame.dispose();
+        this.dispose();
+        ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
+        mainFrame.setVisible(true);
+
+//        if (chessGameFrame.getChessboard() != null) {
+//            chessGameFrame.remove(chessGameFrame.getChessboard());
+//        }
+//        StepSaver.initiate();
+//        chessGameFrame.addChessboard();
+//        chessGameFrame.addBackground();
+//        chessGameFrame.checkLabel.setVisible(false);
+//        chessGameFrame.setStatusLabel(ChessColor.WHITE);
+//        repaint();
+//        Countdown.restart();
+//        chessGameFrame.setVisible(true);
+//        chessGameFrame.winboard.setVisible(false);
+    }
+
+    private void addBack() {
+        JButton button = new JButton("Back");
+        button.addActionListener(e -> {
+            System.out.println("click back");
+            this.dispose();
+            chessGameFrame.dispose();
+            StartMenuFrame Homepage = new StartMenuFrame(720, 720, true);
+            Homepage.setVisible(true);
+        });
+        button.setLocation(WIDTH / 2 - 70, HEIGHT / 10 + 150);
+        button.setSize(WIDTH / 5, 30);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        setLayout(null);
+        add(button);
+    }
+
     private void addExit() {
         JButton button = new JButton("Exit");
-        button.addActionListener(e -> Runtime.getRuntime().halt(0));
-        button.setLocation(WIDTH / 2 - 70, HEIGHT / 10 + 150);
+        button.addActionListener(e -> {
+            System.out.println("click exit");
+            Runtime.getRuntime().halt(0);
+        });
+        button.setLocation(WIDTH / 2 - 70, HEIGHT / 10 + 200);
         button.setSize(WIDTH / 5, 30);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         setLayout(null);
