@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static controller.ReadController.loadGameFromFile;
+
 /**
  * 这个类表示游戏窗体，窗体上包含：
  * 1 Chessboard: 棋盘
@@ -184,7 +186,7 @@ public class ChessGameFrame extends JFrame {
 
 
             this.dispose();
-            ArrayList<String[][]> gameData = gameController.loadGameFromFile(path);
+            ArrayList<String[][]> gameData = loadGameFromFile(path);
             ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
             mainFrame.setVisible(true);
         });

@@ -1,9 +1,14 @@
+import io.Read;
+import view.SoundPlayer;
 import view.StartMenuFrame;
 
 import javax.swing.*;
+import java.io.*;
+
 
 public class Main {
 
+    public static String inPath = "save/";
 
     public static void main(String[] args) {
 
@@ -16,6 +21,8 @@ public class Main {
 //            mainFrame.setVisible(true);
 //        });
 
+
+        //todo 写一个容器 包含所有窗口
         SwingUtilities.invokeLater(() -> {
             SoundPlayer audioPlayer = new SoundPlayer("src/music/");
             StartMenuFrame Homepage = new StartMenuFrame(720, 720, true);

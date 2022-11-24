@@ -1,9 +1,13 @@
 package view;
 
+import controller.ClickController;
 import controller.GameController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+
+import static controller.ReadController.loadGameFromFile;
 
 public class StartMenuFrame extends JFrame {
     private final int WIDTH;
@@ -73,10 +77,11 @@ public class StartMenuFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("click load");
-            //todo 创建游戏窗口再加载数据
-
-//            String path = JOptionPane.showInputDialog(this, "Input Path here");
-//            gameController.loadGameFromFile(path);
+            String path = JOptionPane.showInputDialog(this, "Input Path here");
+            this.dispose();
+            ArrayList<String[][]> gameData = loadGameFromFile(path);
+            ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
+            mainFrame.setVisible(true);
         });
     }
 
@@ -91,6 +96,10 @@ public class StartMenuFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("click continue");
             //todo 继续上局游戏
+            this.dispose();
+            ArrayList<String[][]> gameData = loadGameFromFile("save/save.out");
+            ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
+            mainFrame.setVisible(true);
 
 //            String path = JOptionPane.showInputDialog(this, "Input Path here");
 //            gameController.loadGameFromFile(path);
