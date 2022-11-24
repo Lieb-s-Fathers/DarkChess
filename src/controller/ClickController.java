@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class ClickController {
     private int steps = 0;
     static String outFilePath = "save/save.out";
-    private Write out = new Write(outFilePath);
+    public static Write out = new Write(outFilePath);
     private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     private final Chessboard chessboard;
     private SquareComponent first;
@@ -207,7 +207,7 @@ public class ClickController {
         for (SquareComponent[] squareComponents : chessboard.getChessComponents()){
             for (SquareComponent squareComponent : squareComponents){
                 out.printWriter.println(squareComponent.toString());
-//                out.flush();
+                out.flush();
             }
         }
         out.printWriter.println();

@@ -41,6 +41,17 @@ public class Chessboard extends JComponent {
         initAllChessOnBoard();
     }
 
+    public Chessboard(int width, int height, String[][] chessBoardData){
+
+        setLayout(null); // Use absolute layout.
+        setSize(width + 2, height);
+        CHESS_SIZE = (height - 6) / 8;
+        SquareComponent.setSpacingLength(CHESS_SIZE / 12);
+        System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
+
+        loadGame(chessBoardData);
+    }
+
     public int[][] getKilledComponents() {
         return killedComponents;
     }
@@ -97,7 +108,7 @@ public class Chessboard extends JComponent {
         // Note that chess1 has higher priority, 'destroys' chess2 if exists.
         if (!(chess2 instanceof EmptySlotComponent)) {
             remove(chess2);
-            add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE, -1));
+            add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE));
         }
         chess1.swapLocation(chess2);
         int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
@@ -176,27 +187,57 @@ public class Chessboard extends JComponent {
 
     /**
      * 通过GameController调用该方法
-     *
-     * @param chessData
      */
-    public void loadGame(List<String> chessData) {
-        chessData.forEach(System.out::println);
-    }
-
-    public void saveGame() {
-
-    }
-
-    //todo: 将棋盘状态转换成List<string> chesssData
-
-    public List<String> toChessData() {
-        List<String> chessData = new ArrayList<String>();
-        //todo: 完善这个方法
-        StringBuffer componentStyle = null;
-        StringBuffer componentColor = null;
-        for (int i = 0; i < 28; i++) {
-
+    public void loadGame(String[][] chessBoardData) {
+//        chessData.forEach(System.out::println);
+        int num = 0;
+        for (int i = 0; i < squareComponents.length; i++) {
+            for (int j = 0; j < squareComponents[i].length; j++) {
+                String colorName = chessBoardData[num][0];
+                String temp = chessBoardData[num][1];
+                boolean isReversal = Boolean.parseBoolean(chessBoardData[num][2]);
+                ChessColor color = ChessColor.RED.getName().equals(colorName) ? ChessColor.RED : ChessColor.BLACK;
+                SquareComponent squareComponent;
+                if (temp.equals("0")) {
+                    squareComponent = new GeneralChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp.equals("1")) {
+                    squareComponent = new AdvisorChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp.equals("2")) {
+                    squareComponent = new MinisterChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp.equals("3")) {
+                    squareComponent = new ChariotChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp.equals("4")) {
+                    squareComponent = new HorseChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp.equals("5")) {
+                    squareComponent = new SoldierChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                } else if (temp.equals("6")) {
+                    squareComponent = new CannonChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
+                }else{
+                    squareComponent = new EmptySlotComponent(new ChessboardPoint(i,j), calculatePoint(i,j), clickController, CHESS_SIZE);
+                }
+                squareComponent.setReversal(isReversal);
+                squareComponent.setVisible(true);
+                squareComponent.repaint();
+                putChessOnBoard(squareComponent);
+                num++;
+            }
         }
-        return chessData;
     }
+
+//    public void saveGame() {
+//
+//    }
+
+//    //todo: 将棋盘状态转换成List<string> chesssData
+//
+//    public List<String> toChessData() {
+//        List<String> chessData = new ArrayList<String>();
+//        //todo: 完善这个方法
+//        StringBuffer componentStyle = null;
+//        StringBuffer componentColor = null;
+//        for (int i = 0; i < 28; i++) {
+//
+//        }
+//        return chessData;
+//    }
 }

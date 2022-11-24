@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class EmptySlotComponent extends SquareComponent {
 
-    public EmptySlotComponent(ChessboardPoint chessboardPoint, Point location, ClickController listener, int size, int style) {
+    public EmptySlotComponent(ChessboardPoint chessboardPoint, Point location, ClickController listener, int size) {
         super(chessboardPoint, location, ChessColor.NONE, listener, size, 7);
     }
 

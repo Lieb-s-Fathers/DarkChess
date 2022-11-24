@@ -8,7 +8,7 @@ public class Read {
     private File inFile ;
     private FileInputStream fileInputStream;
 
-    Read(String inFilePath) {
+    public Read(String inFilePath) {
         try {
             this.inFile = new File(inFilePath);
             this.fileInputStream = new FileInputStream(inFile);

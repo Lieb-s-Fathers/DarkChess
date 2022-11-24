@@ -1,9 +1,11 @@
 package view;
 
+import controller.ClickController;
 import controller.GameController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * 这个类表示游戏窗体，窗体上包含：
@@ -46,6 +48,29 @@ public class ChessGameFrame extends JFrame {
         addBackButton();
     }
 
+    public ChessGameFrame(int width, int height, String[][] chessBoardData) {
+        setTitle("2022 CS109 Project Demo"); //设置标题
+        this.WIDTH = width;
+        this.HEIGHT = height;
+        this.CHESSBOARD_SIZE = HEIGHT * 4 / 5;
+        this.winboard = new Winboard(600, 300, this);
+
+        setSize(WIDTH, HEIGHT);
+        setLocationRelativeTo(null); // Center the window.
+        getContentPane().setBackground(Color.WHITE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
+        setLayout(null);
+
+        addChessboard(chessBoardData);
+        addTurnLabel();
+        addCountLabel();
+        addRedScoreLabel();
+        addBlackScoreLabel();
+        addMessageLabel();
+//        addHelloButton();
+        addLoadButton();
+        addBackButton();
+    }
 
     /**
      * 在游戏窗体中添加棋盘
@@ -56,6 +81,13 @@ public class ChessGameFrame extends JFrame {
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
         add(chessboard);
     }
+    private void addChessboard(String[][] chessBoardData) {
+        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, chessBoardData);
+        gameController = new GameController(chessboard);
+        chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
+        add(chessboard);
+    }
+
 
     /**
      * 在游戏窗体中添加标签
@@ -132,9 +164,17 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
+            ClickController.out.close();
+
             System.out.println("click load");
             String path = JOptionPane.showInputDialog(this, "Input Path here");
-            gameController.loadGameFromFile(path);
+
+
+
+            this.dispose();
+            ArrayList<String[][]> gameData = gameController.loadGameFromFile(path);
+            ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
+            mainFrame.setVisible(true);
         });
 
 
