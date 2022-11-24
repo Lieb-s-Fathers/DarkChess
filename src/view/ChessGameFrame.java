@@ -20,6 +20,7 @@ public class ChessGameFrame extends JFrame {
     private final int HEIGHT;
     public final int CHESSBOARD_SIZE;
     private GameController gameController;
+    private ClickController clickController;
     private static JLabel statusLabel;
     private static JLabel countLabel;
     private static JLabel redScoreLabel;
@@ -34,6 +35,7 @@ public class ChessGameFrame extends JFrame {
         this.HEIGHT = height;
         this.CHESSBOARD_SIZE = HEIGHT * 4 / 5;
         this.winboard = new Winboard(600, 300, this);
+
 
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null); // Center the window.
@@ -50,6 +52,8 @@ public class ChessGameFrame extends JFrame {
 //        addHelloButton();
         addLoadButton();
         addBackButton();
+
+        clickController.save();
     }
 
     public ChessGameFrame(int width, int height, String[][] chessBoardData) {
@@ -74,6 +78,7 @@ public class ChessGameFrame extends JFrame {
 //        addHelloButton();
         addLoadButton();
         addBackButton();
+
     }
 
     /**
@@ -82,12 +87,14 @@ public class ChessGameFrame extends JFrame {
     private void addChessboard() {
         Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE);
         gameController = new GameController(chessboard);
+        clickController = new ClickController(chessboard);
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
         add(chessboard);
     }
     private void addChessboard(String[][] chessBoardData) {
         Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, chessBoardData);
         gameController = new GameController(chessboard);
+        clickController = new ClickController(chessboard);
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
         add(chessboard);
     }

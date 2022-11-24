@@ -201,7 +201,7 @@ public class ClickController {
         ChessGameFrame.getMessageLabel().setText(color1 + " " + component1 + " eats " + color2 + " " + component2);
     }
 
-    private void save() {
+    public void save() {
         // out.printWriter.printf();
 
         for (SquareComponent[] squareComponents : chessboard.getChessComponents()){

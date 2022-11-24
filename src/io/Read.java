@@ -14,9 +14,9 @@ public class Read {
             this.fileInputStream = new FileInputStream(inFile);
             this.bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
             this.streamTokenizer = new StreamTokenizer(bufferedReader);
-        }catch (IOException e) {
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
-
     }
 
     public int nextInt() throws IOException {
