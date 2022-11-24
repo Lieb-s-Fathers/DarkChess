@@ -1,6 +1,5 @@
 package view;
 
-import controller.ClickController;
 import controller.GameController;
 
 import javax.swing.*;
@@ -12,7 +11,7 @@ import static controller.ReadController.loadGameFromFile;
 public class StartMenuFrame extends JFrame {
     private final int WIDTH;
     private final int HEIGHT;
-    private int extraDistance;
+    private final int extraDistance;
 
     private GameController gameController;
 
@@ -95,14 +94,10 @@ public class StartMenuFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("click continue");
-            //todo 继续上局游戏
             this.dispose();
             ArrayList<String[][]> gameData = loadGameFromFile("save/save.out");
             ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
             mainFrame.setVisible(true);
-
-//            String path = JOptionPane.showInputDialog(this, "Input Path here");
-//            gameController.loadGameFromFile(path);
         });
     }
 

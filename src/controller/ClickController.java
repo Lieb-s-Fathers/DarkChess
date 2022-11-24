@@ -2,7 +2,6 @@ package controller;
 
 
 import chessComponent.CannonChessComponent;
-import chessComponent.ChessComponent;
 import chessComponent.SquareComponent;
 import chessComponent.EmptySlotComponent;
 import io.Write;
@@ -10,9 +9,6 @@ import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
 import view.Chessboard;
-
-import javax.swing.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ClickController {
@@ -31,7 +27,6 @@ public class ClickController {
 
     public void onClick(SquareComponent squareComponent) {
         //判断第一次点击
-        //FIXME 吃子后第一次点击空白非法swapPlayer
         if (first == null) {
             if (handleFirst(squareComponent)) {
                 squareComponent.setSelected(true);
@@ -95,10 +90,7 @@ public class ClickController {
                 if (squareComponent instanceof EmptySlotComponent) {
                     chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName());
                 } else {
-                    int[][] killedComponent = chessboard.getKilledComponents();
-                    int color = squareComponent.getChessColor() == ChessColor.BLACK ? 0 : 1;
-                    printKilledComponents(killedComponent);
-                    killedComponent[squareComponent.getStyle()][color]++;
+                    chessboard.printKilledComponents();
                     chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
                     chessboard.clickController.calculateScore();
 
@@ -118,14 +110,7 @@ public class ClickController {
         }
     }
 
-    private void printKilledComponents(int[][] killedComponent) {
-        System.out.print("Black: ");
-        for (int i = 0; i < 7; i++) System.out.printf("%d ", killedComponent[i][0]);
-        System.out.println();
-        System.out.print("Red: ");
-        for (int i = 0; i < 7; i++) System.out.printf("%d ", killedComponent[i][1]);
-        System.out.println();
-    }
+
 
     /**
      * @param squareComponent 目标选取的棋子
@@ -187,7 +172,7 @@ public class ClickController {
     }
 
     //计算分数
-    private void calculateScore() {
+    public void calculateScore() {
         ChessGameFrame.getRedScoreLabel().setText("Red Score:    " + chessboard.getRedScore());
         ChessGameFrame.getBlackScoreLabel().setText("Black Score:    " + chessboard.getBlackScore());
     }
