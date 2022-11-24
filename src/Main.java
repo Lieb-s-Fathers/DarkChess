@@ -6,14 +6,28 @@ public class Main {
 
 
     public static void main(String[] args) {
+
+
+
+
+
 //        SwingUtilities.invokeLater(() -> {
 //            ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
 //            mainFrame.setVisible(true);
 //        });
 
         SwingUtilities.invokeLater(() -> {
-            StartMenuFrame firstFrame = new StartMenuFrame(720, 720, true);
-            firstFrame.setVisible(true);
+            SoundPlayer audioPlayer = new SoundPlayer("src/music/");
+            StartMenuFrame Homepage = new StartMenuFrame(720, 720, true);
+            Homepage.setVisible(true);
+            //audioPlayer.playMusic("小旭音乐 - 斗地主-大厅1.wav");
+
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+           //audioPlayer.playMusic("小八斗 - 欢乐斗地主 (原版一).wav");
         });
     }
 }
