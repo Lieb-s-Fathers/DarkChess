@@ -55,27 +55,6 @@ public class Winboard extends JFrame{
 //        replayFrame.setReplayList();
     }
 
-    private void restart() {
-        chessGameFrame.dispose();
-        this.dispose();
-        ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
-        System.out.println("click restart");
-        mainFrame.setVisible(true);
-
-//        if (chessGameFrame.getChessboard() != null) {
-//            chessGameFrame.remove(chessGameFrame.getChessboard());
-//        }
-//        StepSaver.initiate();
-//        chessGameFrame.addChessboard();
-//        chessGameFrame.addBackground();
-//        chessGameFrame.checkLabel.setVisible(false);
-//        chessGameFrame.setStatusLabel(ChessColor.WHITE);
-//        repaint();
-//        Countdown.restart();
-//        chessGameFrame.setVisible(true);
-//        chessGameFrame.winboard.setVisible(false);
-    }
-
     private void addLabel() {
         WinText = new JLabel("WHITE WIN");
         WinText.setLocation(WIDTH / 2 - 70, HEIGHT / 10 );
