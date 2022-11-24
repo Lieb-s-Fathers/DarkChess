@@ -48,4 +48,10 @@ public class GameController {
         return null;
     }
 
+
+    public void timeOut(){
+        chessboard.setCurrentColor(chessboard.getCurrentColor() == ChessColor.BLACK ? ChessColor.RED : ChessColor.BLACK);
+        ChessGameFrame.getStatusLabel().setText(String.format("%s's TURN", chessboard.getCurrentColor().getName()));
+    }
+
 }

@@ -19,6 +19,7 @@ public class ChessGameFrame extends JFrame {
     public final int CHESSBOARD_SIZE;
     private GameController gameController;
     private static JLabel statusLabel;
+    private static JLabel countLabel;
     private static JLabel redScoreLabel;
     private static JLabel blackScoreLabel;
     private static JLabel messageLabel;
@@ -40,6 +41,7 @@ public class ChessGameFrame extends JFrame {
 
         addChessboard();
         addTurnLabel();
+        addCountLabel();
         addRedScoreLabel();
         addBlackScoreLabel();
         addMessageLabel();
@@ -100,6 +102,14 @@ public class ChessGameFrame extends JFrame {
         add(statusLabel);
     }
 
+    private void addCountLabel() {
+        countLabel = new JLabel("20");
+        countLabel.setLocation(WIDTH * 3 / 5 + 175, HEIGHT / 10);
+        countLabel.setSize(200, 60);
+        countLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(countLabel);
+    }
+
     private void addRedScoreLabel() {
         redScoreLabel = new JLabel("Red Score:     0");
         redScoreLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 50);
@@ -128,7 +138,9 @@ public class ChessGameFrame extends JFrame {
     public static JLabel getStatusLabel() {
         return statusLabel;
     }
-
+    public static JLabel getCount(){
+        return countLabel;
+    }
     public static JLabel getRedScoreLabel() {
         return redScoreLabel;
     }
