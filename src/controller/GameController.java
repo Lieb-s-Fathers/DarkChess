@@ -23,6 +23,18 @@ public class GameController {
         this.chessboard = chessboard;
     }
 
+    public void reloadChessboard(String[][] chessBoardData){
+        chessboard.loadGame(chessBoardData);
+    }
+
+    public void withdraw(){
+        chessboard.deleteLastStep();
+    }
+
+    public ArrayList<String[][]> getChessboardDatas() {
+        return chessboard.getChessBoardDatas();
+    }
+
     public void timeOut(){
         chessboard.setCurrentColor(chessboard.getCurrentColor() == ChessColor.BLACK ? ChessColor.RED : ChessColor.BLACK);
         ChessGameFrame.getStatusLabel().setText(String.format("%s's TURN", chessboard.getCurrentColor().getName()));

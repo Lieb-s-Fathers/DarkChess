@@ -35,7 +35,6 @@ public class ChessGameFrame extends JFrame {
     private static JLabel messageLabel;
 
     public static Winboard winboard;
-
     public static Write out = new Write(defaultOutFilePath);
 
     public ChessGameFrame(int WIDTH, int HEIGHT) {
@@ -58,6 +57,7 @@ public class ChessGameFrame extends JFrame {
         addBlackScoreLabel();
         addMessageLabel();
 //        addHelloButton();
+        addWithdrawButton();
         addSaveButton();
         addLoadButton();
         addBackButton();
@@ -70,7 +70,7 @@ public class ChessGameFrame extends JFrame {
         this.WIDTH = width;
         this.HEIGHT = height;
         this.CHESSBOARD_SIZE = HEIGHT * 4 / 5;
-        this.winboard = new Winboard(600, 300, this);
+        winboard = new Winboard(600, 300, this);
 
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null); // Center the window.
@@ -84,14 +84,15 @@ public class ChessGameFrame extends JFrame {
         addBlackScoreLabel();
         addMessageLabel();
 //        addHelloButton();
+        addWithdrawButton();
         addSaveButton();
         addLoadButton();
         addBackButton();
         addChessboard(chessBoardData);
 
         defaultWriteController.save();
+        clickController.calculateScore();
         clickController.winJudge();
-
     }
 
     /**
@@ -187,16 +188,34 @@ public class ChessGameFrame extends JFrame {
         JButton button = new JButton("Show Hello Here");
         button.addActionListener((e) -> JOptionPane.showMessageDialog(this, "Hello, world!"));
         button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 120);
-        button.setSize(180, 60);
+        button.setSize(180, 40);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
 
 
+    private void addWithdrawButton() {
+        JButton button = new JButton("Withdraw");
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 200);
+        button.setSize(180, 40);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.setBackground(Color.LIGHT_GRAY);
+        add(button);
+
+        button.addActionListener(e -> {
+            System.out.println("click withdraw");
+            gameController.withdraw();
+            ArrayList<String[][]> gameData = gameController.getChessboardDatas();
+            gameController.reloadChessboard(gameData.get(gameData.size() - 1));
+            clickController.swapPlayer();
+            clickController.calculateScore();
+        });
+    }
+
     private void addSaveButton() {
         JButton button = new JButton("Save");
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 220);
-        button.setSize(180, 60);
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 280);
+        button.setSize(180, 40);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBackground(Color.LIGHT_GRAY);
         add(button);
@@ -211,15 +230,14 @@ public class ChessGameFrame extends JFrame {
                 }else{
                     writeController.saveGame(path);
                 }
-
             }
         });
     }
 
     private void addLoadButton() {
         JButton button = new JButton("Load");
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 320);
-        button.setSize(180, 60);
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 360);
+        button.setSize(180, 40);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBackground(Color.LIGHT_GRAY);
         add(button);
@@ -230,11 +248,13 @@ public class ChessGameFrame extends JFrame {
             String path = JOptionPane.showInputDialog(this, "Input Path here");
             if (path != null) {
                 try{
-                    ArrayList<String[][]> gameData = loadGameFromFile(path);
-                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
-                    mainFrame.setVisible(true);
                     writeController.close();
-                    this.dispose();
+                    ArrayList<String[][]> gameData = loadGameFromFile(path);
+//                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
+//                    mainFrame.setVisible(true);
+//                    this.dispose();
+                    gameController.reloadChessboard(gameData.get(gameData.size() - 1));
+
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "请输入正确的路径!");
                 }
@@ -250,8 +270,8 @@ public class ChessGameFrame extends JFrame {
             StartMenuFrame firstFrame = new StartMenuFrame(720, 720, false);
             firstFrame.setVisible(true);
         });
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 420);
-        button.setSize(180, 60);
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 440);
+        button.setSize(180, 40);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }

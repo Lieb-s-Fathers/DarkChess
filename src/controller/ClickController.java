@@ -87,7 +87,8 @@ public class ClickController {
 
                 //repaint in swap chess method.
                 chessboard.swapChessComponents(first, squareComponent);
-                chessboard.clickController.swapPlayer();    //todo 添加定时功能
+                chessboard.clickController.swapPlayer();
+                //todo 添加定时功能
                 if (squareComponent instanceof EmptySlotComponent) {
                     chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName());
                 } else {
