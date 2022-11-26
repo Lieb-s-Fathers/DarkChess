@@ -8,9 +8,6 @@ import java.util.ArrayList;
 public class ReadController {
     public static ArrayList<String[][]> loadGameFromFile(String path) {
         try {
-//            List<String> chessData = Files.readAllLines(Path.of(path));
-//            chessboard.loadGame(chessData);
-//            return chessData;
             Read in = new Read(path);
             ArrayList<String[][]> chessDatas = new ArrayList<>();
             String tempData = in.nextLine();

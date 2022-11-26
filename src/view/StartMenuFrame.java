@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static controller.ReadController.loadGameFromFile;
+import static io.Write.defaultOutFilePath;
 
 public class StartMenuFrame extends JFrame {
     private final int WIDTH;
@@ -101,7 +102,7 @@ public class StartMenuFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("click continue");
             try{
-                ArrayList<String[][]> gameData = loadGameFromFile("save/save.out");
+                ArrayList<String[][]> gameData = loadGameFromFile(defaultOutFilePath);
                 ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
                 mainFrame.setVisible(true);
                 this.dispose();
@@ -128,7 +129,7 @@ public class StartMenuFrame extends JFrame {
     private void start(){
         ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
         System.out.println("click start");
-        this.dispose();
         mainFrame.setVisible(true);
+        this.dispose();
     }
 }
