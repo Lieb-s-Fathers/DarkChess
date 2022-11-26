@@ -8,6 +8,7 @@ import model.ChessboardPoint;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -28,8 +29,7 @@ public class Chessboard extends JComponent {
     private ChessColor currentColor = ChessColor.RED;
     private final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
     private final int[][] componentlist = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
-
-
+    private ArrayList<String[][]> chessBoardDatas = new ArrayList<>();
 
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout.
@@ -102,6 +102,24 @@ public class Chessboard extends JComponent {
 
     public ChessColor getCurrentColor() {
         return currentColor;
+    }
+
+    public void addChessBoardData(){
+        String[][] chessBoardData = new String[32][3];
+        int num = 0;
+        for (SquareComponent[] chessComponents : squareComponents){
+            for (SquareComponent chessComponent : chessComponents){
+                chessBoardData[num][0] = chessComponent.getChessColor().getName();
+                chessBoardData[num][1] = String.valueOf(chessComponent.getStyle());
+                chessBoardData[num][2] = String.valueOf(chessComponent.isReversal());
+                num++;
+            }
+        }
+        chessBoardDatas.add(chessBoardData);
+    }
+
+    public ArrayList<String[][]> getChessBoardDatas(){
+        return chessBoardDatas;
     }
 
     public void setCurrentColor(ChessColor currentColor) {
