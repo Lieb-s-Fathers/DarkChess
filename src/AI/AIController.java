@@ -67,16 +67,16 @@ public class AIController extends JFrame {
         directionPoint.x = x;
         directionPoint.y = y;
         moveTo(directionPoint);
-        Thread.sleep(1000);
+        Thread.sleep(200);
         press();
-               Thread.sleep(1000);
+        Thread.sleep(200);
         moveTo(nowPoint);
-        Thread.sleep(1000);
+        Thread.sleep(200);
     }
 
     //获取棋盘上特定棋子的相对坐标
     private Point calculatePoint(int row, int col) {
-        return new Point(col * (600) / 8 + 3, row * (600) / 8 + 3);
+        return new Point(col * (560) / 8, row * (560) / 8);
     }
 
     private Point findDirectionPoint(int row, int col) {
@@ -90,7 +90,7 @@ public class AIController extends JFrame {
         int y1 = y0 - 360;
         //获取窗口内相对坐标
         Point point1 = calculatePoint(row, col);
-        return new Point(point1.x + x1 + 100, point1.y + y1 + 100);
+        return new Point(point1.x + x1 + 115, point1.y + y1 + 115);
     }
 
 }
