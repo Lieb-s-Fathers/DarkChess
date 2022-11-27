@@ -1,5 +1,6 @@
 package view;
 
+import AI.AIController;
 import controller.ClickController;
 import controller.GameController;
 import controller.WriteController;
@@ -21,21 +22,22 @@ import static io.Write.defaultOutFilePath;
  * 3 JButton： 按钮
  */
 public class ChessGameFrame extends JFrame {
-    private final int WIDTH;
-    private final int HEIGHT;
-    public final int CHESSBOARD_SIZE;
-    private GameController gameController;
-    private ClickController clickController;
-    private WriteController defaultWriteController;
-    private WriteController writeController;
+
+    public static Winboard winboard;
+    public static Write out = new Write(defaultOutFilePath);
     private static JLabel statusLabel;
     private static JLabel countLabel;
     private static JLabel redScoreLabel;
     private static JLabel blackScoreLabel;
     private static JLabel messageLabel;
-
-    public static Winboard winboard;
-    public static Write out = new Write(defaultOutFilePath);
+    public final int CHESSBOARD_SIZE;
+    private final int WIDTH;
+    private final int HEIGHT;
+    public AIController AIFucker;
+    private GameController gameController;
+    private ClickController clickController;
+    private WriteController defaultWriteController;
+    private WriteController writeController;
 
     public ChessGameFrame(int WIDTH, int HEIGHT) {
         setTitle("2022 CS109 Project Demo"); //设置标题
@@ -61,6 +63,7 @@ public class ChessGameFrame extends JFrame {
         addSaveButton();
         addLoadButton();
         addBackButton();
+        addAIButton();
 
         defaultWriteController.save();
     }
@@ -89,10 +92,31 @@ public class ChessGameFrame extends JFrame {
         addLoadButton();
         addBackButton();
         addChessboard(chessBoardData);
+        addAIButton();
 
         defaultWriteController.save();
         clickController.calculateScore();
         clickController.winJudge();
+    }
+
+    public static JLabel getStatusLabel() {
+        return statusLabel;
+    }
+
+    public static JLabel getCount() {
+        return countLabel;
+    }
+
+    public static JLabel getRedScoreLabel() {
+        return redScoreLabel;
+    }
+
+    public static JLabel getBlackScoreLabel() {
+        return blackScoreLabel;
+    }
+
+    public static JLabel getMessageLabel() {
+        return messageLabel;
     }
 
     /**
@@ -104,19 +128,21 @@ public class ChessGameFrame extends JFrame {
         clickController = new ClickController(chessboard);
         defaultWriteController = new WriteController(chessboard);
         writeController = new WriteController(chessboard);
+        AIFucker = new AIController(chessboard);
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
         add(chessboard);
     }
+
     private void addChessboard(String[][] chessBoardData) {
         Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, chessBoardData);
         gameController = new GameController(chessboard);
         clickController = new ClickController(chessboard);
         defaultWriteController = new WriteController(chessboard);
         writeController = new WriteController(chessboard);
+        AIFucker = new AIController(chessboard);
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
         add(chessboard);
     }
-
 
     /**
      * 在游戏窗体中添加标签
@@ -162,24 +188,6 @@ public class ChessGameFrame extends JFrame {
         add(messageLabel);
     }
 
-    public static JLabel getStatusLabel() {
-        return statusLabel;
-    }
-    public static JLabel getCount(){
-        return countLabel;
-    }
-    public static JLabel getRedScoreLabel() {
-        return redScoreLabel;
-    }
-
-    public static JLabel getBlackScoreLabel() {
-        return blackScoreLabel;
-    }
-
-    public static JLabel getMessageLabel() {
-        return messageLabel;
-    }
-
     /**
      * 在游戏窗体中增加一个按钮，如果按下的话就会显示Hello, world!
      */
@@ -223,11 +231,11 @@ public class ChessGameFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("click save");
             String path = JOptionPane.showInputDialog(this, "Output Path here");
-            if (path!=null){
+            if (path != null) {
                 File file = new File(path);
-                if (file.exists()){
-                    JOptionPane.showMessageDialog(this, path+" has exsits!");
-                }else{
+                if (file.exists()) {
+                    JOptionPane.showMessageDialog(this, path + " has exsits!");
+                } else {
                     writeController.saveGame(path);
                 }
             }
@@ -247,7 +255,7 @@ public class ChessGameFrame extends JFrame {
             System.out.println("click load");
             String path = JOptionPane.showInputDialog(this, "Input Path here");
             if (path != null) {
-                try{
+                try {
                     writeController.close();
                     ArrayList<String[][]> gameData = loadGameFromFile(path);
 //                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
@@ -274,6 +282,19 @@ public class ChessGameFrame extends JFrame {
         button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 440);
         button.setSize(180, 40);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+    }
+
+    private void addAIButton() {
+        JButton button = new JButton("AIFuckyou");
+        button.addActionListener((e) -> {
+            System.out.println("AIFuckyou");
+            AIFucker.play();
+
+        });
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 520);
+        button.setSize(180, 40);
+        button.setFont(new Font("Rockwell", Font.BOLD, 10));
         add(button);
     }
 }
