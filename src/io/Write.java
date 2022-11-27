@@ -21,7 +21,7 @@ public class Write {
 
         try {
             file = new File(filePath);
-            fileOutputStream = new FileOutputStream(file);
+            fileOutputStream = new FileOutputStream(file, true);
             outputStreamWriter = new OutputStreamWriter(fileOutputStream);
             this.bufferedWriter = new BufferedWriter(outputStreamWriter);
             printWriter = new PrintWriter(bufferedWriter);

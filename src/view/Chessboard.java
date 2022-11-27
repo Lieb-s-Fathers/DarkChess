@@ -135,6 +135,10 @@ public class Chessboard extends JComponent {
         return chessBoardDatas;
     }
 
+    public void setChessBoardDatas(ArrayList<String[][]> chessBoardDatas) {
+        this.chessBoardDatas = chessBoardDatas;
+    }
+
     public void setCurrentColor(ChessColor currentColor) {
         this.currentColor = currentColor;
     }

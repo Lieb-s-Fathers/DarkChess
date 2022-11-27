@@ -1,15 +1,10 @@
 package controller;
 
-import io.Read;
 import model.ChessColor;
 import view.ChessGameFrame;
 import view.Chessboard;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 这个类主要完成由窗体上组件触发的动作。
@@ -21,6 +16,10 @@ public class GameController {
 
     public GameController(Chessboard chessboard) {
         this.chessboard = chessboard;
+    }
+
+    public void reloadChessboardDatas(ArrayList<String[][]> chessboardDatas){
+        chessboard.setChessBoardDatas(chessboardDatas);
     }
 
     public void reloadChessboard(String[][] chessBoardData){

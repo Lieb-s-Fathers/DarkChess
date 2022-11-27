@@ -253,6 +253,7 @@ public class ChessGameFrame extends JFrame {
 //                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
 //                    mainFrame.setVisible(true);
 //                    this.dispose();
+                    gameController.reloadChessboardDatas(gameData);
                     gameController.reloadChessboard(gameData.get(gameData.size() - 1));
 
                 } catch (Exception ex) {
