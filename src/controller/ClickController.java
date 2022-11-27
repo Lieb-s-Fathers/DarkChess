@@ -4,25 +4,26 @@ package controller;
 import chessComponent.CannonChessComponent;
 import chessComponent.SquareComponent;
 import chessComponent.EmptySlotComponent;
-import io.Write;
 import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
 import view.Chessboard;
+import view.Winboard;
+
 import java.util.ArrayList;
 
 public class ClickController {
     private int steps = 0;
-    static String outFilePath = "save/save.out";
-    public static Write out = new Write(outFilePath);
     private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     private final Chessboard chessboard;
     private SquareComponent first;
     private ArrayList<SquareComponent> next = new ArrayList<>();
+    private WriteController writeController;
 
 
     public ClickController(Chessboard chessboard) {
         this.chessboard = chessboard;
+        writeController = new WriteController(chessboard);
     }
 
     public void onClick(SquareComponent squareComponent) {
@@ -42,7 +43,7 @@ public class ClickController {
                             if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
                                 next.add(chessboard.getChessComponents()[chessboardPoint.getX()][chessboardPoint.getY()]);
                             }
-                        } catch (ArrayIndexOutOfBoundsException e) {}
+                        } catch (ArrayIndexOutOfBoundsException ignored) {}
                     }
                     next.forEach((c) -> {
                         c.setCanBeEaten(true);
@@ -60,7 +61,7 @@ public class ClickController {
                                     c.setCanBeEaten(true);
                                     c.repaint();
                                 });
-                            } catch (ArrayIndexOutOfBoundsException e) {}
+                            } catch (ArrayIndexOutOfBoundsException ignored) {}
                         }
                     }
                 }
@@ -86,23 +87,18 @@ public class ClickController {
 
                 //repaint in swap chess method.
                 chessboard.swapChessComponents(first, squareComponent);
-                chessboard.clickController.swapPlayer();    //todo 添加定时功能
+                chessboard.clickController.swapPlayer();
+                //todo 添加定时功能
                 if (squareComponent instanceof EmptySlotComponent) {
                     chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName());
                 } else {
                     chessboard.printKilledComponents();
                     chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
                     chessboard.clickController.calculateScore();
-
-                    if (chessboard.getRedScore() >= 60){
-                        ChessGameFrame.winboard.setVisible(true);
-                    }
-
-                    if (chessboard.getBlackScore() >= 60){
-                        ChessGameFrame.winboard.setVisible(true);
-                    }
                     steps++;
-                    save();
+                    chessboard.addChessBoardData();
+                    writeController.save();
+                    winJudge();
                 }
                 first.setSelected(false);
                 first = null;
@@ -121,7 +117,8 @@ public class ClickController {
         if (!squareComponent.isReversal()&&!(squareComponent instanceof EmptySlotComponent)) {
             squareComponent.setReversal(true);
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
-            save();
+            writeController.save();
+            chessboard.addChessBoardData();
             squareComponent.repaint();
             chessboard.clickController.swapPlayer();
             return false;
@@ -186,16 +183,17 @@ public class ClickController {
         ChessGameFrame.getMessageLabel().setText(color1 + " " + component1 + " eats " + color2 + " " + component2);
     }
 
-    public void save() {
-        // out.printWriter.printf();
-
-        for (SquareComponent[] squareComponents : chessboard.getChessComponents()){
-            for (SquareComponent squareComponent : squareComponents){
-                out.printWriter.println(squareComponent.toString());
-                out.flush();
-            }
+    public void winJudge(){
+        if (chessboard.getRedScore() >= 60){
+            Winboard.setWinText("Red");
+            ChessGameFrame.winboard.setAlwaysOnTop(true);
+            ChessGameFrame.winboard.setVisible(true);
         }
-        out.printWriter.println();
-        out.flush();
+
+        if (chessboard.getBlackScore() >= 60){
+            Winboard.setWinText("Black");
+            ChessGameFrame.winboard.setAlwaysOnTop(true);
+            ChessGameFrame.winboard.setVisible(true);
+        }
     }
 }

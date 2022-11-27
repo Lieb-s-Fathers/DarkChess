@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Winboard extends JFrame{
-    private static int WIDTH;
-    private static int HEIGHT;
+    private final int WIDTH;
+    private final int HEIGHT;
     private ChessGameFrame chessGameFrame;
     static JLabel WinText;
     static JButton replayBtn;
@@ -63,13 +63,9 @@ public class Winboard extends JFrame{
         add(WinText);
     }
 
-//    public static void setWinText(ChessColor color) {
-//        if (color == ChessColor.WHITE) {
-//            WinText.setText("Black Win");
-//        } else if (color == ChessColor.BLACK) {
-//            WinText.setText("White Win");
-//        }
-//    }
+    public static void setWinText(String colorName) {
+        WinText.setText(colorName+" Win!");
+    }
 
     private void restart() {
         System.out.println("click restart");

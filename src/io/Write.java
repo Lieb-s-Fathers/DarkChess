@@ -2,6 +2,9 @@ package io;
 
 import java.io.*;
 public class Write {
+
+    public static String defaultOutFilePath = System.getProperty("user.dir").replace("\\","/")+"save.out";
+
     private File file;
     private FileOutputStream fileOutputStream;
     private BufferedWriter bufferedWriter;

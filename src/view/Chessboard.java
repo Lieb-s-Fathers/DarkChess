@@ -3,11 +3,14 @@ package view;
 
 import chessComponent.*;
 import controller.ClickController;
+import controller.GameController;
+import controller.WriteController;
 import model.ChessColor;
 import model.ChessboardPoint;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -19,16 +22,18 @@ public class Chessboard extends JComponent {
     private static final int ROW_SIZE = 8;
     private static final int COL_SIZE = 4;
     //all chessComponents in this chessboard are shared only one model controller
-    public final ClickController clickController = new ClickController(this);
+    public ClickController clickController = new ClickController(this);
+    private GameController gameController = new GameController(this);
+    private WriteController defaultWriteController = new WriteController(this);
+
     private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
     private final int CHESS_SIZE;
     //todo: you can change the initial player
     //todo: 加载游戏时，根据存档确定先手
-    //todo: 加载游戏时，根据存档加载分数
     private ChessColor currentColor = ChessColor.RED;
     private final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
     private final int[][] componentlist = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
-
+    private ArrayList<String[][]> chessBoardDatas = new ArrayList<>();
 
 
     public Chessboard(int width, int height) {
@@ -37,19 +42,18 @@ public class Chessboard extends JComponent {
         CHESS_SIZE = (height - 6) / 8;
         SquareComponent.setSpacingLength(CHESS_SIZE / 12);
         System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
-
         initAllChessOnBoard();
+        addChessBoardData();
     }
 
     public Chessboard(int width, int height, String[][] chessBoardData){
-
         setLayout(null); // Use absolute layout.
         setSize(width + 2, height);
         CHESS_SIZE = (height - 6) / 8;
         SquareComponent.setSpacingLength(CHESS_SIZE / 12);
         System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
-
         loadGame(chessBoardData);
+        addChessBoardData();
     }
 
     public int[][] getkilledComponents(){
@@ -102,6 +106,33 @@ public class Chessboard extends JComponent {
 
     public ChessColor getCurrentColor() {
         return currentColor;
+    }
+
+    public void addChessBoardData(){
+        String[][] chessBoardData = new String[32][3];
+        int num = 0;
+        for (SquareComponent[] chessComponents : squareComponents){
+            for (SquareComponent chessComponent : chessComponents){
+                chessBoardData[num][0] = chessComponent.getChessColor().getName();
+                chessBoardData[num][1] = String.valueOf(chessComponent.getStyle());
+                chessBoardData[num][2] = String.valueOf(chessComponent.isReversal());
+                num++;
+            }
+        }
+        chessBoardDatas.add(chessBoardData);
+    }
+
+    public void deleteLastStep(){
+        if (chessBoardDatas.size()>1){
+            chessBoardDatas.remove(chessBoardDatas.size() - 1);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "This is the first step");
+        }
+    }
+
+    public ArrayList<String[][]> getChessBoardDatas(){
+        return chessBoardDatas;
     }
 
     public void setCurrentColor(ChessColor currentColor) {
@@ -235,10 +266,9 @@ public class Chessboard extends JComponent {
                             new EmptySlotComponent(new ChessboardPoint(i, j), calculatePoint(i, j), clickController, CHESS_SIZE);
                 };
                 squareComponent.setReversal(isReversal);
+                putChessOnBoard(squareComponent);
                 squareComponent.setVisible(true);
                 squareComponent.repaint();
-                putChessOnBoard(squareComponent);
-                clickController.calculateScore();
                 num++;
             }
         }
