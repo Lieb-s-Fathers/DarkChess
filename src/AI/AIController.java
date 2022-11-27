@@ -67,11 +67,11 @@ public class AIController extends JFrame {
         directionPoint.x = x;
         directionPoint.y = y;
         moveTo(directionPoint);
-//        Thread.sleep(100);
+        Thread.sleep(1000);
         press();
-        //       Thread.sleep(100);
+               Thread.sleep(1000);
         moveTo(nowPoint);
-//        Thread.sleep(100);
+        Thread.sleep(1000);
     }
 
     //获取棋盘上特定棋子的相对坐标
