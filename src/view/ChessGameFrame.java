@@ -47,6 +47,7 @@ public class ChessGameFrame extends JFrame {
         winboard = new Winboard(600, 300, this);
 
         setSize(WIDTH, HEIGHT);
+        setUndecorated(true);
         setLocationRelativeTo(null); // Center the window.
         getContentPane().setBackground(Color.WHITE);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
@@ -76,6 +77,7 @@ public class ChessGameFrame extends JFrame {
         winboard = new Winboard(600, 300, this);
 
         setSize(WIDTH, HEIGHT);
+        setUndecorated(true);
         setLocationRelativeTo(null); // Center the window.
         getContentPane().setBackground(Color.WHITE);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
