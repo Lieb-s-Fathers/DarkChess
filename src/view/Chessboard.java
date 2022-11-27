@@ -1,6 +1,7 @@
 package view;
 
 
+import AI.AIController;
 import chessComponent.*;
 import controller.ClickController;
 import controller.GameController;
@@ -19,15 +20,17 @@ import java.util.Random;
  */
 public class Chessboard extends JComponent {
 
+    public ChessColor AIColor;
     private static final int ROW_SIZE = 8;
     private static final int COL_SIZE = 4;
     //all chessComponents in this chessboard are shared only one model controller
     public ClickController clickController = new ClickController(this);
+    public AIController aiFucker=new AIController(this);
     private GameController gameController = new GameController(this);
     private WriteController defaultWriteController = new WriteController(this);
 
     private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
-    private final int CHESS_SIZE;
+    public final int CHESS_SIZE;
     //todo: you can change the initial player
     //todo: 加载游戏时，根据存档确定先手
     private ChessColor currentColor = ChessColor.RED;

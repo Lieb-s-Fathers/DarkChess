@@ -1,6 +1,7 @@
 package controller;
 
 
+import AI.AIController;
 import chessComponent.CannonChessComponent;
 import chessComponent.SquareComponent;
 import chessComponent.EmptySlotComponent;
@@ -20,10 +21,13 @@ public class ClickController {
     private ArrayList<SquareComponent> next = new ArrayList<>();
     private WriteController writeController;
 
+    private AIController aiFucker;
+
 
     public ClickController(Chessboard chessboard) {
         this.chessboard = chessboard;
         writeController = new WriteController(chessboard);
+        aiFucker = new AIController(chessboard);
     }
 
     public void onClick(SquareComponent squareComponent) {
@@ -102,6 +106,13 @@ public class ClickController {
                 }
                 first.setSelected(false);
                 first = null;
+//                AIPlay aiPlay=new AIPlay(chessboard);
+//                aiPlay.start();
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
             }
         }
     }
@@ -121,6 +132,13 @@ public class ClickController {
             chessboard.addChessBoardData();
             squareComponent.repaint();
             chessboard.clickController.swapPlayer();
+//            AIPlay aiPlay=new AIPlay(chessboard);
+//            aiPlay.start();
+//            try {
+//                Thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
             return false;
         }
         return squareComponent.getChessColor() == chessboard.getCurrentColor();
