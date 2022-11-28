@@ -15,6 +15,7 @@ public class StartMenuFrame extends JFrame {
     private final int extraDistance;
 
     private GameController gameController;
+    public static ChessGameFrame mainFrame;
 
     private static JLabel statusLabel;
 
@@ -81,7 +82,7 @@ public class StartMenuFrame extends JFrame {
             if (path != null) {
                 try {
                     ArrayList<String[][]> gameData = loadGameFromFile(path);
-                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData);
+                    mainFrame = new ChessGameFrame(720, 720, gameData);
                     mainFrame.setVisible(true);
                     this.dispose();
                 } catch (Exception ex) {
@@ -101,14 +102,14 @@ public class StartMenuFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("click continue");
-            try {
+//            try {
                 ArrayList<String[][]> gameData = loadGameFromFile(defaultOutFilePath);
-                ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData);
+                mainFrame = new ChessGameFrame(720, 720, gameData);
                 mainFrame.setVisible(true);
                 this.dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "存档已丢失，请重新开始游戏");
-            }
+//            } catch (Exception ex) {
+//                JOptionPane.showMessageDialog(this, "存档已丢失，请重新开始游戏");
+//            }
         });
     }
 
@@ -127,7 +128,7 @@ public class StartMenuFrame extends JFrame {
     }
 
     private void start() {
-        ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
+        mainFrame = new ChessGameFrame(720, 720);
         System.out.println("click start");
         mainFrame.setVisible(true);
         this.dispose();

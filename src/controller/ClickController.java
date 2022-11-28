@@ -9,9 +9,12 @@ import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
 import view.Chessboard;
+import view.FatherFrame;
 import view.Winboard;
 
 import java.util.ArrayList;
+
+import static view.StartMenuFrame.mainFrame;
 
 public class ClickController {
     private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
@@ -21,7 +24,6 @@ public class ClickController {
     private WriteController writeController;
 
     private AIController aiFucker;
-
 
     public ClickController(Chessboard chessboard) {
         this.chessboard = chessboard;
@@ -97,9 +99,8 @@ public class ClickController {
                     chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName());
                 } else {
                     chessboard.printKilledComponents();
-                    chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
-                    chessboard.clickController.calculateScore();
-
+                    printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
+                    calculateScore(mainFrame);
                     winJudge();
                 }
                 chessboard.addChessBoardData();
@@ -187,9 +188,9 @@ public class ClickController {
     }
 
     //计算分数
-    public void calculateScore() {
-        ChessGameFrame.getRedScoreLabel().setText("Red Score:    " + chessboard.getRedScore());
-        ChessGameFrame.getBlackScoreLabel().setText("Black Score:    " + chessboard.getBlackScore());
+    public void calculateScore(FatherFrame thisFrame) {
+        thisFrame.getRedScoreLabel().setText("Red Score:    " + chessboard.getRedScore());
+        thisFrame.getBlackScoreLabel().setText("Black Score:    " + chessboard.getBlackScore());
     }
 
     private void printMessage(String color1, String component1) {
@@ -204,14 +205,12 @@ public class ClickController {
     public void winJudge() {
         if (chessboard.getRedScore() >= 60) {
             Winboard.setWinText("Red");
-            ChessGameFrame.winboard.setAlwaysOnTop(true);
-            ChessGameFrame.winboard.setVisible(true);
+            ChessGameFrame.winboard.showWinboard(chessboard.getChessBoardDatas());
         }
 
         if (chessboard.getBlackScore() >= 60) {
             Winboard.setWinText("Black");
-            ChessGameFrame.winboard.setAlwaysOnTop(true);
-            ChessGameFrame.winboard.setVisible(true);
+            ChessGameFrame.winboard.showWinboard(chessboard.getChessBoardDatas());
         }
     }
 }

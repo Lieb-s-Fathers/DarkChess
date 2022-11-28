@@ -2,13 +2,14 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Winboard extends JFrame {
     private final int WIDTH;
     private final int HEIGHT;
     private ChessGameFrame chessGameFrame;
-    static JLabel WinText;
-    static JButton replayBtn;
+    private ReplayFrame replayFrame;
+    private static JLabel WinText;
 
 
 //    //todo replay
@@ -21,8 +22,6 @@ public class Winboard extends JFrame {
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
         setVisible(false);
-//        replayFrame=new ReplayFrame(1000,700);
-//        replayFrame.setVisible(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.chessGameFrame = chessGameFrame;
         addLabel();
@@ -30,6 +29,14 @@ public class Winboard extends JFrame {
         addBack();
         addExit();
         addReplay();
+    }
+
+    public void showWinboard(ArrayList<String[][]> gameData){
+        replayFrame = new ReplayFrame(720,720, gameData);
+        replayFrame.setVisible(false);
+        chessGameFrame.dispose();
+        ChessGameFrame.winboard.setAlwaysOnTop(true);
+        ChessGameFrame.winboard.setVisible(true);
     }
 
     private void addRestart() {
@@ -43,18 +50,15 @@ public class Winboard extends JFrame {
     }
 
     public void addReplay() {
-        replayBtn = new JButton("Replay");
+        JButton replayBtn = new JButton("Replay");
         replayBtn.addActionListener(e -> {
-//            replayFrame.setVisible(true);
+            chessGameFrame.dispose();
+            replayFrame.setVisible(true);
         });
         replayBtn.setLocation(WIDTH / 2 - 70, HEIGHT / 10 + 50);
         replayBtn.setSize(WIDTH / 5, 30);
         replayBtn.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(replayBtn);
-    }
-
-    public static void setReplayList() {
-//        replayFrame.setReplayList();
     }
 
     private void addLabel() {
