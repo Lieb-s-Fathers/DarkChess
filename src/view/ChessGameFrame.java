@@ -211,5 +211,28 @@ public class ChessGameFrame extends FatherFrame {
         button02.setSize(90, 40);
         button02.setFont(new Font("Rockwell", Font.BOLD, 10));
         add(button02);
+
+        JButton aiPlay = new JButton("AIALTOPLAY");
+        aiPlay.addActionListener((e) -> {
+            for (int i = 1; i <= 10; i++) {
+                AIFucker.play(AItype01, difficulty01);
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                AIFucker.play(AItype02, difficulty02);
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        aiPlay.setLocation(WIDTH * 3 / 5 + 90, HEIGHT / 10 + 520);
+        aiPlay.setSize(90, 40);
+        aiPlay.setFont(new Font("Rockwell", Font.BOLD, 10));
+        add(aiPlay);
+
     }
 }
