@@ -5,7 +5,7 @@ import java.io.*;
 public class Read {
     private BufferedReader bufferedReader;
     private StreamTokenizer streamTokenizer;
-    private File inFile ;
+    private File inFile;
     private FileInputStream fileInputStream;
 
     public Read(String inFilePath) {
@@ -21,7 +21,7 @@ public class Read {
 
     public int nextInt() throws IOException {
         streamTokenizer.nextToken();
-        return (int)streamTokenizer.nval;
+        return (int) streamTokenizer.nval;
     }
 
     public double nextDouble() throws IOException {

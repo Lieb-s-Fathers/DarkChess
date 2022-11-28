@@ -3,7 +3,6 @@ package controller;
 import model.ChessColor;
 import view.ChessGameFrame;
 
-
 import javax.swing.*;
 
 public class CountDown extends Thread {
@@ -19,18 +18,18 @@ public class CountDown extends Thread {
 
     private boolean pause = false;
 
-    public void pauseThread(){
+    public void pauseThread() {
         this.pause = true;
     }
 
-    public void resumeThread(){
+    public void resumeThread() {
         this.pause = false;
         synchronized (lock) {
             lock.notify();
         }
     }
 
-    public void onPause(){
+    public void onPause() {
         synchronized (lock) {
             try {
                 lock.wait();
@@ -58,8 +57,6 @@ public class CountDown extends Thread {
 //            }
 //        }
 //    }
-
-
 
 
 }

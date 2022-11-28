@@ -49,8 +49,8 @@ public class AI {
             }
         }
         for (int j = 0; j < 4; j++) {
-            canMovePoints[j][2]=squareComponent.getChessboardPoint().getX();
-            canMovePoints[j][3]=squareComponent.getChessboardPoint().getY();
+            canMovePoints[j][2] = squareComponent.getChessboardPoint().getX();
+            canMovePoints[j][3] = squareComponent.getChessboardPoint().getY();
         }
         return canMovePoints;
     }

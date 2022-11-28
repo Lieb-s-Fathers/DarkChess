@@ -79,7 +79,7 @@ public class StartMenuFrame extends JFrame {
             System.out.println("click load");
             String path = JOptionPane.showInputDialog(this, "Input Path here");
             if (path != null) {
-                try{
+                try {
                     ArrayList<String[][]> gameData = loadGameFromFile(path);
                     ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData);
                     mainFrame.setVisible(true);
@@ -101,7 +101,7 @@ public class StartMenuFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("click continue");
-            try{
+            try {
                 ArrayList<String[][]> gameData = loadGameFromFile(defaultOutFilePath);
                 ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData);
                 mainFrame.setVisible(true);
@@ -126,7 +126,7 @@ public class StartMenuFrame extends JFrame {
         add(button);
     }
 
-    private void start(){
+    private void start() {
         ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
         System.out.println("click start");
         mainFrame.setVisible(true);

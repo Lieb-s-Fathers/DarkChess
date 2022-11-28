@@ -11,9 +11,9 @@ public class ReadController {
             Read in = new Read(path);
             ArrayList<String[][]> chessDatas = new ArrayList<>();
             String tempData = in.nextLine();
-            while (tempData != null){
+            while (tempData != null) {
                 String[][] chessData = new String[32][3];
-                for (int i = 0; i < 32; i++){
+                for (int i = 0; i < 32; i++) {
                     chessData[i] = tempData.split(" ");
                     tempData = in.nextLine();
                 }

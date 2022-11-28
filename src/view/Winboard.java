@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class Winboard extends JFrame{
+public class Winboard extends JFrame {
     private final int WIDTH;
     private final int HEIGHT;
     private ChessGameFrame chessGameFrame;
@@ -41,6 +41,7 @@ public class Winboard extends JFrame{
         setLayout(null);
         add(button);
     }
+
     public void addReplay() {
         replayBtn = new JButton("Replay");
         replayBtn.addActionListener(e -> {
@@ -51,20 +52,21 @@ public class Winboard extends JFrame{
         replayBtn.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(replayBtn);
     }
-    public static void setReplayList(){
+
+    public static void setReplayList() {
 //        replayFrame.setReplayList();
     }
 
     private void addLabel() {
         WinText = new JLabel("WHITE WIN");
-        WinText.setLocation(WIDTH / 2 - 70, HEIGHT / 10 );
+        WinText.setLocation(WIDTH / 2 - 70, HEIGHT / 10);
         WinText.setSize(WIDTH / 5, 40);
         WinText.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(WinText);
     }
 
     public static void setWinText(String colorName) {
-        WinText.setText(colorName+" Win!");
+        WinText.setText(colorName + " Win!");
     }
 
     private void restart() {

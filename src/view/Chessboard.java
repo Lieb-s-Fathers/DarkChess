@@ -25,7 +25,7 @@ public class Chessboard extends JComponent {
     private static final int COL_SIZE = 4;
     //all chessComponents in this chessboard are shared only one model controller
     public ClickController clickController = new ClickController(this);
-    public AIController aiFucker=new AIController(this);
+    public AIController aiFucker = new AIController(this);
     private GameController gameController = new GameController(this);
     private WriteController defaultWriteController = new WriteController(this);
 
@@ -48,30 +48,30 @@ public class Chessboard extends JComponent {
         addChessBoardData();
     }
 
-    public Chessboard(int width, int height, ArrayList<String[][]> gameData){
+    public Chessboard(int width, int height, ArrayList<String[][]> gameData) {
         setLayout(null); // Use absolute layout.
         setSize(width + 2, height);
         CHESS_SIZE = (height - 6) / 8;
         SquareComponent.setSpacingLength(CHESS_SIZE / 12);
         System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
         int steps = gameData.size();
-        if (steps %2 == 0){
+        if (steps % 2 == 0) {
             currentColor = ChessColor.BLACK;
-        }else{
+        } else {
             currentColor = ChessColor.RED;
         }
-        String[][] chessBoardData = gameData.get(steps-1);
+        String[][] chessBoardData = gameData.get(steps - 1);
         loadGameData(gameData);
         loadGame(chessBoardData);
     }
 
-    public int[][] getkilledComponents(){
+    public int[][] getkilledComponents() {
         SquareComponent[][] chessBoard = getChessComponents();
         int[][] killedComponents = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
 
         for (SquareComponent[] squareComponents : chessBoard) {
             for (SquareComponent squareComponent : squareComponents) {
-                if (!(squareComponent instanceof EmptySlotComponent) && squareComponent!=null){
+                if (!(squareComponent instanceof EmptySlotComponent) && squareComponent != null) {
                     int color = squareComponent.getChessColor() == ChessColor.BLACK ? 0 : 1;
                     killedComponents[color][squareComponent.getStyle()]--;
                 }
@@ -117,11 +117,11 @@ public class Chessboard extends JComponent {
         return currentColor;
     }
 
-    public void addChessBoardData(){
+    public void addChessBoardData() {
         String[][] chessBoardData = new String[32][3];
         int num = 0;
-        for (SquareComponent[] chessComponents : squareComponents){
-            for (SquareComponent chessComponent : chessComponents){
+        for (SquareComponent[] chessComponents : squareComponents) {
+            for (SquareComponent chessComponent : chessComponents) {
                 chessBoardData[num][0] = chessComponent.getChessColor().getName();
                 chessBoardData[num][1] = String.valueOf(chessComponent.getStyle());
                 chessBoardData[num][2] = String.valueOf(chessComponent.isReversal());
@@ -131,16 +131,15 @@ public class Chessboard extends JComponent {
         chessBoardDatas.add(chessBoardData);
     }
 
-    public void deleteLastStep(){
-        if (chessBoardDatas.size()>1){
+    public void deleteLastStep() {
+        if (chessBoardDatas.size() > 1) {
             chessBoardDatas.remove(chessBoardDatas.size() - 1);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(this, "This is the first step");
         }
     }
 
-    public ArrayList<String[][]> getChessBoardDatas(){
+    public ArrayList<String[][]> getChessBoardDatas() {
         return chessBoardDatas;
     }
 
@@ -250,8 +249,7 @@ public class Chessboard extends JComponent {
     }
 
 
-
-    public void loadGameData(ArrayList<String[][]> gameData){
+    public void loadGameData(ArrayList<String[][]> gameData) {
         chessBoardDatas = gameData;
     }
 

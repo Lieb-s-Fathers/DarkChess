@@ -18,15 +18,15 @@ public class GameController {
         this.chessboard = chessboard;
     }
 
-    public void reloadChessboardDatas(ArrayList<String[][]> chessboardDatas){
+    public void reloadChessboardDatas(ArrayList<String[][]> chessboardDatas) {
         chessboard.setChessBoardDatas(chessboardDatas);
     }
 
-    public void reloadChessboard(String[][] chessBoardData){
+    public void reloadChessboard(String[][] chessBoardData) {
         chessboard.loadGame(chessBoardData);
     }
 
-    public void withdraw(){
+    public void withdraw() {
         chessboard.deleteLastStep();
     }
 
@@ -34,11 +34,11 @@ public class GameController {
         return chessboard.getChessBoardDatas();
     }
 
-    public String getCurrentColor(){
+    public String getCurrentColor() {
         return chessboard.getCurrentColor().getName();
     }
 
-    public void timeOut(){
+    public void timeOut() {
         chessboard.setCurrentColor(chessboard.getCurrentColor() == ChessColor.BLACK ? ChessColor.RED : ChessColor.BLACK);
         ChessGameFrame.getStatusLabel().setText(String.format("%s's TURN", chessboard.getCurrentColor().getName()));
     }

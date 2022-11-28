@@ -174,7 +174,7 @@ public abstract class SquareComponent extends JComponent {
     }
 
     @Override
-    public String toString(){
-        return this.getChessColor().getName()+" "+this.getStyle()+" "+this.isReversal();
+    public String toString() {
+        return this.getChessColor().getName() + " " + this.getStyle() + " " + this.isReversal();
     }
 }

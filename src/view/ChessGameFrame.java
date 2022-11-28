@@ -150,7 +150,7 @@ public class ChessGameFrame extends JFrame {
      * 在游戏窗体中添加标签
      */
     private void addTurnLabel() {
-        statusLabel = new JLabel(gameController.getCurrentColor()+"'s TURN");
+        statusLabel = new JLabel(gameController.getCurrentColor() + "'s TURN");
         statusLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10);
         statusLabel.setSize(200, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
@@ -267,8 +267,7 @@ public class ChessGameFrame extends JFrame {
                     gameController.reloadChessboardDatas(gameData);
                     if (gameData != null) {
                         gameController.reloadChessboard(gameData.get(gameData.size() - 1));
-                    }
-                    else{
+                    } else {
                         //todo 存档不符合格式
                     }
 

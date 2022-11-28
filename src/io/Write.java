@@ -1,9 +1,10 @@
 package io;
 
 import java.io.*;
+
 public class Write {
 
-    public static String defaultOutFilePath = System.getProperty("user.dir").replace("\\","/")+"save.out";
+    public static String defaultOutFilePath = System.getProperty("user.dir").replace("\\", "/") + "save.out";
 
     private File file;
     private FileOutputStream fileOutputStream;
@@ -48,7 +49,7 @@ public class Write {
             bufferedWriter.flush();
             outputStreamWriter.flush();
             printWriter.flush();
-        }catch (IOException ignored) {
+        } catch (IOException ignored) {
 
         }
     }

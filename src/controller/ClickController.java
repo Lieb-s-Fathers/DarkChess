@@ -3,8 +3,8 @@ package controller;
 
 import AI.AIController;
 import chessComponent.CannonChessComponent;
-import chessComponent.SquareComponent;
 import chessComponent.EmptySlotComponent;
+import chessComponent.SquareComponent;
 import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
@@ -46,7 +46,8 @@ public class ClickController {
                             if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
                                 next.add(chessboard.getChessComponents()[chessboardPoint.getX()][chessboardPoint.getY()]);
                             }
-                        } catch (ArrayIndexOutOfBoundsException ignored) {}
+                        } catch (ArrayIndexOutOfBoundsException ignored) {
+                        }
                     }
                     next.forEach((c) -> {
                         c.setCanBeEaten(true);
@@ -64,7 +65,8 @@ public class ClickController {
                                     c.setCanBeEaten(true);
                                     c.repaint();
                                 });
-                            } catch (ArrayIndexOutOfBoundsException ignored) {}
+                            } catch (ArrayIndexOutOfBoundsException ignored) {
+                            }
                         }
                     }
                 }
@@ -81,7 +83,7 @@ public class ClickController {
                 });
                 next = new ArrayList<>();
             } else if (handleSecond(squareComponent)) {
-                next.forEach((c) ->{
+                next.forEach((c) -> {
                     c.setCanBeEaten(false);
                     c.repaint();
                 });
@@ -117,14 +119,13 @@ public class ClickController {
     }
 
 
-
     /**
      * @param squareComponent 目标选取的棋子
      * @return 目标选取的棋子是否与棋盘记录的当前行棋方颜色相同
      */
 
     private boolean handleFirst(SquareComponent squareComponent) {
-        if (!squareComponent.isReversal()&&!(squareComponent instanceof EmptySlotComponent)) {
+        if (!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) {
             squareComponent.setReversal(true);
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
             chessboard.addChessBoardData();
@@ -200,14 +201,14 @@ public class ClickController {
         ChessGameFrame.getMessageLabel().setText(color1 + " " + component1 + " eats " + color2 + " " + component2);
     }
 
-    public void winJudge(){
-        if (chessboard.getRedScore() >= 60){
+    public void winJudge() {
+        if (chessboard.getRedScore() >= 60) {
             Winboard.setWinText("Red");
             ChessGameFrame.winboard.setAlwaysOnTop(true);
             ChessGameFrame.winboard.setVisible(true);
         }
 
-        if (chessboard.getBlackScore() >= 60){
+        if (chessboard.getBlackScore() >= 60) {
             Winboard.setWinText("Black");
             ChessGameFrame.winboard.setAlwaysOnTop(true);
             ChessGameFrame.winboard.setVisible(true);

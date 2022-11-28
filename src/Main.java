@@ -1,19 +1,13 @@
-import io.Read;
 import view.SoundPlayer;
 import view.StartMenuFrame;
 
 import javax.swing.*;
-import java.io.*;
-
 
 public class Main {
 
     public static String inPath = "save/";
 
     public static void main(String[] args) {
-
-
-
 
 
 //        SwingUtilities.invokeLater(() -> {
@@ -34,7 +28,7 @@ public class Main {
 //            } catch (InterruptedException e) {
 //                throw new RuntimeException(e);
 //            }
-           //audioPlayer.playMusic("小八斗 - 欢乐斗地主 (原版一).wav");
+            //audioPlayer.playMusic("小八斗 - 欢乐斗地主 (原版一).wav");
         });
     }
 }

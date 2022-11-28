@@ -22,6 +22,8 @@ public class AIController extends JFrame {
         }
     }
 
+    // 使用 AI 传入 xy 数组, 其中 xy[0, 1] 表示目标点的xy坐标, xy[2, 3] 表示起始点的坐标,
+    // 如果起始点没有被翻开, 那么 xy[0, 1] 为要翻开的棋子坐标, xy[2, 3] 为-1
     public void play() {
         RandomAI randomAI = new RandomAI();
         int[] xy = randomAI.move(chessboard);

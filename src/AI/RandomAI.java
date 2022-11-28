@@ -52,9 +52,9 @@ public class RandomAI extends AI {
             return canMoveTopoints[iTomove];
         } else {
             int[] canMoveTopoints = new int[10];
-            canMoveTopoints[0] = componentToMove.getChessboardPoint().getX();
-            canMoveTopoints[1] = componentToMove.getChessboardPoint().getY();
-            canMoveTopoints[2] = canMoveTopoints[3] = -1;
+            canMoveTopoints[2] = componentToMove.getChessboardPoint().getX();
+            canMoveTopoints[3] = componentToMove.getChessboardPoint().getY();
+            canMoveTopoints[0] = canMoveTopoints[1] = -1;
             return canMoveTopoints;
         }
     }

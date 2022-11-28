@@ -40,7 +40,7 @@ public class WriteController {
         out.close();
     }
 
-    public void saveGame(String outFilePath){
+    public void saveGame(String outFilePath) {
         Write out1 = new Write(outFilePath);
         ArrayList<String[][]> chessboardData = chessboard.getChessBoardDatas();
         for (String[][] chessboardDatum : chessboardData) {
