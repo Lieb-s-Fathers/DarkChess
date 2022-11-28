@@ -72,9 +72,9 @@ public class AIController extends JFrame {
         directionPoint.x = x;
         directionPoint.y = y;
         moveTo(directionPoint);
-        Thread.sleep(20);
+        Thread.sleep(5);
         press();
-        Thread.sleep(20);
+        Thread.sleep(5);
         moveTo(nowPoint);
     }
 
