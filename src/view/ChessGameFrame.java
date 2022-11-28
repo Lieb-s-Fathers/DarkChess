@@ -27,6 +27,7 @@ public class ChessGameFrame extends FatherFrame {
     public AIController AIFucker;
     private WriteController defaultWriteController;
     private WriteController writeController;
+    private int AItype, difficulty;
 
     public ChessGameFrame(int WIDTH, int HEIGHT) {
         super(WIDTH, HEIGHT);
@@ -80,6 +81,8 @@ public class ChessGameFrame extends FatherFrame {
         writeController = new WriteController(chessboard);
         AIFucker = new AIController(chessboard);
         defaultWriteController.save();
+        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
+        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
     }
 
     @Override
@@ -91,6 +94,8 @@ public class ChessGameFrame extends FatherFrame {
         defaultWriteController.save();
         clickController.calculateScore(this);
         clickController.winJudge();
+        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
+        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
     }
 
     private void addCountLabel() {
@@ -177,7 +182,7 @@ public class ChessGameFrame extends FatherFrame {
         JButton button = new JButton("AIFuckyou");
         button.addActionListener((e) -> {
             System.out.println("AIFuckyou");
-            AIFucker.play();
+            AIFucker.play(AItype, difficulty);
 
         });
         button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 520);

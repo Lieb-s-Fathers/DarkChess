@@ -24,12 +24,20 @@ public class AIController extends JFrame {
 
     // 使用 AI 传入 xy 数组, 其中 xy[0, 1] 表示目标点的xy坐标, xy[2, 3] 表示起始点的坐标,
     // 如果起始点没有被翻开, 那么 xy[0, 1] 为要翻开的棋子坐标, xy[2, 3] 为-1
-    public void play() {
-        RandomAI randomAI = new RandomAI();
-        GreedyAI greedyAI = new GreedyAI();
-        int[] xy = greedyAI.move(chessboard);
-        this.pressComponent(xy[2], xy[3]);
-        this.pressComponent(xy[0], xy[1]);
+    // AIType: 使用的AI类型 [1, 2]
+    // difficulty: 使用的AI难度 [1, 10]
+    public void play(int AIType, int difficulty) {
+        if (AIType == 1) {
+            RandomAI randomAI = new RandomAI();
+            int[] xy = randomAI.move(chessboard);
+            this.pressComponent(xy[2], xy[3]);
+            this.pressComponent(xy[0], xy[1]);
+        } else if (AIType==2) {
+            GreedyAI greedyAI = new GreedyAI(difficulty);
+            int[] xy = greedyAI.move(chessboard);
+            this.pressComponent(xy[2], xy[3]);
+            this.pressComponent(xy[0], xy[1]);
+        }
     }
 
 

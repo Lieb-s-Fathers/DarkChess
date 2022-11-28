@@ -9,6 +9,15 @@ import view.Chessboard;
 import java.util.Random;
 
 public class GreedyAI extends AI {
+    private int difficulty = 5;
+
+    public GreedyAI(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public GreedyAI() {
+
+    }
 
     protected SquareComponent decideWhichToMove() {
         Random random = new Random();
@@ -41,7 +50,7 @@ public class GreedyAI extends AI {
 
 
         //优先翻出炮
-        if (random.nextInt(10) < 6) {
+        if (random.nextInt(10) < difficulty) {
             for (row = 0; row < 8; row++) {
                 for (col = 0; col < 4; col++) {
                     thisComponent = squareComponents[row][col];
