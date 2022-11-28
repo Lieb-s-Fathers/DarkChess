@@ -27,6 +27,8 @@ public class ReplayFrame extends FatherFrame {
         addNextButton();
         addLastButton();
 
+        clickController.setCanClick(false);
+
         showButton();
     }
 
