@@ -107,7 +107,6 @@ public class ChessGameFrame extends FatherFrame {
         button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 200);
         button.setSize(180, 40);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        button.setBackground(Color.LIGHT_GRAY);
         add(button);
 
         button.addActionListener(e -> {
@@ -126,7 +125,6 @@ public class ChessGameFrame extends FatherFrame {
         button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 280);
         button.setSize(180, 40);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        button.setBackground(Color.LIGHT_GRAY);
         add(button);
 
         button.addActionListener(e -> {
@@ -148,7 +146,6 @@ public class ChessGameFrame extends FatherFrame {
         button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 360);
         button.setSize(180, 40);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        button.setBackground(Color.LIGHT_GRAY);
         add(button);
 
         button.addActionListener(e -> {

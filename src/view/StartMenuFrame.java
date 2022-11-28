@@ -73,7 +73,6 @@ public class StartMenuFrame extends JFrame {
         button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 220 + extraDistance);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        button.setBackground(Color.LIGHT_GRAY);
         add(button);
 
         button.addActionListener(e -> {

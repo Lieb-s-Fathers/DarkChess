@@ -124,15 +124,17 @@ public class FatherFrame extends JFrame {
 
     protected void addBackButton() {
         JButton button = new JButton("Back");
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 440);
+        button.setSize(180, 40);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+
         button.addActionListener((e) -> {
             System.out.println("click back");
             this.setVisible(false);
             StartMenuFrame firstFrame = new StartMenuFrame(720, 720, false);
             firstFrame.setVisible(true);
         });
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 440);
-        button.setSize(180, 40);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+
         add(button);
     }
 }
