@@ -31,9 +31,7 @@ public class Chessboard extends JComponent {
 
     private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
     public final int CHESS_SIZE;
-    //todo: you can change the initial player
-    //todo: 加载游戏时，根据存档确定先手
-    private ChessColor currentColor = ChessColor.RED;
+    private ChessColor currentColor;
     private final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
     private final int[][] componentlist = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
     private ArrayList<String[][]> chessBoardDatas = new ArrayList<>();
@@ -41,6 +39,7 @@ public class Chessboard extends JComponent {
 
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout.
+        currentColor = ChessColor.RED;
         setSize(width + 2, height);
         CHESS_SIZE = (height - 6) / 8;
         SquareComponent.setSpacingLength(CHESS_SIZE / 12);
@@ -49,14 +48,21 @@ public class Chessboard extends JComponent {
         addChessBoardData();
     }
 
-    public Chessboard(int width, int height, String[][] chessBoardData){
+    public Chessboard(int width, int height, ArrayList<String[][]> gameData){
         setLayout(null); // Use absolute layout.
         setSize(width + 2, height);
         CHESS_SIZE = (height - 6) / 8;
         SquareComponent.setSpacingLength(CHESS_SIZE / 12);
         System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
+        int steps = gameData.size();
+        if (steps %2 == 0){
+            currentColor = ChessColor.BLACK;
+        }else{
+            currentColor = ChessColor.RED;
+        }
+        String[][] chessBoardData = gameData.get(steps-1);
+        loadGameData(gameData);
         loadGame(chessBoardData);
-        addChessBoardData();
     }
 
     public int[][] getkilledComponents(){
@@ -242,6 +248,13 @@ public class Chessboard extends JComponent {
     private Point calculatePoint(int row, int col) {
         return new Point(col * CHESS_SIZE + 3, row * CHESS_SIZE + 3);
     }
+
+
+
+    public void loadGameData(ArrayList<String[][]> gameData){
+        chessBoardDatas = gameData;
+    }
+
 
     /**
      * 通过GameController调用该方法

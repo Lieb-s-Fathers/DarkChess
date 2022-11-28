@@ -14,7 +14,6 @@ import view.Winboard;
 import java.util.ArrayList;
 
 public class ClickController {
-    private int steps = 0;
     private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     private final Chessboard chessboard;
     private SquareComponent first;
@@ -69,7 +68,6 @@ public class ClickController {
                         }
                     }
                 }
-
             }
         } else {
             if (first == squareComponent) { // 再次点击取消选取
@@ -99,11 +97,12 @@ public class ClickController {
                     chessboard.printKilledComponents();
                     chessboard.clickController.printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
                     chessboard.clickController.calculateScore();
-                    steps++;
-                    chessboard.addChessBoardData();
-                    writeController.save();
+
                     winJudge();
                 }
+                chessboard.addChessBoardData();
+                writeController.save();
+
                 first.setSelected(false);
                 first = null;
 //                AIPlay aiPlay=new AIPlay(chessboard);
@@ -128,8 +127,8 @@ public class ClickController {
         if (!squareComponent.isReversal()&&!(squareComponent instanceof EmptySlotComponent)) {
             squareComponent.setReversal(true);
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
-            writeController.save();
             chessboard.addChessBoardData();
+            writeController.save();
             squareComponent.repaint();
             chessboard.clickController.swapPlayer();
 //            AIPlay aiPlay=new AIPlay(chessboard);

@@ -21,7 +21,7 @@ public class Write {
 
         try {
             file = new File(filePath);
-            fileOutputStream = new FileOutputStream(file, true);
+            fileOutputStream = new FileOutputStream(file);
             outputStreamWriter = new OutputStreamWriter(fileOutputStream);
             this.bufferedWriter = new BufferedWriter(outputStreamWriter);
             printWriter = new PrintWriter(bufferedWriter);
@@ -38,7 +38,7 @@ public class Write {
             bufferedWriter.close();
             outputStreamWriter.close();
             fileOutputStream.close();
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
 
     }
@@ -48,7 +48,7 @@ public class Write {
             bufferedWriter.flush();
             outputStreamWriter.flush();
             printWriter.flush();
-        }catch (IOException e) {
+        }catch (IOException ignored) {
 
         }
     }

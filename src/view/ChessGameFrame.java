@@ -69,7 +69,7 @@ public class ChessGameFrame extends JFrame {
         defaultWriteController.save();
     }
 
-    public ChessGameFrame(int width, int height, String[][] chessBoardData) {
+    public ChessGameFrame(int width, int height, ArrayList<String[][]> gameData) {
         setTitle("2022 CS109 Project Demo"); //设置标题
         this.WIDTH = width;
         this.HEIGHT = height;
@@ -83,6 +83,7 @@ public class ChessGameFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
 
+        addChessboard(gameData);
         addTurnLabel();
         addCountLabel();
         addRedScoreLabel();
@@ -93,7 +94,6 @@ public class ChessGameFrame extends JFrame {
         addSaveButton();
         addLoadButton();
         addBackButton();
-        addChessboard(chessBoardData);
         addAIButton();
 
         defaultWriteController.save();
@@ -135,8 +135,8 @@ public class ChessGameFrame extends JFrame {
         add(chessboard);
     }
 
-    private void addChessboard(String[][] chessBoardData) {
-        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, chessBoardData);
+    private void addChessboard(ArrayList<String[][]> gameData) {
+        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, gameData);
         gameController = new GameController(chessboard);
         clickController = new ClickController(chessboard);
         defaultWriteController = new WriteController(chessboard);
@@ -150,7 +150,7 @@ public class ChessGameFrame extends JFrame {
      * 在游戏窗体中添加标签
      */
     private void addTurnLabel() {
-        statusLabel = new JLabel("BLACK's TURN");
+        statusLabel = new JLabel(gameController.getCurrentColor()+"'s TURN");
         statusLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10);
         statusLabel.setSize(200, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
@@ -217,6 +217,7 @@ public class ChessGameFrame extends JFrame {
             gameController.withdraw();
             ArrayList<String[][]> gameData = gameController.getChessboardDatas();
             gameController.reloadChessboard(gameData.get(gameData.size() - 1));
+            writeController.save();
             clickController.swapPlayer();
             clickController.calculateScore();
         });
@@ -258,13 +259,18 @@ public class ChessGameFrame extends JFrame {
             String path = JOptionPane.showInputDialog(this, "Input Path here");
             if (path != null) {
                 try {
-                    writeController.close();
+//                    writeController.close();
                     ArrayList<String[][]> gameData = loadGameFromFile(path);
 //                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
 //                    mainFrame.setVisible(true);
 //                    this.dispose();
                     gameController.reloadChessboardDatas(gameData);
-                    gameController.reloadChessboard(gameData.get(gameData.size() - 1));
+                    if (gameData != null) {
+                        gameController.reloadChessboard(gameData.get(gameData.size() - 1));
+                    }
+                    else{
+                        //todo 存档不符合格式
+                    }
 
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "请输入正确的路径!");

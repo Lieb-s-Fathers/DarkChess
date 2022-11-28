@@ -81,7 +81,7 @@ public class StartMenuFrame extends JFrame {
             if (path != null) {
                 try{
                     ArrayList<String[][]> gameData = loadGameFromFile(path);
-                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
+                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData);
                     mainFrame.setVisible(true);
                     this.dispose();
                 } catch (Exception ex) {
@@ -103,7 +103,7 @@ public class StartMenuFrame extends JFrame {
             System.out.println("click continue");
             try{
                 ArrayList<String[][]> gameData = loadGameFromFile(defaultOutFilePath);
-                ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
+                ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData);
                 mainFrame.setVisible(true);
                 this.dispose();
             } catch (Exception ex) {

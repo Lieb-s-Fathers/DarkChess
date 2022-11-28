@@ -1,6 +1,5 @@
 package controller;
 
-import chessComponent.SquareComponent;
 import io.Write;
 import view.Chessboard;
 
@@ -10,25 +9,35 @@ import static io.Write.defaultOutFilePath;
 
 public class WriteController {
     private final Chessboard chessboard;
-    Write out = new Write(defaultOutFilePath);
+//    Write out = new Write(defaultOutFilePath);
 
     public WriteController(Chessboard chessboard) {
         this.chessboard = chessboard;
     }
 
-    public void close(){
-        out.close();
-    }
+//    public void close(){
+////        out.close();
+//    }
 
     public void save() {
-        for (SquareComponent[] squareComponents : chessboard.getChessComponents()){
-            for (SquareComponent squareComponent : squareComponents){
-                out.printWriter.println(squareComponent.toString());
-                out.flush();
+//        for (SquareComponent[] squareComponents : chessboard.getChessComponents()){
+//            for (SquareComponent squareComponent : squareComponents){
+//                out.printWriter.println(squareComponent.toString());
+//                out.flush();
+//            }
+//        }
+//        out.printWriter.println();
+//        out.flush();
+        Write out = new Write(defaultOutFilePath);
+        ArrayList<String[][]> chessboardDatas = chessboard.getChessBoardDatas();
+        for (String[][] chessboardData : chessboardDatas) {
+            for (int j = 0; j < 32; j++) {
+                out.printWriter.println(chessboardData[j][0] + " " + chessboardData[j][1] + " " + chessboardData[j][2]);
             }
+            out.printWriter.println();
+            out.flush();
         }
-        out.printWriter.println();
-        out.flush();
+        out.close();
     }
 
     public void saveGame(String outFilePath){
