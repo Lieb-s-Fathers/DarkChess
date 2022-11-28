@@ -196,7 +196,7 @@ public class ChessGameFrame extends FatherFrame {
             System.out.println("AIFuckyou");
             AIFucker.play(AItype01, difficulty01);
         });
-        button01.setLocation(WIDTH * 3 / 5 - 45, HEIGHT / 10 + 520);
+        button01.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 520);
         button01.setSize(90, 40);
         button01.setFont(new Font("Rockwell", Font.BOLD, 10));
         add(button01);
@@ -207,7 +207,7 @@ public class ChessGameFrame extends FatherFrame {
             System.out.println("AIFuckyou");
             AIFucker.play(AItype02, difficulty02);
         });
-        button02.setLocation(WIDTH * 3 / 5 + 45, HEIGHT / 10 + 520);
+        button02.setLocation(WIDTH * 3 / 5 + 90, HEIGHT / 10 + 520);
         button02.setSize(90, 40);
         button02.setFont(new Font("Rockwell", Font.BOLD, 10));
         add(button02);

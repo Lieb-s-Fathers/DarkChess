@@ -14,6 +14,7 @@ public class GreedyAI extends AI {
     public GreedyAI(Chessboard chessboard, int difficulty) {
         this.difficulty = difficulty;
         this.chessboard = chessboard;
+        this.squareComponents=chessboard.getChessComponents();
     }
 
     public GreedyAI() {

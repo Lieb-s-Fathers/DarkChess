@@ -12,6 +12,7 @@ public class RandomAI extends AI {
 
     public RandomAI(Chessboard chessboard) {
         this.chessboard = chessboard;
+        this.squareComponents=chessboard.getChessComponents();
     }
 
     protected SquareComponent decideWhichToMove() {

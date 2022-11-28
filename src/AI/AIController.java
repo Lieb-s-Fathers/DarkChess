@@ -37,12 +37,13 @@ public class AIController extends JFrame {
             int[] xy = greedyAI.move();
             this.pressComponent(xy[2], xy[3]);
             this.pressComponent(xy[0], xy[1]);
-        } else if (AIType == 3) {
-            AlphaBetaAI alphaBetaAI=new AlphaBetaAI(chessboard);
-            int[] xy = alphaBetaAI.move();
-            this.pressComponent(xy[2], xy[3]);
-            this.pressComponent(xy[0], xy[1]);
         }
+//        } else if (AIType == 3) {
+//            AlphaBetaAI alphaBetaAI=new AlphaBetaAI(chessboard);
+//            int[] xy = alphaBetaAI.move();
+//            this.pressComponent(xy[2], xy[3]);
+//            this.pressComponent(xy[0], xy[1]);
+//        }
     }
 
 

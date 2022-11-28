@@ -5,7 +5,7 @@ import model.ChessColor;
 import view.Chessboard;
 
 public class AI {
-    static SquareComponent[][] squareComponents;
+    SquareComponent[][] squareComponents;
     Chessboard chessboard;
 
 
