@@ -42,7 +42,7 @@ public class AI {
         SquareComponent[][] squareComponents = chessboard.getChessComponents();
         for (int x = 0; x < 7; x++) {
             for (int y = 0; y < 4; y++) {
-                if (squareComponent.canMoveTo(squareComponents, squareComponents[x][y].getChessboardPoint())&&squareComponents[x][y].getChessColor()!=squareComponent.getChessColor()) {
+                if (squareComponent.canMoveTo(squareComponents, squareComponents[x][y].getChessboardPoint()) && squareComponents[x][y].getChessColor() != squareComponent.getChessColor()) {
                     canMovePoints[i][0] = x;
                     canMovePoints[i++][1] = y;
                 }

@@ -3,7 +3,6 @@ package view;
 import controller.ClickController;
 import controller.GameController;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -65,6 +64,7 @@ public class FatherFrame extends JFrame {
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
         add(chessboard);
     }
+
     protected void addChessboard(ArrayList<String[][]> gameData) {
         chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, gameData);
         gameController = new GameController(chessboard);

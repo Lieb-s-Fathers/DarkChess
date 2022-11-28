@@ -102,10 +102,10 @@ public class StartMenuFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("click continue");
 //            try {
-                ArrayList<String[][]> gameData = loadGameFromFile(defaultOutFilePath);
-                mainFrame = new ChessGameFrame(720, 720, gameData);
-                mainFrame.setVisible(true);
-                this.dispose();
+            ArrayList<String[][]> gameData = loadGameFromFile(defaultOutFilePath);
+            mainFrame = new ChessGameFrame(720, 720, gameData);
+            mainFrame.setVisible(true);
+            this.dispose();
 //            } catch (Exception ex) {
 //                JOptionPane.showMessageDialog(this, "存档已丢失，请重新开始游戏");
 //            }

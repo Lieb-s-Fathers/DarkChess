@@ -31,8 +31,8 @@ public class Winboard extends JFrame {
         addReplay();
     }
 
-    public void showWinboard(ArrayList<String[][]> gameData){
-        replayFrame = new ReplayFrame(720,720, gameData);
+    public void showWinboard(ArrayList<String[][]> gameData) {
+        replayFrame = new ReplayFrame(720, 720, gameData);
         replayFrame.setVisible(false);
         chessGameFrame.dispose();
         ChessGameFrame.winboard.setAlwaysOnTop(true);

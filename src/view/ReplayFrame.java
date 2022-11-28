@@ -72,8 +72,8 @@ public class ReplayFrame extends FatherFrame {
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
-    
-    private void showButton(){
+
+    private void showButton() {
         lastButton.setVisible(steps != 0);
         nextButton.setVisible(steps != gameData.size() - 1);
     }
