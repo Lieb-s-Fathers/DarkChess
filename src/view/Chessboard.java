@@ -21,6 +21,7 @@ import java.util.Random;
 public class Chessboard extends JComponent {
 
     public ChessColor AIColor;
+    private boolean canClick = true;
     private static final int ROW_SIZE = 8;
     private static final int COL_SIZE = 4;
     //all chessComponents in this chessboard are shared only one model controller
@@ -98,6 +99,15 @@ public class Chessboard extends JComponent {
         }
         return redScore;
     }
+
+    public boolean getCanClick(){
+        return canClick;
+    }
+
+    public void setCanClick(boolean canClick){
+        this.canClick = canClick;
+    }
+
 
     public int getBlackScore() {
         int blackScore = 0;
