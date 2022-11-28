@@ -67,25 +67,27 @@ public class GreedyAI extends AI {
 
         //随机翻开棋子
         int k = 0;
-        while (k++ < 10000) {
+        while (k++ < 1000) {
             row = random.nextInt(8);
             col = random.nextInt(4);
             thisComponent = squareComponents[row][col];
-            if (difficulty >= 8) {
-                if (!thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor()) {
-                    System.out.println("随机翻开棋子");
-                    return thisComponent;
-                }
-            } else {
-                if (random.nextInt(10) < difficulty) {
+            if (!(thisComponent instanceof EmptySlotComponent)) {
+                if (difficulty >= 8) {
                     if (!thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor()) {
                         System.out.println("随机翻开棋子");
                         return thisComponent;
                     }
                 } else {
-                    if (!thisComponent.isReversal()) {
-                        System.out.println("随机翻开棋子");
-                        return thisComponent;
+                    if (random.nextInt(10) < difficulty) {
+                        if (!thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor()) {
+                            System.out.println("随机翻开棋子");
+                            return thisComponent;
+                        }
+                    } else {
+                        if (!thisComponent.isReversal()) {
+                            System.out.println("随机翻开棋子");
+                            return thisComponent;
+                        }
                     }
                 }
             }
@@ -110,7 +112,6 @@ public class GreedyAI extends AI {
                         System.out.println("移动");
                         return thisComponent;
                     }
-
                 }
             }
         }
