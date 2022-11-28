@@ -1,11 +1,8 @@
 package view;
 
 
-import AI.AIController;
 import chessComponent.*;
 import controller.ClickController;
-import controller.GameController;
-import controller.WriteController;
 import model.ChessColor;
 import model.ChessboardPoint;
 
@@ -20,21 +17,20 @@ import java.util.Random;
  */
 public class Chessboard extends JComponent {
 
-    public ChessColor AIColor;
     private boolean canClick = true;
     private static final int ROW_SIZE = 8;
     private static final int COL_SIZE = 4;
     //all chessComponents in this chessboard are shared only one model controller
     public ClickController clickController = new ClickController(this);
-    public AIController aiFucker = new AIController(this);
-    private GameController gameController = new GameController(this);
-    private WriteController defaultWriteController = new WriteController(this);
+//    public AIController aiFucker = new AIController(this);
+//    private GameController gameController = new GameController(this);
+//    private WriteController defaultWriteController = new WriteController(this);
 
     private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
     public final int CHESS_SIZE;
     private ChessColor currentColor;
     private final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
-    private final int[][] componentlist = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
+    private final int[][] componentList = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
     private ArrayList<String[][]> chessBoardDatas = new ArrayList<>();
 
 
@@ -204,7 +200,7 @@ public class Chessboard extends JComponent {
             for (int j = 0; j < squareComponents[i].length; j++) {
                 int colorID = random.nextInt(2);
                 int temp = random.nextInt(7);
-                while (componentlist[colorID][temp] == 0) {
+                while (componentList[colorID][temp] == 0) {
                     temp = random.nextInt(7);
                     colorID = random.nextInt(2);
                 }
@@ -227,7 +223,7 @@ public class Chessboard extends JComponent {
                 } else {
                     squareComponent = new CannonChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
                 }
-                componentlist[colorID][temp]--;
+                componentList[colorID][temp]--;
                 squareComponent.setVisible(true);
                 putChessOnBoard(squareComponent);
             }

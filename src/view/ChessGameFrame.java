@@ -179,7 +179,7 @@ public class ChessGameFrame extends FatherFrame {
     }
 
     private void addAIButton() {
-        JButton button = new JButton("AIFuckyou");
+        JButton button = new JButton("AI");
         button.addActionListener((e) -> {
             System.out.println("AIFuckyou");
             AIFucker.play(AItype, difficulty);

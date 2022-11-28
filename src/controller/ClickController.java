@@ -33,7 +33,7 @@ public class ClickController {
 
     public void onClick(SquareComponent squareComponent) {
         //判断第一次点击
-        if (chessboard.getCanClick()){
+        if (chessboard.getCanClick()) {
             if (first == null) {
                 if (handleFirst(squareComponent)) {
                     squareComponent.setSelected(true);
@@ -109,13 +109,6 @@ public class ClickController {
 
                     first.setSelected(false);
                     first = null;
-//                AIPlay aiPlay=new AIPlay(chessboard);
-//                aiPlay.start();
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
                 }
             }
         }
@@ -139,18 +132,10 @@ public class ClickController {
             writeController.save();
             squareComponent.repaint();
             chessboard.clickController.swapPlayer();
-//            AIPlay aiPlay=new AIPlay(chessboard);
-//            aiPlay.start();
-//            try {
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
             return false;
         }
         return squareComponent.getChessColor() == chessboard.getCurrentColor();
     }
-
 
     //显示合法走位的功能
     private int[][] getCanMovePoints() {
@@ -187,7 +172,6 @@ public class ClickController {
         }
     }
 
-    //todo 添加定时功能
     public void swapPlayer() {
         chessboard.setCurrentColor(chessboard.getCurrentColor() == ChessColor.BLACK ? ChessColor.RED : ChessColor.BLACK);
         ChessGameFrame.getStatusLabel().setText(String.format("%s's TURN", chessboard.getCurrentColor().getName()));
