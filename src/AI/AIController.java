@@ -26,7 +26,8 @@ public class AIController extends JFrame {
     // 如果起始点没有被翻开, 那么 xy[0, 1] 为要翻开的棋子坐标, xy[2, 3] 为-1
     public void play() {
         RandomAI randomAI = new RandomAI();
-        int[] xy = randomAI.move(chessboard);
+        GreedyAI greedyAI = new GreedyAI();
+        int[] xy = greedyAI.move(chessboard);
         this.pressComponent(xy[2], xy[3]);
         this.pressComponent(xy[0], xy[1]);
     }
@@ -63,11 +64,10 @@ public class AIController extends JFrame {
         directionPoint.x = x;
         directionPoint.y = y;
         moveTo(directionPoint);
-        Thread.sleep(100);
+        Thread.sleep(50);
         press();
-        Thread.sleep(100);
+        Thread.sleep(50);
         moveTo(nowPoint);
-        Thread.sleep(100);
     }
 
     private Point findDirectionPoint(int row, int col) {
