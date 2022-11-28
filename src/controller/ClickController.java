@@ -112,13 +112,17 @@ public class ClickController {
                     first = null;
                 }
             }
-        }else{
+        }else if (chessboard.getIsCheating()) {
             JOptionPane.showMessageDialog(mainFrame, "请退出作弊模式后再点击！");
         }
     }
 
     public void setCanClick(boolean canClick) {
         chessboard.setCanClick(canClick);
+    }
+
+    public void setIsCheating(boolean isCheating) {
+        chessboard.setIsCheating(isCheating);
     }
 
     public void setIsReversal(boolean isReversal) {

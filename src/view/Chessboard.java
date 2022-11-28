@@ -18,6 +18,7 @@ import java.util.Random;
 public class Chessboard extends JComponent {
 
     private boolean canClick = true;
+    private boolean isCheating = false;
     private static final int ROW_SIZE = 8;
     private static final int COL_SIZE = 4;
     //all chessComponents in this chessboard are shared only one model controller
@@ -102,6 +103,13 @@ public class Chessboard extends JComponent {
 
     public void setCanClick(boolean canClick){
         this.canClick = canClick;
+    }
+    public boolean getIsCheating(){
+        return isCheating;
+    }
+
+    public void setIsCheating(boolean isCheating) {
+        this.isCheating = isCheating;
     }
 
 

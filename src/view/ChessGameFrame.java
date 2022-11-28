@@ -34,9 +34,9 @@ public class ChessGameFrame extends FatherFrame {
         winboard = new Winboard(600, 300, this);
 
         addChessboard();
-        AIFucker = new AIController(chessboard);
-        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
-        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
+//        AIFucker = new AIController(chessboard);
+//        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
+//        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
 
         addTurnLabel();
         addRedScoreLabel();
@@ -57,9 +57,9 @@ public class ChessGameFrame extends FatherFrame {
         winboard = new Winboard(600, 300, this);
 
         addChessboard(gameData);
-        AIFucker = new AIController(chessboard);
-        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
-        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
+//        AIFucker = new AIController(chessboard);
+//        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
+//        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
 
 
         addTurnLabel();
@@ -180,11 +180,7 @@ public class ChessGameFrame extends FatherFrame {
             String path = JOptionPane.showInputDialog(this, "Input Path here");
             if (path != null) {
                 try {
-//                    writeController.close();
                     ArrayList<String[][]> gameData = loadGameFromFile(path);
-//                    ChessGameFrame mainFrame = new ChessGameFrame(720, 720, gameData.get(gameData.size() - 1));
-//                    mainFrame.setVisible(true);
-//                    this.dispose();
                     gameController.reloadChessboardDatas(gameData);
                     if (gameData != null) {
                         gameController.reloadChessboard(gameData.get(gameData.size() - 1));
@@ -242,7 +238,6 @@ public class ChessGameFrame extends FatherFrame {
         aiPlay.setSize(90, 40);
         aiPlay.setFont(new Font("Rockwell", Font.BOLD, 10));
         add(aiPlay);
-
     }
 
     protected void addCheatButton() {
@@ -255,6 +250,7 @@ public class ChessGameFrame extends FatherFrame {
         button.addActionListener((e) -> {
             System.out.println("click cheat");
             clickController.setCanClick(false);
+            clickController.setIsCheating(true);
             clickController.setIsReversal(true);
             button.setVisible(false);
             addNotCheatButton();
@@ -273,6 +269,7 @@ public class ChessGameFrame extends FatherFrame {
         button.addActionListener((e) -> {
             System.out.println("click notcheat");
             clickController.setCanClick(true);
+            clickController.setIsCheating(false);
             ArrayList<String[][]> gameData = chessboard.getChessBoardDatas();
             remove(chessboard);
             remove(button);
