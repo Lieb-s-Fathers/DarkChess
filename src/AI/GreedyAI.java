@@ -11,8 +11,9 @@ import java.util.Random;
 public class GreedyAI extends AI {
     private int difficulty = 5;
 
-    public GreedyAI(int difficulty) {
+    public GreedyAI(Chessboard chessboard, int difficulty) {
         this.difficulty = difficulty;
+        this.chessboard = chessboard;
     }
 
     public GreedyAI() {
@@ -140,9 +141,7 @@ public class GreedyAI extends AI {
 
     }
 
-    public int[] move(Chessboard chessboard) {
-        this.chessboard = chessboard;
-        loadChessboard(chessboard);
+    public int[] move() {
         SquareComponent componentToMove = decideWhichToMove();
         while (componentToMove instanceof EmptySlotComponent) componentToMove = decideWhichToMove();
         if (componentToMove.isReversal()) {
