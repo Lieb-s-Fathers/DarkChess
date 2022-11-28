@@ -16,56 +16,102 @@ public class GreedyAI extends AI {
         boolean can = false;
         SquareComponent thisComponent = squareComponents[row][col];
 
-        //优先挑选出已经翻开的棋子
 
-        int k = 0;
-        while (k++ < 100000) {
-            row = random.nextInt(8);
-            col = random.nextInt(4);
-            thisComponent = squareComponents[row][col];
-            if (thisComponent instanceof EmptySlotComponent && !thisComponent.isReversal()) continue;
-            int[][] canMoveTopoints = getCanMovePoints(thisComponent);
-            for (int i = 0; i < 4; i++) {
-                if (canMoveTopoints[i][0] != -1 || canMoveTopoints[i][1] != -1) {
-                    can = true;
-                    break;
+        //操纵已翻开的棋子吃子
+        for (row = 0; row < 8; row++) {
+            for (col = 0; col < 4; col++) {
+                thisComponent = squareComponents[row][col];
+                if (thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor() &&
+                        !(thisComponent instanceof EmptySlotComponent)) {
+                    int[][] canMoveTopoints = getCanMovePoints(thisComponent);
+                    for (int i = 0; i < 4; i++) {
+                        if ((canMoveTopoints[i][0] != -1 || canMoveTopoints[i][1] != -1) &&
+                                !(squareComponents[canMoveTopoints[i][0]][canMoveTopoints[i][1]] instanceof EmptySlotComponent)) {
+                            can = true;
+                            break;
+                        }
+                    }
+                    if (can) {
+                        System.out.println("吃子");
+                        return thisComponent;
+                    }
                 }
             }
-            if (can) break;
         }
-        boolean temp = thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor() && !(thisComponent instanceof EmptySlotComponent) && can;
-        if (temp)
-            return thisComponent;
+
 
         //优先翻出炮
-        if (random.nextInt(2) == 0) {
+        if (random.nextInt(10) < 6) {
             for (row = 0; row < 8; row++) {
                 for (col = 0; col < 4; col++) {
                     thisComponent = squareComponents[row][col];
-                    if (!thisComponent.isReversal() && thisComponent.getStyle() == 6)
+                    if (!thisComponent.isReversal() && thisComponent.getStyle() == 6 &&
+                            thisComponent.getChessColor() == chessboard.getCurrentColor()) {
+                        System.out.println("翻出炮");
                         return thisComponent;
+                    }
                 }
             }
         }
-        row = random.nextInt(8);
-        col = random.nextInt(4);
-        thisComponent = squareComponents[row][col];
-        //否则任意挑选棋子
-        while (thisComponent.isReversal() && ((thisComponent instanceof EmptySlotComponent) || thisComponent.getChessColor() != chessboard.getCurrentColor() || !can)) {
+
+
+        //随机翻开棋子
+        int k = 0;
+        while (k++ < 10000) {
             row = random.nextInt(8);
             col = random.nextInt(4);
-            can = false;
             thisComponent = squareComponents[row][col];
-            if (thisComponent instanceof EmptySlotComponent) continue;
-            int[][] canMoveTopoints = getCanMovePoints(thisComponent);
-            for (int i = 0; i < 4; i++) {
-                if (canMoveTopoints[i][0] != -1 || canMoveTopoints[i][1] != -1) {
-                    can = true;
-                    break;
+            if (!thisComponent.isReversal() &&
+                    thisComponent.getChessColor() == chessboard.getCurrentColor()) {
+                System.out.println("随机翻开棋子");
+                return thisComponent;
+            }
+        }
+
+
+        //移动已经翻开的棋子
+        for (row = 0; row < 8; row++) {
+            for (col = 0; col < 4; col++) {
+                thisComponent = squareComponents[row][col];
+                if (thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor() &&
+                        !(thisComponent instanceof EmptySlotComponent)) {
+                    int[][] canMoveTopoints = getCanMovePoints(thisComponent);
+                    for (int i = 0; i < 4; i++) {
+                        if (canMoveTopoints[i][0] != -1 || canMoveTopoints[i][1] != -1) {
+                            can = true;
+                            break;
+                        }
+                    }
+                    if (can) {
+                        System.out.println("移动");
+                        return thisComponent;
+                    }
+
                 }
             }
         }
+
         return thisComponent;
+//        int k = 0;
+//        while (k++ < 100000) {
+//            row = random.nextInt(8);
+//            col = random.nextInt(4);
+//            thisComponent = squareComponents[row][col];
+//            if (thisComponent instanceof EmptySlotComponent && !thisComponent.isReversal()) continue;
+//            int[][] canMoveTopoints = getCanMovePoints(thisComponent);
+//            for (int i = 0; i < 4; i++) {
+//                if (canMoveTopoints[i][0] != -1 || canMoveTopoints[i][1] != -1) {
+//                    can = true;
+//                    break;
+//                }
+//            }
+//            if (can) break;
+//        }
+//        boolean temp = thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor() && !(thisComponent instanceof EmptySlotComponent) && can;
+//        if (temp)
+//            return thisComponent;
+
+
     }
 
     public int[] move(Chessboard chessboard) {
@@ -77,6 +123,12 @@ public class GreedyAI extends AI {
             int[][] canMoveTopoints = getCanMovePoints(componentToMove);
             if (componentToMove.isReversal()) {
                 System.out.println("fuck you");
+            }
+            for (int iTomove = 0; iTomove < 4; iTomove++) {
+                if ((canMoveTopoints[iTomove][0] != -1 || canMoveTopoints[iTomove][1] != -1) &&
+                        !(squareComponents[canMoveTopoints[iTomove][0]][canMoveTopoints[iTomove][1]] instanceof EmptySlotComponent)) {
+                    return canMoveTopoints[iTomove];
+                }
             }
             int count = 1;
             while (canMoveTopoints[count][0] != -1) count++;
