@@ -38,16 +38,24 @@ public class RandomAI extends AI {
         SquareComponent componentToMove = decideWhichToMove();
         while (componentToMove instanceof EmptySlotComponent)
             componentToMove = decideWhichToMove();
-        int[][] canMoveTopoints = getCanMovePoints(componentToMove);
         if (componentToMove.isReversal()) {
-            System.out.println("fuck you");
+            int[][] canMoveTopoints = getCanMovePoints(componentToMove);
+            if (componentToMove.isReversal()) {
+                System.out.println("fuck you");
+            }
+            int count = 1;
+            while (canMoveTopoints[count][0] != -1) count++;
+            Random random = new Random();
+            if (componentToMove instanceof EmptySlotComponent)
+                System.out.println("???????????????????");
+            int iTomove = random.nextInt(count);
+            return canMoveTopoints[iTomove];
+        } else {
+            int[] canMoveTopoints = new int[10];
+            canMoveTopoints[0] = componentToMove.getChessboardPoint().getX();
+            canMoveTopoints[1] = componentToMove.getChessboardPoint().getY();
+            canMoveTopoints[2] = canMoveTopoints[3] = -1;
+            return canMoveTopoints;
         }
-        int count = 1;
-        while (canMoveTopoints[count][0] != -1) count++;
-        Random random = new Random();
-        if (componentToMove instanceof EmptySlotComponent)
-            System.out.println("???????????????????");
-        int iTomove = random.nextInt(count);
-        return canMoveTopoints[iTomove];
     }
 }

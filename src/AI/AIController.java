@@ -1,6 +1,5 @@
 package AI;
 
-import chessComponent.EmptySlotComponent;
 import view.Chessboard;
 
 import javax.swing.*;
@@ -26,10 +25,6 @@ public class AIController extends JFrame {
     public void play() {
         RandomAI randomAI = new RandomAI();
         int[] xy = randomAI.move(chessboard);
-        if (xy[2] >= 0 && xy[3] >= 0) {
-            if (chessboard.getChessComponents()[xy[2]][xy[3]] instanceof EmptySlotComponent)
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
         this.pressComponent(xy[2], xy[3]);
         this.pressComponent(xy[0], xy[1]);
     }
@@ -66,16 +61,16 @@ public class AIController extends JFrame {
         directionPoint.x = x;
         directionPoint.y = y;
         moveTo(directionPoint);
-        Thread.sleep(200);
+        Thread.sleep(100);
         press();
-        Thread.sleep(200);
+        Thread.sleep(100);
         moveTo(nowPoint);
-        Thread.sleep(200);
+        Thread.sleep(100);
     }
 
     private Point findDirectionPoint(int row, int col) {
         Point chessPoint = chessboard.getChessComponents()[row][col].getLocationOnScreen();
-        return new Point(chessPoint.x + chessboard.CHESS_SIZE/2, chessPoint.y + chessboard.CHESS_SIZE/2);
+        return new Point(chessPoint.x + chessboard.CHESS_SIZE / 2, chessPoint.y + chessboard.CHESS_SIZE / 2);
     }
 
 }
