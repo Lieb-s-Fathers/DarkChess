@@ -30,7 +30,8 @@ public class GreedyAI extends AI {
         for (row = 0; row < 8; row++) {
             for (col = 0; col < 4; col++) {
                 thisComponent = squareComponents[row][col];
-                if (thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor() &&
+                if (thisComponent.isReversal() &&
+                        thisComponent.getChessColor() == chessboard.getCurrentColor() &&
                         !(thisComponent instanceof EmptySlotComponent)) {
                     int[][] canMoveTopoints = getCanMovePoints(thisComponent);
                     for (int i = 0; i < 4; i++) {
@@ -70,10 +71,23 @@ public class GreedyAI extends AI {
             row = random.nextInt(8);
             col = random.nextInt(4);
             thisComponent = squareComponents[row][col];
-            if (!thisComponent.isReversal() &&
-                    thisComponent.getChessColor() == chessboard.getCurrentColor()) {
-                System.out.println("随机翻开棋子");
-                return thisComponent;
+            if (difficulty >= 8) {
+                if (!thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor()) {
+                    System.out.println("随机翻开棋子");
+                    return thisComponent;
+                }
+            } else {
+                if (random.nextInt(10) < difficulty) {
+                    if (!thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor()) {
+                        System.out.println("随机翻开棋子");
+                        return thisComponent;
+                    }
+                } else {
+                    if (!thisComponent.isReversal()) {
+                        System.out.println("随机翻开棋子");
+                        return thisComponent;
+                    }
+                }
             }
         }
 
@@ -82,7 +96,8 @@ public class GreedyAI extends AI {
         for (row = 0; row < 8; row++) {
             for (col = 0; col < 4; col++) {
                 thisComponent = squareComponents[row][col];
-                if (thisComponent.isReversal() && thisComponent.getChessColor() == chessboard.getCurrentColor() &&
+                if (thisComponent.isReversal() &&
+                        thisComponent.getChessColor() == chessboard.getCurrentColor() &&
                         !(thisComponent instanceof EmptySlotComponent)) {
                     int[][] canMoveTopoints = getCanMovePoints(thisComponent);
                     for (int i = 0; i < 4; i++) {
@@ -106,7 +121,8 @@ public class GreedyAI extends AI {
 //            row = random.nextInt(8);
 //            col = random.nextInt(4);
 //            thisComponent = squareComponents[row][col];
-//            if (thisComponent instanceof EmptySlotComponent && !thisComponent.isReversal()) continue;
+//            if (thisComponent instanceof EmptySlotComponent &&
+//            !thisComponent.isReversal()) continue;
 //            int[][] canMoveTopoints = getCanMovePoints(thisComponent);
 //            for (int i = 0; i < 4; i++) {
 //                if (canMoveTopoints[i][0] != -1 || canMoveTopoints[i][1] != -1) {
