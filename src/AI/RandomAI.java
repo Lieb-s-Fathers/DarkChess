@@ -42,15 +42,9 @@ public class RandomAI extends AI {
         if (componentToMove.isReversal()) {
             System.out.println("fuck you");
         }
-        int count = 0;
+        int count = 1;
         while (canMoveTopoints[count][0] != -1) count++;
         Random random = new Random();
-        if (componentToMove.isReversal()) {
-            for (int i = 0; i < 4; i++) {
-                canMoveTopoints[i][2] = componentToMove.getChessboardPoint().getX();
-                canMoveTopoints[i][3] = componentToMove.getChessboardPoint().getY();
-            }
-        }
         if (componentToMove instanceof EmptySlotComponent)
             System.out.println("???????????????????");
         int iTomove = random.nextInt(count);

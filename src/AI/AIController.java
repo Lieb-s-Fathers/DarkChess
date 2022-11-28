@@ -66,11 +66,11 @@ public class AIController extends JFrame {
         directionPoint.x = x;
         directionPoint.y = y;
         moveTo(directionPoint);
-//        Thread.sleep(200);
+        Thread.sleep(200);
         press();
-//        Thread.sleep(200);
+        Thread.sleep(200);
         moveTo(nowPoint);
-//        Thread.sleep(200);
+        Thread.sleep(200);
     }
 
     private Point findDirectionPoint(int row, int col) {
