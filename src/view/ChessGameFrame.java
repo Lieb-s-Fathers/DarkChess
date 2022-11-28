@@ -27,7 +27,7 @@ public class ChessGameFrame extends FatherFrame {
     public AIController AIFucker;
     private WriteController defaultWriteController;
     private WriteController writeController;
-    private int AItype, difficulty;
+    private int AItype01, AItype02, difficulty01, difficulty02;
 
     public ChessGameFrame(int WIDTH, int HEIGHT) {
         super(WIDTH, HEIGHT);
@@ -81,8 +81,14 @@ public class ChessGameFrame extends FatherFrame {
         writeController = new WriteController(chessboard);
         AIFucker = new AIController(chessboard);
         defaultWriteController.save();
-        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
-        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
+
+        //ai类型和难度初始化
+        String[] types=JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
+        String[] difficultys=JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",")
+        AItype01 = Integer.parseInt(types[0]);
+        AItype02 = Integer.parseInt(types[1]);
+        difficulty01 = Integer.parseInt(difficultys[0]);
+        difficulty02 = Integer.parseInt(difficultys[1]);
     }
 
     @Override
@@ -94,8 +100,14 @@ public class ChessGameFrame extends FatherFrame {
         defaultWriteController.save();
         clickController.calculateScore(this);
         clickController.winJudge();
-        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
-        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
+
+        //ai类型和难度初始化
+        String[] types=JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
+        String[] difficultys=JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",")
+        AItype01 = Integer.parseInt(types[0]);
+        AItype02 = Integer.parseInt(types[1]);
+        difficulty01 = Integer.parseInt(difficultys[0]);
+        difficulty02 = Integer.parseInt(difficultys[1]);
     }
 
     private void addCountLabel() {
@@ -179,15 +191,25 @@ public class ChessGameFrame extends FatherFrame {
     }
 
     private void addAIButton() {
-        JButton button = new JButton("AI");
-        button.addActionListener((e) -> {
+        JButton button01 = new JButton("AI01");
+        button01.addActionListener((e) -> {
             System.out.println("AIFuckyou");
-            AIFucker.play(AItype, difficulty);
-
+            AIFucker.play(AItype01, difficulty01);
         });
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 520);
-        button.setSize(180, 40);
-        button.setFont(new Font("Rockwell", Font.BOLD, 10));
-        add(button);
+        button01.setLocation(WIDTH * 3 / 5 - 45, HEIGHT / 10 + 520);
+        button01.setSize(90, 40);
+        button01.setFont(new Font("Rockwell", Font.BOLD, 10));
+        add(button01);
+
+
+        JButton button02 = new JButton("AI02");
+        button02.addActionListener((e) -> {
+            System.out.println("AIFuckyou");
+            AIFucker.play(AItype02, difficulty02);
+        });
+        button02.setLocation(WIDTH * 3 / 5 + 45, HEIGHT / 10 + 520);
+        button02.setSize(90, 40);
+        button02.setFont(new Font("Rockwell", Font.BOLD, 10));
+        add(button02);
     }
 }
