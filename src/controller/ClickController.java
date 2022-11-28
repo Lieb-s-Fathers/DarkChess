@@ -12,6 +12,7 @@ import view.Chessboard;
 import view.FatherFrame;
 import view.Winboard;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 import static view.StartMenuFrame.mainFrame;
@@ -111,11 +112,22 @@ public class ClickController {
                     first = null;
                 }
             }
+        }else{
+            JOptionPane.showMessageDialog(mainFrame, "请退出作弊模式后再点击！");
         }
     }
 
     public void setCanClick(boolean canClick) {
         chessboard.setCanClick(canClick);
+    }
+
+    public void setIsReversal(boolean isReversal) {
+        for (SquareComponent[] chessComponents : chessboard.getChessComponents()){
+            for (SquareComponent chesssComponent : chessComponents){
+                chesssComponent.setReversal(true);
+                chesssComponent.repaint();
+            }
+        }
     }
 
 

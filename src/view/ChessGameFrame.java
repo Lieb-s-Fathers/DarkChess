@@ -34,12 +34,16 @@ public class ChessGameFrame extends FatherFrame {
         winboard = new Winboard(600, 300, this);
 
         addChessboard();
+        AIFucker = new AIController(chessboard);
+        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
+        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
 
         addTurnLabel();
         addRedScoreLabel();
         addBlackScoreLabel();
         addMessageLabel();
         addBackButton();
+        addCheatButton();
 
         addCountLabel();
         addWithdrawButton();
@@ -53,12 +57,18 @@ public class ChessGameFrame extends FatherFrame {
         winboard = new Winboard(600, 300, this);
 
         addChessboard(gameData);
+        AIFucker = new AIController(chessboard);
+        AItype = Integer.parseInt(JOptionPane.showInputDialog(this, "Input AIType here"));
+        difficulty = Integer.parseInt(JOptionPane.showInputDialog(this, "Input difficulty here"));
+
 
         addTurnLabel();
         addRedScoreLabel();
         addBlackScoreLabel();
         addMessageLabel();
         addBackButton();
+
+        addCheatButton();
 
         addCountLabel();
         addWithdrawButton();
@@ -96,7 +106,6 @@ public class ChessGameFrame extends FatherFrame {
         super.addChessboard(gameData);
         defaultWriteController = new WriteController(chessboard);
         writeController = new WriteController(chessboard);
-        AIFucker = new AIController(chessboard);
         defaultWriteController.save();
         clickController.calculateScore(this);
         clickController.winJudge();
@@ -161,7 +170,7 @@ public class ChessGameFrame extends FatherFrame {
     private void addLoadButton() {
         JButton button = new JButton("Load");
         button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 360);
-        button.setSize(180, 40);
+        button.setSize(180, 20);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
 
@@ -234,5 +243,42 @@ public class ChessGameFrame extends FatherFrame {
         aiPlay.setFont(new Font("Rockwell", Font.BOLD, 10));
         add(aiPlay);
 
+    }
+
+    protected void addCheatButton() {
+        JButton button = new JButton("Cheat");
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 420);
+        button.setSize(180, 20);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+
+        button.addActionListener((e) -> {
+            System.out.println("click cheat");
+            clickController.setCanClick(false);
+            clickController.setIsReversal(true);
+            button.setVisible(false);
+            addNotCheatButton();
+            remove(button);
+        });
+    }
+
+    protected void addNotCheatButton(){
+        JButton button = new JButton("NotCheat");
+        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 420);
+        button.setSize(180, 20);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.setVisible(true);
+        add(button);
+
+        button.addActionListener((e) -> {
+            System.out.println("click notcheat");
+            clickController.setCanClick(true);
+            ArrayList<String[][]> gameData = chessboard.getChessBoardDatas();
+            remove(chessboard);
+            remove(button);
+            this.repaint();
+            addCheatButton();
+            addChessboard(gameData);
+        });
     }
 }
