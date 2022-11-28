@@ -84,7 +84,7 @@ public class ChessGameFrame extends FatherFrame {
 
         //ai类型和难度初始化
         String[] types=JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
-        String[] difficultys=JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",")
+        String[] difficultys=JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",");
         AItype01 = Integer.parseInt(types[0]);
         AItype02 = Integer.parseInt(types[1]);
         difficulty01 = Integer.parseInt(difficultys[0]);
@@ -103,7 +103,7 @@ public class ChessGameFrame extends FatherFrame {
 
         //ai类型和难度初始化
         String[] types=JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
-        String[] difficultys=JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",")
+        String[] difficultys=JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",");
         AItype01 = Integer.parseInt(types[0]);
         AItype02 = Integer.parseInt(types[1]);
         difficulty01 = Integer.parseInt(difficultys[0]);
