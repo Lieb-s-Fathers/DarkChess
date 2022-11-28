@@ -28,13 +28,18 @@ public class AIController extends JFrame {
     // difficulty: 使用的AI难度 [1, 10]
     public void play(int AIType, int difficulty) {
         if (AIType == 1) {
-            RandomAI randomAI = new RandomAI();
-            int[] xy = randomAI.move(chessboard);
+            RandomAI randomAI = new RandomAI(chessboard);
+            int[] xy = randomAI.move();
             this.pressComponent(xy[2], xy[3]);
             this.pressComponent(xy[0], xy[1]);
-        } else if (AIType==2) {
-            GreedyAI greedyAI = new GreedyAI(difficulty);
-            int[] xy = greedyAI.move(chessboard);
+        } else if (AIType == 2) {
+            GreedyAI greedyAI = new GreedyAI(chessboard, difficulty);
+            int[] xy = greedyAI.move();
+            this.pressComponent(xy[2], xy[3]);
+            this.pressComponent(xy[0], xy[1]);
+        } else if (AIType == 3) {
+            AlphaBetaAI alphaBetaAI=new AlphaBetaAI(chessboard);
+            int[] xy = alphaBetaAI.move();
             this.pressComponent(xy[2], xy[3]);
             this.pressComponent(xy[0], xy[1]);
         }
