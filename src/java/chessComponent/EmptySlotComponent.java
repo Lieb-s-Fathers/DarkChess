@@ -10,7 +10,6 @@ import java.awt.*;
  * 这个类表示棋盘上的空棋子的格子
  */
 public class EmptySlotComponent extends SquareComponent {
-
     public EmptySlotComponent(ChessboardPoint chessboardPoint, Point location, ClickController listener, int size) {
         super(chessboardPoint, location, ChessColor.NONE, listener, size, 7);
     }
@@ -31,5 +30,4 @@ public class EmptySlotComponent extends SquareComponent {
             g2.drawOval(spacingLength, spacingLength, getWidth() - 2 * spacingLength, getHeight() - 2 * spacingLength);
         }
     }
-
 }

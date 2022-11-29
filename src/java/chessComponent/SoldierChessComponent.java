@@ -10,7 +10,6 @@ import java.awt.*;
  * 表示黑红卒
  */
 public class SoldierChessComponent extends ChessComponent {
-
     public SoldierChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         super(chessboardPoint, location, chessColor, clickController, size, 5);
         if (this.getChessColor() == ChessColor.RED) {
@@ -19,5 +18,4 @@ public class SoldierChessComponent extends ChessComponent {
             name = "卒";
         }
     }
-
 }

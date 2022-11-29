@@ -37,7 +37,7 @@ public class Winboard extends JFrame {
         replayFrame = new ReplayFrame(720, 720, gameData);
         replayFrame.setVisible(false);
         chessGameFrame.dispose();
-        ChessGameFrame.winboard.setVisible(true);
+        ChessGameFrame.getWinboard().setVisible(true);
     }
 
     private void addRestart() {

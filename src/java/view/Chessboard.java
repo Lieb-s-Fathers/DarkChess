@@ -17,7 +17,6 @@ import java.util.Random;
  * SquareComponent[][]: 4*8个方块格子组件
  */
 public class Chessboard extends JComponent {
-
     private boolean canClick = true;
     private boolean isCheating = false;
     private static final int ROW_SIZE = 8;
@@ -36,7 +35,7 @@ public class Chessboard extends JComponent {
 
 
     public Chessboard(int width, int height) {
-        if (!(this instanceof EatenChesses)){
+        if (!(this instanceof EatenChesses)) {
             setLayout(null); // Use absolute layout.
             currentColor = ChessColor.RED;
             setSize(width + 2, height);
@@ -92,14 +91,15 @@ public class Chessboard extends JComponent {
         System.out.println();
     }
 
-    public boolean getCanClick(){
+    public boolean getCanClick() {
         return canClick;
     }
 
-    public void setCanClick(boolean canClick){
+    public void setCanClick(boolean canClick) {
         this.canClick = canClick;
     }
-    public boolean getIsCheating(){
+
+    public boolean getIsCheating() {
         return isCheating;
     }
 

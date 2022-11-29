@@ -101,7 +101,7 @@ public class EatenChesses extends Chessboard {
             putChessOnBoard(squareComponent);
 
 
-            squareComponent = new DoubleEaten(new ChessboardPoint(i, 1), calculatePoint(i, 1), color, clickController, CHESS_SIZE,2);
+            squareComponent = new DoubleEatenComponent(new ChessboardPoint(i, 1), calculatePoint(i, 1), color, clickController, CHESS_SIZE,2);
             squareComponent.setCHESS_FONT(new Font("宋体", Font.BOLD, 18));
             squareComponent.setReversal(true);
             squareComponent.setSquareColor(Color.WHITE);

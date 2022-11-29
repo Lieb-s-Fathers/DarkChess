@@ -7,7 +7,6 @@ import model.ChessboardPoint;
 import java.awt.*;
 
 public class MinisterChessComponent extends ChessComponent {
-
     public MinisterChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         super(chessboardPoint, location, chessColor, clickController, size, 2);
         if (this.getChessColor() == ChessColor.RED) {
@@ -16,5 +15,4 @@ public class MinisterChessComponent extends ChessComponent {
             name = "象";
         }
     }
-
 }

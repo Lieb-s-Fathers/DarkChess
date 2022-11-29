@@ -20,8 +20,8 @@ public class ReadController {
             System.out.println(Arrays.toString(types));
             System.out.println(Arrays.toString(difficultys));
 
-            ChessGameFrame.AItype01 = Integer.parseInt(types[0]);
-            ChessGameFrame.AItype02 = Integer.parseInt(types[1]);
+            ChessGameFrame.AIType01 = Integer.parseInt(types[0]);
+            ChessGameFrame.AIType02 = Integer.parseInt(types[1]);
             ChessGameFrame.difficulty01 = Integer.parseInt(difficultys[0]);
             ChessGameFrame.difficulty02 = Integer.parseInt(difficultys[1]);
             in.nextLine();

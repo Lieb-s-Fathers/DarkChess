@@ -3,7 +3,6 @@ package io;
 import controller.ClickController;
 import controller.GameController;
 import controller.WriteController;
-import model.ChessColor;
 import view.Chessboard;
 
 import javax.swing.*;
@@ -12,19 +11,15 @@ import static view.StartMenuFrame.mainFrame;
 
 public class CountDown extends Thread {
     private static final int roundTime = 10;
-
     private static int time = roundTime;
-    private static ChessColor color;
 
     private Chessboard chessboard;
-    private GameController gameController;
     private ClickController clickController;
     private WriteController defaultWriteController;
 
 
-    public CountDown(Chessboard chessboard){
+    public CountDown(Chessboard chessboard) {
         this.chessboard = chessboard;
-        gameController = new GameController(chessboard);
         clickController = new ClickController(chessboard);
         defaultWriteController = new WriteController(chessboard);
     }
@@ -35,15 +30,15 @@ public class CountDown extends Thread {
 
     private boolean pause = false;
 
-    public boolean getPause(){
+    public boolean getPause() {
         return pause;
     }
 
-    public int getTime(){
+    public int getTime() {
         return time;
     }
 
-    public void minusTime(){
+    public void minusTime() {
         time--;
     }
 
@@ -69,18 +64,18 @@ public class CountDown extends Thread {
     }
 
     @Override
-    public void run(){
+    public void run() {
         super.run();
-        while (true){
-            if (getPause()){
-               onPause();
+        while (true) {
+            if (getPause()) {
+                onPause();
             }
             countLabel.setText(String.valueOf(getTime()));
             resumeThread();
             minusTime();
             try {
                 Thread.sleep(1000);
-                if ( getTime() == 0) {
+                if (getTime() == 0) {
                     //todo: 倒计时结束4
                     clickController.swapPlayer();
                     chessboard.addChessBoardData();
@@ -94,11 +89,11 @@ public class CountDown extends Thread {
         }
     }
 
-    public void restart(){
+    public void restart() {
         time = roundTime;
     }
 
-    public void close(){
+    public void close() {
         restart();
         resumeThread();
     }
