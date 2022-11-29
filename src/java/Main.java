@@ -12,8 +12,8 @@ public class Main {
             SoundPlayer audioPlayer = new SoundPlayer("src/resources/music/");
             StartMenuFrame Homepage = new StartMenuFrame(800, 800, true);
             Homepage.setVisible(true);
-            audioPlayer.playMusic("小旭音乐 - 斗地主-大厅1.wav");
-            //audioPlayer.playMusic("小八斗 - 欢乐斗地主 (原版一).wav");
+//            audioPlayer.playMusic("小旭音乐 - 斗地主-大厅1.wav");
+//            audioPlayer.playMusic("小八斗 - 欢乐斗地主 (原版一).wav");
         });
     }
 }

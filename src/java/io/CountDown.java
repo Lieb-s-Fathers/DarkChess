@@ -72,24 +72,15 @@ public class CountDown extends Thread {
             if (getPause()){
                onPause();
             }
+            countLabel.setText(String.valueOf(getTime()));
             resumeThread();
             minusTime();
-            countLabel.setText(String.valueOf(getTime()));
             try {
                 Thread.sleep(1000);
                 if ( getTime() == 0) {
                     //todo: 倒计时结束
                     clickController.swapPlayer();
                     messageLabel.setText("Time Out! Change Player");
-
-
-//                    Step oneStep=new Step(chessboard.getCurrentColor(), chessboard.getChessComponents());
-//                    oneStep.setCastling(chessboard);
-//                    StepSaver.stepList.add(oneStep);
-//                    chessboard.removeSelect();
-//                    chessboard.removeAttacked();
-//                    chessboard.swapColor();
-//                    restart();
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

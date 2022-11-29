@@ -17,6 +17,10 @@ public class ChessComponent extends SquareComponent {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size, int style) {
         super(chessboardPoint, location, chessColor, clickController, size, style);
     }
@@ -24,17 +28,20 @@ public class ChessComponent extends SquareComponent {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //绘制棋子填充色
-        g.setColor(Color.ORANGE);
-        g.fillOval(spacingLength, spacingLength, this.getWidth() - 2 * spacingLength, this.getHeight() - 2 * spacingLength);
-        //绘制棋子边框
-        g.setColor(Color.DARK_GRAY);
-        g.drawOval(spacingLength, spacingLength, getWidth() - 2 * spacingLength, getHeight() - 2 * spacingLength);
+
+        if (!(this instanceof DoubleEaten)){
+            //绘制棋子填充色
+            g.setColor(Color.ORANGE);
+            g.fillOval(spacingLength, spacingLength, this.getWidth() - 2 * spacingLength, this.getHeight() - 2 * spacingLength);
+            //绘制棋子边框
+            g.setColor(Color.DARK_GRAY);
+            g.drawOval(spacingLength, spacingLength, this.getWidth() - 2 * spacingLength, getHeight() - 2 * spacingLength);
+        }
 
         if (isReversal) {
             //绘制棋子文字
             g.setColor(this.getChessColor().getColor());
-            g.setFont(CHESS_FONT);
+            g.setFont(getCHESS_FONT());
             g.drawString(this.name, this.getWidth() / 4, this.getHeight() * 2 / 3);
 
             //绘制棋子被选中时状态
@@ -52,7 +59,5 @@ public class ChessComponent extends SquareComponent {
             g2.setStroke(new BasicStroke(4f));
             g2.drawOval(spacingLength, spacingLength, getWidth() - 2 * spacingLength, getHeight() - 2 * spacingLength);
         }
-
-
     }
 }

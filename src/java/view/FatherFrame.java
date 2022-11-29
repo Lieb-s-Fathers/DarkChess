@@ -2,6 +2,7 @@ package view;
 
 import controller.ClickController;
 import controller.GameController;
+import model.ChessColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,12 +19,18 @@ public class FatherFrame extends JFrame {
     private static JLabel redScoreLabel;
     private static JLabel blackScoreLabel;
     private static JLabel messageLabel;
+    protected static JButton cheatButton;
+    protected static JButton notCheatButton;
+
+    protected EatenChesses eatenBlackChesses;
+    protected EatenChesses eatenRedChesses;
     public final int CHESSBOARD_SIZE;
     protected final int WIDTH;
     protected final int HEIGHT;
     protected Chessboard chessboard;
     protected GameController gameController;
     protected ClickController clickController;
+    protected ClickController noClickController;
 
     public FatherFrame(int WIDTH, int HEIGHT) {
         setTitle("2022 CS109 Project Demo"); //设置标题
@@ -55,6 +62,14 @@ public class FatherFrame extends JFrame {
         return messageLabel;
     }
 
+    public EatenChesses getEatenRedChesses(){
+        return eatenRedChesses;
+    }
+
+    public EatenChesses getEatenBlackChesses(){
+        return eatenBlackChesses;
+    }
+
     /**
      * 在游戏窗体中添加棋盘
      */
@@ -62,6 +77,7 @@ public class FatherFrame extends JFrame {
         chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE);
         gameController = new GameController(chessboard);
         clickController = new ClickController(chessboard);
+        noClickController = new ClickController(eatenBlackChesses);
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
         add(chessboard);
     }
@@ -74,12 +90,21 @@ public class FatherFrame extends JFrame {
         add(chessboard);
     }
 
+    protected void addEatenChesses() {
+        eatenBlackChesses = new EatenChesses(CHESSBOARD_SIZE / 8, CHESSBOARD_SIZE / 16 * 7, chessboard, ChessColor.BLACK);
+        eatenRedChesses = new EatenChesses(CHESSBOARD_SIZE / 8, CHESSBOARD_SIZE / 16 * 7, chessboard, ChessColor.RED);
+        eatenBlackChesses.setLocation(HEIGHT / 10 - 6 - chessboard.CHESS_SIZE, HEIGHT / 10 + chessboard.CHESS_SIZE);
+        eatenRedChesses.setLocation(HEIGHT / 10 + 8 + chessboard.CHESS_SIZE * 4, HEIGHT / 10 + chessboard.CHESS_SIZE);
+        add(eatenBlackChesses);
+        add(eatenRedChesses);
+    }
+
     /**
      * 在游戏窗体中添加标签
      */
     protected void addTurnLabel() {
         statusLabel = new JLabel(gameController.getCurrentColor() + "'s TURN");
-        statusLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10);
+        statusLabel.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10);
         statusLabel.setSize(200, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
@@ -87,7 +112,7 @@ public class FatherFrame extends JFrame {
 
     protected void addRedScoreLabel() {
         redScoreLabel = new JLabel("Red Score:     0");
-        redScoreLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 50);
+        redScoreLabel.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 50);
         redScoreLabel.setSize(200, 60);
         redScoreLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(redScoreLabel);
@@ -95,7 +120,7 @@ public class FatherFrame extends JFrame {
 
     protected void addBlackScoreLabel() {
         blackScoreLabel = new JLabel("Black Score:   0");
-        blackScoreLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 100);
+        blackScoreLabel.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 100);
         blackScoreLabel.setSize(200, 60);
         blackScoreLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(blackScoreLabel);
@@ -103,7 +128,7 @@ public class FatherFrame extends JFrame {
 
     protected void addMessageLabel() {
         messageLabel = new JLabel("");
-        messageLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 150);
+        messageLabel.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 150);
         messageLabel.setSize(200, 60);
         messageLabel.setFont(new Font("黑体", Font.BOLD, 20));
         messageLabel.setForeground(Color.RED);
@@ -117,54 +142,55 @@ public class FatherFrame extends JFrame {
     private void addHelloButton() {
         JButton button = new JButton("Show Hello Here");
         button.addActionListener((e) -> JOptionPane.showMessageDialog(this, "Hello, world!"));
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 120);
+        button.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 120);
         button.setSize(180, 40);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
 
     protected void addCheatButton() {
-        JButton button = new JButton("Cheat");
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 420);
-        button.setSize(180, 20);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
+        cheatButton = new JButton("Cheat");
+        cheatButton.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 420);
+        cheatButton.setSize(180, 20);
+        cheatButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(cheatButton);
 
-        button.addActionListener((e) -> {
+        cheatButton.addActionListener((e) -> {
             System.out.println("click cheat");
             clickController.setCanClick(false);
             if (this instanceof ChessGameFrame){
                 clickController.setIsCheating(true);
             }
             clickController.setIsReversal(true);
-            button.setVisible(false);
+            cheatButton.setVisible(false);
+            remove(cheatButton);
             addNotCheatButton();
         });
     }
 
     protected void addNotCheatButton(){
-        JButton button = new JButton("NotCheat");
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 420);
-        button.setSize(180, 20);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        button.setVisible(true);
-        add(button);
+        notCheatButton = new JButton("NotCheat");
+        notCheatButton.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 420);
+        notCheatButton.setSize(180, 20);
+        notCheatButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        notCheatButton.setVisible(true);
+        add(notCheatButton);
 
-        button.addActionListener((e) -> {
+        notCheatButton.addActionListener((e) -> {
             System.out.println("click notcheat");
             clickController.setCanClick(true);
             clickController.setIsCheating(false);
             ArrayList<String[][]> gameData = chessboard.getChessBoardDatas();
             gameController.reloadChessboard(gameData.get(gameData.size()-1));
-            button.setVisible(false);
+            notCheatButton.setVisible(false);
+            remove(notCheatButton);
             addCheatButton();
-            remove(button);
         });
     }
 
     protected void addBackButton() {
         JButton button = new JButton("Back");
-        button.setLocation(WIDTH * 3 / 5, HEIGHT / 10 + 470);
+        button.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 470);
         button.setSize(180, 20);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);

@@ -97,7 +97,6 @@ public class ClickController {
                     //repaint in swap chess method.
                     chessboard.swapChessComponents(first, squareComponent);
                     swapPlayer();
-                    //todo 添加定时功能
                     if (squareComponent instanceof EmptySlotComponent) {
                         printMessage(first.getChessColor().getName(), first.getName());
                     } else {
@@ -113,7 +112,7 @@ public class ClickController {
                     first = null;
                 }
             }
-        }else if (chessboard.getIsCheating()) {
+        } else if (chessboard.getIsCheating()) {
             JOptionPane.showMessageDialog(mainFrame, "请退出作弊模式后再点击！");
         }
     }
@@ -127,8 +126,8 @@ public class ClickController {
     }
 
     public void setIsReversal(boolean isReversal) {
-        for (SquareComponent[] chessComponents : chessboard.getChessComponents()){
-            for (SquareComponent chesssComponent : chessComponents){
+        for (SquareComponent[] chessComponents : chessboard.getChessComponents()) {
+            for (SquareComponent chesssComponent : chessComponents) {
                 chesssComponent.setReversal(true);
                 chesssComponent.repaint();
             }
@@ -199,6 +198,53 @@ public class ClickController {
     public void calculateScore(FatherFrame thisFrame) {
         thisFrame.getRedScoreLabel().setText("Red Score:     " + chessboard.getRedScore());
         thisFrame.getBlackScoreLabel().setText("Black Score:   " + chessboard.getBlackScore());
+
+        int[][] killedComponents = chessboard.getkilledComponents();
+
+        for (int i = 0; i < 7; i++) {
+            if (killedComponents[0][i] != 0) {
+                SquareComponent chessComponent = thisFrame.getEatenBlackChesses().getChessComponents()[i][0];
+                chessComponent.setVisible(true);
+                chessComponent.repaint();
+            } else {
+                SquareComponent chessComponent = thisFrame.getEatenBlackChesses().getChessComponents()[i][0];
+                chessComponent.setVisible(false);
+                chessComponent.repaint();
+            }
+
+            if (killedComponents[0][i] >= 2) {
+                SquareComponent chessComponent = thisFrame.getEatenBlackChesses().getChessComponents()[i][1];
+                chessComponent.setVisible(true);
+                chessComponent.setName("x" + killedComponents[0][i]);
+                chessComponent.repaint();
+            } else {
+                SquareComponent chessComponent = thisFrame.getEatenBlackChesses().getChessComponents()[i][1];
+                chessComponent.setVisible(false);
+                chessComponent.repaint();
+            }
+
+
+            if (killedComponents[1][i] != 0) {
+                SquareComponent chessComponent = thisFrame.getEatenRedChesses().getChessComponents()[i][0];
+                chessComponent.setVisible(true);
+                chessComponent.repaint();
+            } else {
+                SquareComponent chessComponent = thisFrame.getEatenRedChesses().getChessComponents()[i][0];
+                chessComponent.setVisible(false);
+                chessComponent.repaint();
+            }
+
+            if (killedComponents[1][i] >= 2) {
+                SquareComponent chessComponent = thisFrame.getEatenRedChesses().getChessComponents()[i][1];
+                chessComponent.setVisible(true);
+                chessComponent.setName("x" + killedComponents[1][i]);
+                chessComponent.repaint();
+            } else {
+                SquareComponent chessComponent = thisFrame.getEatenRedChesses().getChessComponents()[i][1];
+                chessComponent.setVisible(false);
+                chessComponent.repaint();
+            }
+        }
     }
 
     private void printMessage(String color1, String component1) {

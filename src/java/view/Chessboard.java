@@ -27,7 +27,7 @@ public class Chessboard extends JComponent {
     private GameController gameController = new GameController(this);
 
     private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
-    public final int CHESS_SIZE;
+    public int CHESS_SIZE = 0;
     private ChessColor currentColor;
     private int time;
     private final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
@@ -36,31 +36,35 @@ public class Chessboard extends JComponent {
 
 
     public Chessboard(int width, int height) {
-        setLayout(null); // Use absolute layout.
-        currentColor = ChessColor.RED;
-        setSize(width + 2, height);
-        CHESS_SIZE = (height - 6) / 8;
-        SquareComponent.setSpacingLength(CHESS_SIZE / 12);
-        System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
-        initAllChessOnBoard();
-        addChessBoardData();
+        if (!(this instanceof EatenChesses)){
+            setLayout(null); // Use absolute layout.
+            currentColor = ChessColor.RED;
+            setSize(width + 2, height);
+            CHESS_SIZE = (height - 6) / 8;
+            SquareComponent.setSpacingLength(CHESS_SIZE / 12);
+            System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
+            initAllChessOnBoard();
+            addChessBoardData();
+        }
     }
 
     public Chessboard(int width, int height, ArrayList<String[][]> gameData) {
-        setLayout(null); // Use absolute layout.
-        setSize(width + 2, height);
-        CHESS_SIZE = (height - 6) / 8;
-        SquareComponent.setSpacingLength(CHESS_SIZE / 12);
-        System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
-        int steps = gameData.size();
-        if (steps % 2 == 0) {
-            currentColor = ChessColor.BLACK;
-        } else {
-            currentColor = ChessColor.RED;
+        if (!(this instanceof EatenChesses)) {
+            setLayout(null); // Use absolute layout.
+            setSize(width + 2, height);
+            CHESS_SIZE = (height - 6) / 8;
+            SquareComponent.setSpacingLength(CHESS_SIZE / 12);
+            System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
+            int steps = gameData.size();
+            if (steps % 2 == 0) {
+                currentColor = ChessColor.BLACK;
+            } else {
+                currentColor = ChessColor.RED;
+            }
+            String[][] chessBoardData = gameData.get(steps - 1);
+            loadGameData(gameData);
+            loadGame(chessBoardData);
         }
-        String[][] chessBoardData = gameData.get(steps - 1);
-        loadGameData(gameData);
-        loadGame(chessBoardData);
     }
 
     public int[][] getkilledComponents() {
@@ -121,22 +125,13 @@ public class Chessboard extends JComponent {
         return blackScore;
     }
 
-
     public SquareComponent[][] getChessComponents() {
         return squareComponents;
     }
 
+
     public ChessColor getCurrentColor() {
         return currentColor;
-    }
-
-    public int getTime(){
-        return time;
-    }
-
-    public void setTime(int time){
-        this.time = time;
-
     }
 
     public void addChessBoardData() {

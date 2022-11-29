@@ -16,8 +16,8 @@ import java.awt.event.MouseEvent;
  */
 public abstract class SquareComponent extends JComponent {
 
-    protected static final Font CHESS_FONT = new Font("宋体", Font.BOLD, 36);
-    private static final Color squareColor = new Color(250, 220, 190);
+    private Font CHESS_FONT = new Font("宋体", Font.BOLD, 36);
+    private Color squareColor = new Color(250, 220, 190);
     protected static int spacingLength;
     protected final ChessColor chessColor;
     /**
@@ -58,7 +58,6 @@ public abstract class SquareComponent extends JComponent {
         this.style = style;
     }
 
-
     public static void setSpacingLength(int spacingLength) {
         SquareComponent.spacingLength = spacingLength;
     }
@@ -69,6 +68,18 @@ public abstract class SquareComponent extends JComponent {
 
     public void setReversal(boolean reversal) {
         isReversal = reversal;
+    }
+
+    public void setCHESS_FONT(Font CHESS_FONT){
+        this.CHESS_FONT = CHESS_FONT;
+    }
+
+    public Font getCHESS_FONT(){
+        return CHESS_FONT;
+    }
+
+    public void setSquareColor(Color color){
+        this.squareColor = color;
     }
 
     public ChessboardPoint getChessboardPoint() {
@@ -163,7 +174,6 @@ public abstract class SquareComponent extends JComponent {
         }
         return isInRange;
     }
-
 
     @Override
     protected void paintComponent(Graphics g) {
