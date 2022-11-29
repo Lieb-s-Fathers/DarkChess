@@ -2,6 +2,7 @@ package io;
 
 import controller.ClickController;
 import controller.GameController;
+import controller.WriteController;
 import model.ChessColor;
 import view.Chessboard;
 
@@ -18,12 +19,14 @@ public class CountDown extends Thread {
     private Chessboard chessboard;
     private GameController gameController;
     private ClickController clickController;
+    private WriteController defaultWriteController;
 
 
     public CountDown(Chessboard chessboard){
         this.chessboard = chessboard;
         gameController = new GameController(chessboard);
         clickController = new ClickController(chessboard);
+        defaultWriteController = new WriteController(chessboard);
     }
 
     private final Object lock = new Object();
@@ -78,8 +81,10 @@ public class CountDown extends Thread {
             try {
                 Thread.sleep(1000);
                 if ( getTime() == 0) {
-                    //todo: 倒计时结束
+                    //todo: 倒计时结束4
                     clickController.swapPlayer();
+                    chessboard.addChessBoardData();
+                    defaultWriteController.save();
                     messageLabel.setText("Time Out! Change Player");
                 }
             } catch (InterruptedException e) {
@@ -93,4 +98,8 @@ public class CountDown extends Thread {
         time = roundTime;
     }
 
+    public void close(){
+        restart();
+        resumeThread();
+    }
 }

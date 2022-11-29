@@ -30,7 +30,7 @@ public class ChessGameFrame extends FatherFrame {
     private AIController AIFucker;
     private WriteController defaultWriteController;
     private WriteController writeController;
-    private int AItype01, AItype02, difficulty01, difficulty02;
+    public static int AItype01, AItype02, difficulty01, difficulty02;
 
 
     public ChessGameFrame(int WIDTH, int HEIGHT) {
@@ -60,9 +60,10 @@ public class ChessGameFrame extends FatherFrame {
         super(WIDTH, HEIGHT);
         winboard = new Winboard(600, 300, this);
 
+        addCountLabel();
         addChessboard(gameData);
-        addMessageLabel();
         addEatenChesses();
+        addMessageLabel();
 
         addTurnLabel();
         addRedScoreLabel();
@@ -71,12 +72,20 @@ public class ChessGameFrame extends FatherFrame {
 
         addCheatButton();
 
-        addCountLabel();
         addWithdrawButton();
         addSaveButton();
         addLoadButton();
         addAIButton();
+
+        clickController.calculateScore(this);
+        clickController.winJudge();
     }
+
+    public static Winboard getWinboard() {
+        return winboard;
+    }
+
+
 
     public static JLabel getCount() {
         return countLabel;
@@ -117,17 +126,6 @@ public class ChessGameFrame extends FatherFrame {
         countDown.start();
 
         defaultWriteController.save();
-        clickController.calculateScore(this);
-        clickController.winJudge();
-
-        //ai类型和难度初始化
-        //todo: 不要再初始化了，直接从存档读取
-//        String[] types=JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
-//        String[] difficultys=JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",");
-//        AItype01 = Integer.parseInt(types[0]);
-//        AItype02 = Integer.parseInt(types[1]);
-//        difficulty01 = Integer.parseInt(difficultys[0]);
-//        difficulty02 = Integer.parseInt(difficultys[1]);
     }
 
     private void addCountLabel() {
@@ -205,7 +203,7 @@ public class ChessGameFrame extends FatherFrame {
                     } else {
                         //todo 存档不符合格式
                     }
-
+                    countDown.close();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "请输入正确的路径!");
                 }
@@ -256,5 +254,21 @@ public class ChessGameFrame extends FatherFrame {
         aiPlay.setSize(90, 40);
         aiPlay.setFont(new Font("Rockwell", Font.BOLD, 10));
         add(aiPlay);
+    }
+
+    protected void addBackButton(){
+        JButton button = new JButton("Back");
+        button.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 470);
+        button.setSize(180, 20);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+
+        button.addActionListener((e) -> {
+            System.out.println("click back");
+            this.setVisible(false);
+            countDown.close();
+            StartMenuFrame firstFrame = new StartMenuFrame(720, 720, false);
+            firstFrame.setVisible(true);
+        });
     }
 }

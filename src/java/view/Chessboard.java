@@ -153,6 +153,7 @@ public class Chessboard extends JComponent {
             chessBoardDatas.remove(chessBoardDatas.size() - 1);
         } else {
             JOptionPane.showMessageDialog(this, "This is the first step");
+            clickController.swapPlayer();
         }
     }
 

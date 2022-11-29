@@ -1,6 +1,7 @@
 package controller;
 
 import io.Write;
+import view.ChessGameFrame;
 import view.Chessboard;
 
 import java.util.ArrayList;
@@ -15,10 +16,6 @@ public class WriteController {
         this.chessboard = chessboard;
     }
 
-//    public void close(){
-////        out.close();
-//    }
-
     public void save() {
 //        for (SquareComponent[] squareComponents : chessboard.getChessComponents()){
 //            for (SquareComponent squareComponent : squareComponents){
@@ -29,6 +26,8 @@ public class WriteController {
 //        out.printWriter.println();
 //        out.flush();
         Write out = new Write(defaultOutFilePath);
+        out.printWriter.print(ChessGameFrame.AItype01 +" "+ ChessGameFrame.AItype02 +"\n");
+        out.printWriter.println(ChessGameFrame.difficulty01 +" "+ ChessGameFrame.difficulty02+"\n");
         ArrayList<String[][]> chessboardDatas = chessboard.getChessBoardDatas();
         for (String[][] chessboardData : chessboardDatas) {
             for (int j = 0; j < 32; j++) {

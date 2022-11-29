@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * 2 JLabel:  标签
  * 3 JButton： 按钮
  */
-public class FatherFrame extends JFrame {
+public abstract class FatherFrame extends JFrame {
     private static JLabel statusLabel;
     private static JLabel redScoreLabel;
     private static JLabel blackScoreLabel;
@@ -188,18 +188,5 @@ public class FatherFrame extends JFrame {
         });
     }
 
-    protected void addBackButton() {
-        JButton button = new JButton("Back");
-        button.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 470);
-        button.setSize(180, 20);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
-
-        button.addActionListener((e) -> {
-            System.out.println("click back");
-            this.setVisible(false);
-            StartMenuFrame firstFrame = new StartMenuFrame(720, 720, false);
-            firstFrame.setVisible(true);
-        });
-    }
+    protected abstract void addBackButton();
 }
