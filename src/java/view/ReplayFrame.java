@@ -48,6 +48,9 @@ public class ReplayFrame extends FatherFrame {
             clickController.calculateScore(this);
             showButton();
 
+            clickController.setCanClick(true);
+            clickController.setIsCheating(false);
+            notCheatButton.setVisible(false);
             remove(notCheatButton);
             remove(cheatButton);
             addCheatButton();
@@ -69,6 +72,9 @@ public class ReplayFrame extends FatherFrame {
             clickController.calculateScore(this);
             showButton();
 
+            clickController.setCanClick(true);
+            clickController.setIsCheating(false);
+            notCheatButton.setVisible(false);
             remove(notCheatButton);
             remove(cheatButton);
             addCheatButton();
