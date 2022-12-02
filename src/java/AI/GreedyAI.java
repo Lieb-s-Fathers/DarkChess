@@ -14,7 +14,7 @@ public class GreedyAI extends AI {
     public GreedyAI(Chessboard chessboard, int difficulty) {
         this.difficulty = difficulty;
         this.chessboard = chessboard;
-        this.squareComponents=chessboard.getChessComponents();
+        this.squareComponents = chessboard.getChessComponents();
     }
 
     public GreedyAI() {
@@ -26,6 +26,34 @@ public class GreedyAI extends AI {
         int row = random.nextInt(8), col = random.nextInt(4);
         boolean can = false;
         SquareComponent thisComponent = squareComponents[row][col];
+
+        if (difficulty == 10) {
+
+            //优先吃对方的将
+            for (row = 0; row < 8; row++) {
+                for (col = 0; col < 4; col++) {
+                    thisComponent = squareComponents[row][col];
+                    //找到对方的将
+                    if (thisComponent.getStyle() == 0 && thisComponent.getChessColor() != chessboard.getCurrentColor()) {
+                        //查看对方的将附近有无兵
+                        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+                        for (int i = 0; i < 4; i++) {
+                            if (row + directions[i][0] >= 0 && col + directions[i][1] >= 0 && row + directions[i][0] <= 7 && col + directions[i][1] <= 3) {
+                                if (squareComponents[row + directions[i][0]][col + directions[i][1]].getStyle() == 5 && squareComponents[row + directions[i][0]][col + directions[i][1]].getChessColor() == chessboard.getCurrentColor()) {
+                                    SquareComponent goodSoldier = squareComponents[row + directions[i][0]][col + directions[i][1]];
+                                    if (!thisComponent.isReversal()) {
+                                        System.out.println("翻出对方将");
+                                        return thisComponent;
+                                    } else {
+                                        return goodSoldier;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 
         //操纵已翻开的棋子吃子
@@ -158,6 +186,13 @@ public class GreedyAI extends AI {
             }
             int count = 1;
             while (canMoveTopoints[count][0] != -1) count++;
+            int maxx = 10, maxxi = 0;
+            for (int i = 0; i < count; i++) {
+                if (squareComponents[canMoveTopoints[i][0]][canMoveTopoints[i][1]].getStyle() < maxx) {
+                    maxx = squareComponents[canMoveTopoints[i][0]][canMoveTopoints[i][1]].getStyle();
+                    maxxi = i;
+                }
+            }
             Random random = new Random();
             int iTomove = random.nextInt(count);
             return canMoveTopoints[iTomove];
