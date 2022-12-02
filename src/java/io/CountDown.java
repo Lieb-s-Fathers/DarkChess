@@ -93,6 +93,6 @@ public class CountDown extends Thread {
 
     public void close() {
         restart();
-        resumeThread();
+        pauseThread();
     }
 }

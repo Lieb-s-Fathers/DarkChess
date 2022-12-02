@@ -259,11 +259,13 @@ public class ClickController {
         if (chessboard.getRedScore() >= 60) {
             Winboard.setWinText("Red");
             ChessGameFrame.getWinboard().showWinboard(chessboard.getChessBoardDatas());
+            countDown.close();
         }
 
         if (chessboard.getBlackScore() >= 60) {
             Winboard.setWinText("Black");
             ChessGameFrame.getWinboard().showWinboard(chessboard.getChessBoardDatas());
+            countDown.close();
         }
     }
 }
