@@ -159,8 +159,7 @@ public abstract class SquareComponent extends JComponent {
     }
 
     public int[][] getRange(ChessboardPoint thisPoint, SquareComponent[][] chessboard) {
-        int[][] range = {{thisPoint.getX() + 1, thisPoint.getY()}, {thisPoint.getX() - 1, thisPoint.getY()}, {thisPoint.getX(), thisPoint.getY() + 1}, {thisPoint.getX(), thisPoint.getY() - 1}};
-        return range;
+        return new int[][]{{thisPoint.getX() + 1, thisPoint.getY()}, {thisPoint.getX() - 1, thisPoint.getY()}, {thisPoint.getX(), thisPoint.getY() + 1}, {thisPoint.getX(), thisPoint.getY() - 1}};
     }
 
     public boolean checkRange(int[] destinationChessXY, int[][] range) {

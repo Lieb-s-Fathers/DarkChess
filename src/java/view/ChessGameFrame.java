@@ -1,18 +1,18 @@
 package view;
 
 import AI.AIController;
+import controller.ReadController;
 import controller.WriteController;
 import io.CountDown;
 import io.Write;
+import model.ErrorType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 
-import static controller.ReadController.loadGameFromFile;
-import static io.Write.defaultOutFilePath;
-
+import static io.Write.defaultOutFile;
 
 /**
  * 这个类表示游戏窗体，窗体上包含：
@@ -22,10 +22,11 @@ import static io.Write.defaultOutFilePath;
  */
 public class ChessGameFrame extends FatherFrame {
     private static Winboard winboard;
-    public static Write out = new Write(defaultOutFilePath);
+    public static Write out = new Write(defaultOutFile);
     private static JLabel countLabel;
     public static CountDown countDown;
     private AIController AIFucker;
+    private ReadController readController = new ReadController(this);
     private WriteController defaultWriteController;
     private WriteController writeController;
     public static int AIType01, AIType02, difficulty01, difficulty02;
@@ -144,7 +145,7 @@ public class ChessGameFrame extends FatherFrame {
             System.out.println("click withdraw");
             gameController.withdraw();
             ArrayList<String[][]> gameData = gameController.getChessboardDatas();
-            gameController.reloadChessboard(gameData.get(gameData.size() - 1));
+            gameController.reloadChessboard(gameData, gameData.size() - 1);
             writeController.save();
             clickController.swapPlayer();
             clickController.calculateScore(this);
@@ -189,20 +190,26 @@ public class ChessGameFrame extends FatherFrame {
         button.addActionListener(e -> {
 
             System.out.println("click load");
-            String path = JOptionPane.showInputDialog(this, "Input Path here");
+//            String path = JOptionPane.showInputDialog(this, "Input Path here");
+//            if (path != null) {
+//                countDown.close();
+//                ArrayList<String[][]> gameData = readController.loadGameFromFile(path);
+//                gameController.reloadChessboard(gameData, gameData.size() - 1);
+//            }
+            String path = readController.readPath();
+            ArrayList<String[][]> gameData = new ArrayList<>();
             if (path != null) {
                 try {
-                    ArrayList<String[][]> gameData = loadGameFromFile(path);
-                    gameController.reloadChessboardDatas(gameData);
-                    if (gameData != null) {
-                        gameController.reloadChessboard(gameData.get(gameData.size() - 1));
-                    } else {
-                        //todo 存档不符合格式
-                    }
-                    countDown.close();
+                    gameData = readController.loadGameFromFile(path);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "请输入正确的路径!");
+                    readController.setErrors(ErrorType.ONE00);
                 }
+            }else {
+                readController.setErrors(ErrorType.ONE00);
+            }
+            if (readController.getError() == ErrorType.NOError){
+                countDown.close();
+                gameController.reloadChessboard(gameData, gameData.size() - 1);
             }
         });
     }

@@ -28,7 +28,6 @@ public class Chessboard extends JComponent {
     private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
     public int CHESS_SIZE = 0;
     private ChessColor currentColor;
-    private int time;
     private final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
     private final int[][] componentList = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
     private ArrayList<String[][]> chessBoardDatas = new ArrayList<>();
@@ -60,9 +59,7 @@ public class Chessboard extends JComponent {
             } else {
                 currentColor = ChessColor.RED;
             }
-            String[][] chessBoardData = gameData.get(steps - 1);
-            loadGameData(gameData);
-            loadGame(chessBoardData);
+            gameController.reloadChessboard(gameData, steps-1);
         }
     }
 

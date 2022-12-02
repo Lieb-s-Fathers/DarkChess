@@ -181,7 +181,7 @@ public abstract class FatherFrame extends JFrame {
             clickController.setCanClick(true);
             clickController.setIsCheating(false);
             ArrayList<String[][]> gameData = chessboard.getChessBoardDatas();
-            gameController.reloadChessboard(gameData.get(gameData.size()-1));
+            gameController.reloadChessboard(gameData, gameData.size()-1);
             notCheatButton.setVisible(false);
             remove(notCheatButton);
             addCheatButton();

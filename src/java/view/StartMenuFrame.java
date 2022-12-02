@@ -1,13 +1,14 @@
 package view;
 
 import controller.GameController;
+import controller.ReadController;
+import model.ErrorType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static controller.ReadController.loadGameFromFile;
-import static io.Write.defaultOutFilePath;
+import static io.Write.defaultOutFile;
 
 public class StartMenuFrame extends JFrame {
     private final int WIDTH;
@@ -16,14 +17,21 @@ public class StartMenuFrame extends JFrame {
     public static Image icon = new ImageIcon("src/resources/image/icon.png").getImage();
 
     private GameController gameController;
+    public ReadController readController = new ReadController(this);
     public static ChessGameFrame mainFrame;
+
+    private final Color buttonColor = new Color(192, 196, 113);
+    private final Color fontColor = new Color(120, 97, 69);
 
     private static JLabel statusLabel;
 
     public StartMenuFrame(int width, int height, boolean isNewGame) {
         setTitle("DarkChess");
         this.WIDTH = width;
-        this.HEIGHT = height;
+        //todo: 设置首页为无边框窗口
+//        this.setUndecorated(true);
+        int extraHeight = this.isUndecorated() ? 0 : 35;
+        this.HEIGHT = height + extraHeight;
 
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null); // Center the window.
@@ -38,7 +46,7 @@ public class StartMenuFrame extends JFrame {
             addContinueButton();
         }
 
-        addLabel();
+//        addLabel();
         addStartButton();
         addLoadButton();
         addQuitButton();
@@ -56,10 +64,10 @@ public class StartMenuFrame extends JFrame {
     }
 
     public void addBackImage(){
-        ImageIcon icon = new ImageIcon("src/resources/image/首页背景_1.jpg");
+        ImageIcon icon = new ImageIcon("src/resources/image/首页背景2.jpg");
         JLabel backImage = new JLabel(icon);
         backImage.setSize(icon.getIconWidth(), icon.getIconWidth());
-        backImage.setLocation(0,0);
+        backImage.setLocation(0,-178);
         getContentPane().add(backImage);
     }
 
@@ -70,47 +78,64 @@ public class StartMenuFrame extends JFrame {
     private void addStartButton() {
         JButton button = new JButton("Start");
         button.addActionListener((e) -> start());
-        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 120 + extraDistance);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 220 + extraDistance);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setForeground(fontColor);
+        button.setBackground(buttonColor);
         add(button);
     }
 
     private void addLoadButton() {
         JButton button = new JButton("Load");
-        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 220 + extraDistance);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 320 + extraDistance);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setForeground(fontColor);
+        button.setBackground(buttonColor);
         add(button);
 
         button.addActionListener(e -> {
             System.out.println("click load");
-            String path = JOptionPane.showInputDialog(this, "Input Path here");
+            String path = readController.readPath();
+            ArrayList<String[][]> gameData = new ArrayList<>();
             if (path != null) {
                 try {
-                    ArrayList<String[][]> gameData = loadGameFromFile(path);
-                    mainFrame = new ChessGameFrame(720, 720, gameData);
-                    mainFrame.setVisible(true);
-                    this.dispose();
+                    gameData = readController.loadGameFromFile(path);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "请输入正确的路径!");
+                    readController.setErrors(ErrorType.ONE00);
                 }
+            }else {
+                readController.setErrors(ErrorType.ONE00);
+            }
+            if (readController.getError() == ErrorType.NOError){
+                mainFrame = new ChessGameFrame(720, 720, gameData);
+                mainFrame.setVisible(true);
+                this.dispose();
             }
         });
     }
 
     private void addContinueButton() {
         JButton button = new JButton("Continue");
-        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 120);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 220);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        button.setBackground(Color.LIGHT_GRAY);
+
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setForeground(fontColor);
+        button.setBackground(buttonColor);
         add(button);
 
         button.addActionListener(e -> {
             System.out.println("click continue");
 //            try {
-            ArrayList<String[][]> gameData = loadGameFromFile(defaultOutFilePath);
+            ArrayList<String[][]> gameData = readController.loadGameFromFile(defaultOutFile);
             mainFrame = new ChessGameFrame(720, 720, gameData);
             mainFrame.setVisible(true);
             this.dispose();
@@ -122,16 +147,21 @@ public class StartMenuFrame extends JFrame {
 
     private void addQuitButton() {
         JButton button = new JButton("Quit");
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 420 + extraDistance);
+        button.setSize(180, 60);
+        button.setFont(new Font("Rockw,ell", Font.BOLD, 20));
+
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setForeground(fontColor);
+        button.setBackground(buttonColor);
+        add(button);
+
         button.addActionListener((e) -> {
             //退出程序
             System.out.println("click quit");
             System.exit(0);
         });
-
-        button.setLocation(WIDTH / 2 - 90, HEIGHT / 5 + 320 + extraDistance);
-        button.setSize(180, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
     }
 
     private void start() {

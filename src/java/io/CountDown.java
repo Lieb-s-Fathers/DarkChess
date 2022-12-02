@@ -1,7 +1,6 @@
 package io;
 
 import controller.ClickController;
-import controller.GameController;
 import controller.WriteController;
 import view.Chessboard;
 
@@ -76,7 +75,6 @@ public class CountDown extends Thread {
             try {
                 Thread.sleep(1000);
                 if (getTime() == 0) {
-                    //todo: 倒计时结束4
                     clickController.swapPlayer();
                     chessboard.addChessBoardData();
                     defaultWriteController.save();

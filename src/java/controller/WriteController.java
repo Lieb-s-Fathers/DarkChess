@@ -6,29 +6,25 @@ import view.Chessboard;
 
 import java.util.ArrayList;
 
-import static io.Write.defaultOutFilePath;
+import static io.Write.defaultOutFile;
 
 public class WriteController {
     private final Chessboard chessboard;
-//    Write out = new Write(defaultOutFilePath);
 
     public WriteController(Chessboard chessboard) {
         this.chessboard = chessboard;
     }
 
     public void save() {
-//        for (SquareComponent[] squareComponents : chessboard.getChessComponents()){
-//            for (SquareComponent squareComponent : squareComponents){
-//                out.printWriter.println(squareComponent.toString());
-//                out.flush();
-//            }
-//        }
-//        out.printWriter.println();
-//        out.flush();
-        Write out = new Write(defaultOutFilePath);
+        Write out = new Write(defaultOutFile);
         out.printWriter.print(ChessGameFrame.AIType01 + " " + ChessGameFrame.AIType02 + "\n");
-        out.printWriter.println(ChessGameFrame.difficulty01 + " " + ChessGameFrame.difficulty02 + "\n");
+        out.printWriter.print(ChessGameFrame.difficulty01 + " " + ChessGameFrame.difficulty02 + "\n");
+
         ArrayList<String[][]> chessboardDatas = chessboard.getChessBoardDatas();
+        int currentColor = chessboardDatas.size()%2 == 0 ? 0 : 1;
+        out.printWriter.println(currentColor);
+        out.printWriter.println();
+
         for (String[][] chessboardData : chessboardDatas) {
             for (int j = 0; j < 32; j++) {
                 out.printWriter.println(chessboardData[j][0] + " " + chessboardData[j][1] + " " + chessboardData[j][2]);
@@ -41,7 +37,12 @@ public class WriteController {
 
     public void saveGame(String outFilePath) {
         Write out1 = new Write(outFilePath);
+        out1.printWriter.print(ChessGameFrame.AIType01 + " " + ChessGameFrame.AIType02 + "\n");
+        out1.printWriter.print(ChessGameFrame.difficulty01 + " " + ChessGameFrame.difficulty02 + "\n");
         ArrayList<String[][]> chessboardData = chessboard.getChessBoardDatas();
+        int currentColor = chessboardData.size()%2 == 0 ? 0 : 1;
+        out1.printWriter.println(currentColor);
+        out1.printWriter.println();
         for (String[][] chessboardDatum : chessboardData) {
             for (int j = 0; j < 32; j++) {
                 out1.printWriter.println(chessboardDatum[j][0] + " " + chessboardDatum[j][1] + " " + chessboardDatum[j][2]);
