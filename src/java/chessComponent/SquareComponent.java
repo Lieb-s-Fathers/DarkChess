@@ -15,7 +15,6 @@ import java.awt.event.MouseEvent;
  * 2. ChessComponent: 表示非空棋子
  */
 public abstract class SquareComponent extends JComponent {
-
     private Font CHESS_FONT = new Font("宋体", Font.BOLD, 36);
     private Color squareColor = new Color(250, 220, 190);
     protected static int spacingLength;
@@ -70,15 +69,15 @@ public abstract class SquareComponent extends JComponent {
         isReversal = reversal;
     }
 
-    public void setCHESS_FONT(Font CHESS_FONT){
+    public void setCHESS_FONT(Font CHESS_FONT) {
         this.CHESS_FONT = CHESS_FONT;
     }
 
-    public Font getCHESS_FONT(){
+    public Font getCHESS_FONT() {
         return CHESS_FONT;
     }
 
-    public void setSquareColor(Color color){
+    public void setSquareColor(Color color) {
         this.squareColor = color;
     }
 
@@ -160,8 +159,7 @@ public abstract class SquareComponent extends JComponent {
     }
 
     public int[][] getRange(ChessboardPoint thisPoint, SquareComponent[][] chessboard) {
-        int[][] range = {{thisPoint.getX() + 1, thisPoint.getY()}, {thisPoint.getX() - 1, thisPoint.getY()}, {thisPoint.getX(), thisPoint.getY() + 1}, {thisPoint.getX(), thisPoint.getY() - 1}};
-        return range;
+        return new int[][]{{thisPoint.getX() + 1, thisPoint.getY()}, {thisPoint.getX() - 1, thisPoint.getY()}, {thisPoint.getX(), thisPoint.getY() + 1}, {thisPoint.getX(), thisPoint.getY() - 1}};
     }
 
     public boolean checkRange(int[] destinationChessXY, int[][] range) {

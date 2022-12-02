@@ -4,8 +4,8 @@ import java.io.*;
 
 public class Write {
 
-    public static String defaultOutFilePath = System.getProperty("user.dir").replace("\\", "/") + "/save.txt";
-
+    public static String defaultOutFilePath = System.getProperty("user.dir").replace("\\", "/")+"/save";
+    public static String defaultOutFile = defaultOutFilePath + "/save.txt";
     private File file;
     private FileOutputStream fileOutputStream;
     private BufferedWriter bufferedWriter;
@@ -13,7 +13,6 @@ public class Write {
     private OutputStreamWriter outputStreamWriter;
 
     public Write(String filePath) {
-
         try {
             file = new File(filePath);
             fileOutputStream = new FileOutputStream(file);
@@ -21,8 +20,7 @@ public class Write {
             this.bufferedWriter = new BufferedWriter(outputStreamWriter);
             printWriter = new PrintWriter(bufferedWriter);
         } catch (FileNotFoundException e) {
-            //todo File not Found
-
+            throw new RuntimeException(e);
         }
     }
 

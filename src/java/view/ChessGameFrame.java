@@ -1,18 +1,18 @@
 package view;
 
 import AI.AIController;
+import controller.ReadController;
 import controller.WriteController;
 import io.CountDown;
 import io.Write;
+import model.ErrorType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 
-import static controller.ReadController.loadGameFromFile;
-import static io.Write.defaultOutFilePath;
-
+import static io.Write.defaultOutFile;
 
 /**
  * 这个类表示游戏窗体，窗体上包含：
@@ -21,17 +21,15 @@ import static io.Write.defaultOutFilePath;
  * 3 JButton： 按钮
  */
 public class ChessGameFrame extends FatherFrame {
-    public static Winboard winboard;
-    public static Write out = new Write(defaultOutFilePath);
-    private static JLabel statusLabel;
+    private static Winboard winboard;
+    public static Write out = new Write(defaultOutFile);
     private static JLabel countLabel;
-
     public static CountDown countDown;
     private AIController AIFucker;
+    private ReadController readController = new ReadController(this);
     private WriteController defaultWriteController;
     private WriteController writeController;
-    public static int AItype01, AItype02, difficulty01, difficulty02;
-
+    public static int AIType01, AIType02, difficulty01, difficulty02;
 
     public ChessGameFrame(int WIDTH, int HEIGHT) {
         super(WIDTH, HEIGHT);
@@ -86,7 +84,6 @@ public class ChessGameFrame extends FatherFrame {
     }
 
 
-
     public static JLabel getCount() {
         return countLabel;
     }
@@ -104,8 +101,8 @@ public class ChessGameFrame extends FatherFrame {
         //ai类型和难度初始化
         String[] types = JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
         String[] difficultys = JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",");
-        AItype01 = Integer.parseInt(types[0]);
-        AItype02 = Integer.parseInt(types[1]);
+        AIType01 = Integer.parseInt(types[0]);
+        AIType02 = Integer.parseInt(types[1]);
         difficulty01 = Integer.parseInt(difficultys[0]);
         difficulty02 = Integer.parseInt(difficultys[1]);
 
@@ -148,7 +145,7 @@ public class ChessGameFrame extends FatherFrame {
             System.out.println("click withdraw");
             gameController.withdraw();
             ArrayList<String[][]> gameData = gameController.getChessboardDatas();
-            gameController.reloadChessboard(gameData.get(gameData.size() - 1));
+            gameController.reloadChessboard(gameData, gameData.size() - 1);
             writeController.save();
             clickController.swapPlayer();
             clickController.calculateScore(this);
@@ -193,20 +190,26 @@ public class ChessGameFrame extends FatherFrame {
         button.addActionListener(e -> {
 
             System.out.println("click load");
-            String path = JOptionPane.showInputDialog(this, "Input Path here");
+//            String path = JOptionPane.showInputDialog(this, "Input Path here");
+//            if (path != null) {
+//                countDown.close();
+//                ArrayList<String[][]> gameData = readController.loadGameFromFile(path);
+//                gameController.reloadChessboard(gameData, gameData.size() - 1);
+//            }
+            String path = readController.readPath();
+            ArrayList<String[][]> gameData = new ArrayList<>();
             if (path != null) {
                 try {
-                    ArrayList<String[][]> gameData = loadGameFromFile(path);
-                    gameController.reloadChessboardDatas(gameData);
-                    if (gameData != null) {
-                        gameController.reloadChessboard(gameData.get(gameData.size() - 1));
-                    } else {
-                        //todo 存档不符合格式
-                    }
-                    countDown.close();
+                    gameData = readController.loadGameFromFile(path);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "请输入正确的路径!");
+                    readController.setErrors(ErrorType.ONE00);
                 }
+            }else {
+                readController.setErrors(ErrorType.ONE00);
+            }
+            if (readController.getError() == ErrorType.NOError){
+                countDown.close();
+                gameController.reloadChessboard(gameData, gameData.size() - 1);
             }
         });
     }
@@ -215,7 +218,7 @@ public class ChessGameFrame extends FatherFrame {
         JButton button01 = new JButton("AI01");
         button01.addActionListener((e) -> {
             System.out.println("AIFuckyou");
-            AIFucker.play(AItype01, difficulty01);
+            AIFucker.play(AIType01, difficulty01);
         });
         button01.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 520);
         button01.setSize(90, 40);
@@ -225,10 +228,10 @@ public class ChessGameFrame extends FatherFrame {
 
         JButton button02 = new JButton("AI02");
         button02.addActionListener((e) -> {
-            System.out.println("AIFuckyou");
-            AIFucker.play(AItype02, difficulty02);
+            System.out.println("AIFucyou");
+            AIFucker.play(AIType02, difficulty02);
         });
-        button02.setLocation(WIDTH * 3 / 5 + 90+ 10, HEIGHT / 10 + 520);
+        button02.setLocation(WIDTH * 3 / 5 + 90 + 10, HEIGHT / 10 + 520);
         button02.setSize(90, 40);
         button02.setFont(new Font("Rockwell", Font.BOLD, 10));
         add(button02);
@@ -236,13 +239,13 @@ public class ChessGameFrame extends FatherFrame {
         JButton aiPlay = new JButton("AIALTOPLAY");
         aiPlay.addActionListener((e) -> {
             for (int i = 1; i <= 10; i++) {
-                AIFucker.play(AItype01, difficulty01);
+                AIFucker.play(AIType01, difficulty01);
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
-                AIFucker.play(AItype02, difficulty02);
+                AIFucker.play(AIType02, difficulty02);
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException ex) {
@@ -256,7 +259,7 @@ public class ChessGameFrame extends FatherFrame {
         add(aiPlay);
     }
 
-    protected void addBackButton(){
+    protected void addBackButton() {
         JButton button = new JButton("Back");
         button.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 470);
         button.setSize(180, 20);

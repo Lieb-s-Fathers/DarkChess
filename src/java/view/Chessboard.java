@@ -17,7 +17,6 @@ import java.util.Random;
  * SquareComponent[][]: 4*8个方块格子组件
  */
 public class Chessboard extends JComponent {
-
     private boolean canClick = true;
     private boolean isCheating = false;
     private static final int ROW_SIZE = 8;
@@ -29,14 +28,13 @@ public class Chessboard extends JComponent {
     private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
     public int CHESS_SIZE = 0;
     private ChessColor currentColor;
-    private int time;
     private final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
     private final int[][] componentList = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
     private ArrayList<String[][]> chessBoardDatas = new ArrayList<>();
 
 
     public Chessboard(int width, int height) {
-        if (!(this instanceof EatenChesses)){
+        if (!(this instanceof EatenChesses)) {
             setLayout(null); // Use absolute layout.
             currentColor = ChessColor.RED;
             setSize(width + 2, height);
@@ -61,9 +59,7 @@ public class Chessboard extends JComponent {
             } else {
                 currentColor = ChessColor.RED;
             }
-            String[][] chessBoardData = gameData.get(steps - 1);
-            loadGameData(gameData);
-            loadGame(chessBoardData);
+            gameController.reloadChessboard(gameData, steps-1);
         }
     }
 
@@ -92,14 +88,15 @@ public class Chessboard extends JComponent {
         System.out.println();
     }
 
-    public boolean getCanClick(){
+    public boolean getCanClick() {
         return canClick;
     }
 
-    public void setCanClick(boolean canClick){
+    public void setCanClick(boolean canClick) {
         this.canClick = canClick;
     }
-    public boolean getIsCheating(){
+
+    public boolean getIsCheating() {
         return isCheating;
     }
 

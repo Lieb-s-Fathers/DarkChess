@@ -24,7 +24,6 @@ public class ClickController {
     private SquareComponent first;
     private ArrayList<SquareComponent> next = new ArrayList<>();
     private WriteController writeController;
-
     private AIController aiFucker;
 
     public ClickController(Chessboard chessboard) {
@@ -259,12 +258,12 @@ public class ClickController {
     public void winJudge() {
         if (chessboard.getRedScore() >= 60) {
             Winboard.setWinText("Red");
-            ChessGameFrame.winboard.showWinboard(chessboard.getChessBoardDatas());
+            ChessGameFrame.getWinboard().showWinboard(chessboard.getChessBoardDatas());
         }
 
         if (chessboard.getBlackScore() >= 60) {
             Winboard.setWinText("Black");
-            ChessGameFrame.winboard.showWinboard(chessboard.getChessBoardDatas());
+            ChessGameFrame.getWinboard().showWinboard(chessboard.getChessBoardDatas());
         }
     }
 }

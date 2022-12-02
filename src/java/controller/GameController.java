@@ -18,12 +18,9 @@ public class GameController {
         this.chessboard = chessboard;
     }
 
-    public void reloadChessboardDatas(ArrayList<String[][]> chessboardDatas) {
-        chessboard.setChessBoardDatas(chessboardDatas);
-    }
-
-    public void reloadChessboard(String[][] chessBoardData) {
-        chessboard.loadGame(chessBoardData);
+    public void reloadChessboard(ArrayList<String[][]> gamedData,int step) {
+        chessboard.loadGameData(gamedData);
+        chessboard.loadGame(gamedData.get(step));
     }
 
     public void withdraw() {
@@ -37,10 +34,4 @@ public class GameController {
     public String getCurrentColor() {
         return chessboard.getCurrentColor().getName();
     }
-
-    public void timeOut() {
-        chessboard.setCurrentColor(chessboard.getCurrentColor() == ChessColor.BLACK ? ChessColor.RED : ChessColor.BLACK);
-        ChessGameFrame.getStatusLabel().setText(String.format("%s's TURN", chessboard.getCurrentColor().getName()));
-    }
-
 }
