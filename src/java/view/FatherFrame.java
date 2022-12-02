@@ -3,10 +3,13 @@ package view;
 import controller.ClickController;
 import controller.GameController;
 import model.ChessColor;
+import model.GameData;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+
+import static view.ChessGameFrame.countDown;
 
 /**
  * 这个类表示游戏窗体，窗体上包含：
@@ -75,14 +78,16 @@ public abstract class FatherFrame extends JFrame {
      */
     protected void addChessboard() {
         chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE);
-        gameController = new GameController(chessboard);
-        clickController = new ClickController(chessboard);
-        noClickController = new ClickController(eatenBlackChesses);
+//        gameController = new GameController(chessboard);
+//        clickController = new ClickController(chessboard);
+//        noClickController = new ClickController(eatenBlackChesses);
+        //todo: noclickcontroller
+
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
         add(chessboard);
     }
 
-    protected void addChessboard(ArrayList<String[][]> gameData) {
+    protected void addChessboard(GameData gameData) {
         chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, gameData);
         gameController = new GameController(chessboard);
         clickController = new ClickController(chessboard);
@@ -157,6 +162,7 @@ public abstract class FatherFrame extends JFrame {
 
         cheatButton.addActionListener((e) -> {
             System.out.println("click cheat");
+            countDown.pauseThread();
             clickController.setCanClick(false);
             if (this instanceof ChessGameFrame){
                 clickController.setIsCheating(true);
@@ -183,6 +189,7 @@ public abstract class FatherFrame extends JFrame {
             ArrayList<String[][]> gameData = chessboard.getChessBoardDatas();
             gameController.reloadChessboard(gameData, gameData.size()-1);
             notCheatButton.setVisible(false);
+            countDown.resumeThread();
             remove(notCheatButton);
             addCheatButton();
         });

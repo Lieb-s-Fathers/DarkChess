@@ -3,7 +3,7 @@ package controller;
 import io.Read;
 import model.ChessColor;
 import model.ErrorType;
-import view.ChessGameFrame;
+import model.GameData;
 
 import javax.swing.*;
 import java.io.File;
@@ -15,17 +15,14 @@ import static io.Write.defaultOutFilePath;
 
 public class ReadController {
     private ErrorType error = ErrorType.NOError;
-
-    private final JFrame frame;
-
-    private ArrayList<String[][]> chessDatas;
-    private String currentColor;
+    private GameData gameData;
     private final String[] colorNames = {ChessColor.BLACK.getName(), ChessColor.RED.getName(), ChessColor.NONE.getName()};
     private final String[] chessStyles = {"0","1","2","3","4","5","6","7"};
     private final String[] currentColors = {"0", "1"};
+    private ArrayList<String[][]> chessDatas;
 
-    public ReadController(JFrame frame) {
-        this.frame = frame;
+    public ReadController(GameData gameData) {
+        this.gameData = gameData;
     }
 
     public void setErrors(ErrorType error) {
@@ -36,7 +33,7 @@ public class ReadController {
 
     public ErrorType getError(){
         if (error != ErrorType.NOError){
-            JOptionPane.showMessageDialog(frame, error.getName()+" "+error.getMessage());
+//            JOptionPane.showMessageDialog(frame, error.getName()+" "+error.getMessage());
         }
         return error;
     }
@@ -44,7 +41,8 @@ public class ReadController {
     public String readPath(){
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(defaultOutFilePath));
-        fileChooser.showOpenDialog(frame);
+//        fileChooser.showOpenDialog();
+        //todo: filechooser
         try {
             String filePath = fileChooser.getSelectedFile().getName();
             String[] filePaths = filePath.split("\\.");
@@ -59,7 +57,7 @@ public class ReadController {
         }
     }
 
-    public ArrayList<String[][]> loadGameFromFile(String path) {
+    public void loadGameFromFile(String path) {
         try {
             Read in = new Read(path);
             String tempData = in.nextLine();
@@ -67,25 +65,21 @@ public class ReadController {
             tempData = in.nextLine();
             String[] difficulties = tempData.split(" ");
 
-//            System.out.println(Arrays.toString(types));
-//            System.out.println(Arrays.toString(difficulties));
+            gameData.setAItype01(Integer.parseInt(types[0]));
+            gameData.setAItype02(Integer.parseInt(types[1]));
+            gameData.setDifficulty01(Integer.parseInt(difficulties[0]));
+            gameData.setDifficulty02(Integer.parseInt(difficulties[1]));
+            gameData.setCurrentColor(Integer.parseInt(in.nextLine()));
 
-            ChessGameFrame.AIType01 = Integer.parseInt(types[0]);
-            ChessGameFrame.AIType02 = Integer.parseInt(types[1]);
-            ChessGameFrame.difficulty01 = Integer.parseInt(difficulties[0]);
-            ChessGameFrame.difficulty02 = Integer.parseInt(difficulties[1]);
-
-            currentColor = in.nextLine();
             in.nextLine();
 
             tempData = in.nextLine();
-            chessDatas = new ArrayList<>();
+            chessDatas = gameData.getChessDatas();
             while (tempData != null) {
                 String[][] chessData = new String[32][3];
                 for (int i = 0; i < 32; i++) {
                     if (tempData.equals("")) {
                         setErrors(ErrorType.ONE02);
-                        return null;
                     }
                     chessData[i] = tempData.split(" ");
                     tempData = in.nextLine();
@@ -94,10 +88,8 @@ public class ReadController {
                 tempData = in.nextLine();
             }
             checkFileData();
-            return chessDatas;
         } catch (IOException e) {
             setErrors(ErrorType.ONE02);
-            return null;
         }
     }
 
@@ -111,7 +103,7 @@ public class ReadController {
             }
         }
 
-        if (!Arrays.asList(currentColors).contains(currentColor)) {
+        if (!Arrays.asList(currentColors).contains(gameData.getCurrentColor())) {
             setErrors(ErrorType.ONE04);
         }
 

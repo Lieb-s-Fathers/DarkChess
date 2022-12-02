@@ -28,7 +28,7 @@ public class ClickController {
 
     public ClickController(Chessboard chessboard) {
         this.chessboard = chessboard;
-        writeController = new WriteController(chessboard);
+        writeController = new WriteController(chessboard.getGameData());
         aiFucker = new AIController(chessboard);
     }
 

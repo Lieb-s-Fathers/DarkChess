@@ -3,10 +3,10 @@ package view;
 import controller.GameController;
 import controller.ReadController;
 import model.ErrorType;
+import model.GameData;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 import static io.Write.defaultOutFile;
 
@@ -17,13 +17,14 @@ public class StartMenuFrame extends JFrame {
     public static Image icon = new ImageIcon("src/resources/image/icon.png").getImage();
 
     private GameController gameController;
-    public ReadController readController = new ReadController(this);
+    public ReadController readController;
     public static ChessGameFrame mainFrame;
 
     private final Color buttonColor = new Color(192, 196, 113);
     private final Color fontColor = new Color(120, 97, 69);
 
     private static JLabel statusLabel;
+    private GameData gameData;
 
     public StartMenuFrame(int width, int height, boolean isNewGame) {
         setTitle("DarkChess");
@@ -101,11 +102,11 @@ public class StartMenuFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("click load");
+            readController = new ReadController(gameData);
             String path = readController.readPath();
-            ArrayList<String[][]> gameData = new ArrayList<>();
             if (path != null) {
                 try {
-                    gameData = readController.loadGameFromFile(path);
+                    readController.loadGameFromFile(path);
                 } catch (Exception ex) {
                     readController.setErrors(ErrorType.ONE00);
                 }
@@ -135,7 +136,7 @@ public class StartMenuFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("click continue");
 //            try {
-            ArrayList<String[][]> gameData = readController.loadGameFromFile(defaultOutFile);
+            readController.loadGameFromFile(defaultOutFile);
             mainFrame = new ChessGameFrame(720, 720, gameData);
             mainFrame.setVisible(true);
             this.dispose();
@@ -149,7 +150,7 @@ public class StartMenuFrame extends JFrame {
         JButton button = new JButton("Quit");
         button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 420 + extraDistance);
         button.setSize(180, 60);
-        button.setFont(new Font("Rockw,ell", Font.BOLD, 20));
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
 
         button.setBorderPainted(false);
         button.setFocusPainted(false);
@@ -165,9 +166,8 @@ public class StartMenuFrame extends JFrame {
     }
 
     private void start() {
-        mainFrame = new ChessGameFrame(720, 720);
-        System.out.println("click start");
-        mainFrame.setVisible(true);
+        ModeSelection modeSelection = new ModeSelection(720,720);
+        modeSelection.setVisible(true);
         this.dispose();
     }
 }

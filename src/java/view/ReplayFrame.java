@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static view.ChessGameFrame.countDown;
+
 public class ReplayFrame extends FatherFrame {
 
     private int steps = 0;
@@ -98,6 +100,7 @@ public class ReplayFrame extends FatherFrame {
             clickController.setIsCheating(false);
             gameController.reloadChessboard(gameData, steps);
             notCheatButton.setVisible(false);
+            countDown.resumeThread();
             addCheatButton();
             remove(notCheatButton);
         });

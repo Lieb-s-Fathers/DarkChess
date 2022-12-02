@@ -1,26 +1,25 @@
 package controller;
 
 import io.Write;
-import view.ChessGameFrame;
-import view.Chessboard;
-
+import model.GameData;
 import java.util.ArrayList;
 
 import static io.Write.defaultOutFile;
 
 public class WriteController {
-    private final Chessboard chessboard;
+//    private final Chessboard chessboard;
+    private GameData gameData;
 
-    public WriteController(Chessboard chessboard) {
-        this.chessboard = chessboard;
+    public WriteController(GameData gameData) {
+        this.gameData = gameData;
     }
 
     public void save() {
         Write out = new Write(defaultOutFile);
-        out.printWriter.print(ChessGameFrame.AIType01 + " " + ChessGameFrame.AIType02 + "\n");
-        out.printWriter.print(ChessGameFrame.difficulty01 + " " + ChessGameFrame.difficulty02 + "\n");
+        out.printWriter.print(gameData.getAItype01() + " " + gameData.getAItype02() + "\n");
+        out.printWriter.print(gameData.getDifficulty01() + " " + gameData.getDifficulty02() + "\n");
 
-        ArrayList<String[][]> chessboardDatas = chessboard.getChessBoardDatas();
+        ArrayList<String[][]> chessboardDatas = gameData.getChessDatas();
         int currentColor = chessboardDatas.size()%2 == 0 ? 0 : 1;
         out.printWriter.println(currentColor);
         out.printWriter.println();
@@ -37,9 +36,10 @@ public class WriteController {
 
     public void saveGame(String outFilePath) {
         Write out1 = new Write(outFilePath);
-        out1.printWriter.print(ChessGameFrame.AIType01 + " " + ChessGameFrame.AIType02 + "\n");
-        out1.printWriter.print(ChessGameFrame.difficulty01 + " " + ChessGameFrame.difficulty02 + "\n");
-        ArrayList<String[][]> chessboardData = chessboard.getChessBoardDatas();
+        out1.printWriter.print(gameData.getAItype01() + " " + gameData.getAItype02() + "\n");
+        out1.printWriter.print(gameData.getDifficulty01() + " " + gameData.getDifficulty02() + "\n");
+
+        ArrayList<String[][]> chessboardData = gameData.getChessDatas();
         int currentColor = chessboardData.size()%2 == 0 ? 0 : 1;
         out1.printWriter.println(currentColor);
         out1.printWriter.println();

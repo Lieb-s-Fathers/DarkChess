@@ -78,21 +78,10 @@ public class Winboard extends JFrame {
         System.out.println("click restart");
         chessGameFrame.dispose();
         this.dispose();
-        ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
-        mainFrame.setVisible(true);
-
-//        if (chessGameFrame.getChessboard() != null) {
-//            chessGameFrame.remove(chessGameFrame.getChessboard());
-//        }
-//        StepSaver.initiate();
-//        chessGameFrame.addChessboard();
-//        chessGameFrame.addBackground();
-//        chessGameFrame.checkLabel.setVisible(false);
-//        chessGameFrame.setStatusLabel(ChessColor.WHITE);
-//        repaint();
-//        Countdown.restart();
-//        chessGameFrame.setVisible(true);
-//        chessGameFrame.winboard.setVisible(false);
+//        ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
+//        mainFrame.setVisible(true);
+        ModeSelection modeSelection = new ModeSelection(720, 720);
+        modeSelection.setVisible(true);
     }
 
     private void addBack() {
@@ -101,7 +90,7 @@ public class Winboard extends JFrame {
             System.out.println("click back");
             this.dispose();
             chessGameFrame.dispose();
-            StartMenuFrame Homepage = new StartMenuFrame(720, 720, true);
+            StartMenuFrame Homepage = new StartMenuFrame(1123, 767, true);
             Homepage.setVisible(true);
         });
         button.setLocation(WIDTH / 2 - 70, HEIGHT / 10 + 150);
