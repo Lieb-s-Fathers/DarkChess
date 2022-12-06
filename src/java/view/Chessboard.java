@@ -29,7 +29,7 @@ public class Chessboard extends JComponent {
     private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
     public int CHESS_SIZE = 0;
     private ChessColor currentColor;
-    public static final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
+    public static final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5, 0};
     private final int[][] componentList = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
     private GameData gameData;
     private ArrayList<String[][]> chessBoardDatas;
