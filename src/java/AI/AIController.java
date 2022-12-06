@@ -39,7 +39,7 @@ public class AIController extends JFrame {
             this.pressComponent(xy[2], xy[3]);
             this.pressComponent(xy[0], xy[1]);
         } else if (AIType == 3) {
-            AlphaBetaAI alphaBetaAI = new AlphaBetaAI(chessboard, difficulty);
+            AlphaBetaAI alphaBetaAI = new AlphaBetaAI(chessboard, difficulty%6);
             int[] xy = alphaBetaAI.move();
             System.out.println(xy[2] + " " + xy[3]);
             System.out.println(xy[0] + " " + xy[1]);

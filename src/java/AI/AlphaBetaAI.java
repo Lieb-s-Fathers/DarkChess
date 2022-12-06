@@ -6,8 +6,7 @@ import model.ChessColor;
 import view.Chessboard;
 
 public class AlphaBetaAI extends AI {
-
-    public int[][] possiblePoints = new int[32][2];
+    public static final int[] componentsScore = {60, 30, 15, 10, 5, 5, 15, 0};
     public int originX, originY;
     public int directionX, directionY;
     public int deepth;
@@ -44,13 +43,11 @@ public class AlphaBetaAI extends AI {
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 4; y++) {
                     SquareComponent thisComponent = squareComponents[x][y];
-                    if (thisComponent instanceof EmptySlotComponent)
-                        continue;
+                    if (thisComponent instanceof EmptySlotComponent) continue;
                     int[][] canMovePoints = getCanMovePoints(thisComponent);
                     int temp = 0;
                     if (thisComponent.isReversal) {
-                        if (thisComponent.getChessColor() != chessboard.getCurrentColor())
-                            continue;
+                        if (thisComponent.getChessColor() != chessboard.getCurrentColor()) continue;
                         for (int i = 0; i < 4; i++) {
                             if (canMovePoints[i][0] == -1) break;
                             SquareComponent tempComponent = squareComponents[canMovePoints[i][0]][canMovePoints[i][1]];
@@ -80,8 +77,7 @@ public class AlphaBetaAI extends AI {
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 4; y++) {
                     SquareComponent thisComponent = squareComponents[x][y];
-                    if (thisComponent instanceof EmptySlotComponent)
-                        continue;
+                    if (thisComponent instanceof EmptySlotComponent) continue;
                     int temp = 0;
                     if (!thisComponent.isReversal()) {
                         thisComponent.isReversal = true;
@@ -107,13 +103,11 @@ public class AlphaBetaAI extends AI {
                 for (int x = 0; x < 8; x++) {
                     for (int y = 0; y < 4; y++) {
                         SquareComponent thisComponent = squareComponents[x][y];
-                        if (thisComponent instanceof EmptySlotComponent)
-                            continue;
+                        if (thisComponent instanceof EmptySlotComponent) continue;
                         int[][] canMovePoints = getCanMovePoints(thisComponent);
                         int temp = 0;
                         if (thisComponent.isReversal) {
-                            if (thisComponent.getChessColor() != chessboard.getCurrentColor())
-                                continue;
+                            if (thisComponent.getChessColor() != chessboard.getCurrentColor()) continue;
                             for (int i = 0; i < 4; i++) {
                                 if (canMovePoints[i][0] == -1) break;
                                 SquareComponent tempComponent = squareComponents[canMovePoints[i][0]][canMovePoints[i][1]];
@@ -148,8 +142,7 @@ public class AlphaBetaAI extends AI {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 4; y++) {
                 SquareComponent thisComponent = squareComponents[x][y];
-                if (thisComponent instanceof EmptySlotComponent)
-                    continue;
+                if (thisComponent instanceof EmptySlotComponent) continue;
                 int temp = 0;
                 if (!thisComponent.isReversal()) {
                     thisComponent.isReversal = true;
@@ -169,13 +162,11 @@ public class AlphaBetaAI extends AI {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 4; y++) {
                 SquareComponent thisComponent = squareComponents[x][y];
-                if (thisComponent instanceof EmptySlotComponent)
-                    continue;
+                if (thisComponent instanceof EmptySlotComponent) continue;
                 int[][] canMovePoints = getCanMovePoints(thisComponent);
                 int temp = 0;
                 if (thisComponent.isReversal()) {
-                    if (thisComponent.getChessColor() == chessboard.getCurrentColor())
-                        continue;
+                    if (thisComponent.getChessColor() == chessboard.getCurrentColor()) continue;
                     for (int i = 0; i < 4; i++) {
                         if (canMovePoints[i][0] == -1) break;
                         SquareComponent tempComponent = squareComponents[canMovePoints[i][0]][canMovePoints[i][1]];
@@ -207,9 +198,9 @@ public class AlphaBetaAI extends AI {
                 SquareComponent thisComponent = squareComponents[x][y];
                 if (!(thisComponent instanceof EmptySlotComponent)) {
                     if (thisComponent.getChessColor() == ChessColor.BLACK) {
-                        scores[0] += Chessboard.componentsScore[thisComponent.getStyle()];
+                        scores[0] += componentsScore[thisComponent.getStyle()];
                     } else if (thisComponent.getChessColor() == ChessColor.RED) {
-                        scores[1] += Chessboard.componentsScore[thisComponent.getStyle()];
+                        scores[1] += componentsScore[thisComponent.getStyle()];
                     }
                 }
             }
