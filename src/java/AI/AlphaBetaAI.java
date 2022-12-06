@@ -39,35 +39,8 @@ public class AlphaBetaAI extends AI {
             return getScore(chessboard.getCurrentColor() == ChessColor.BLACK ? 0 : 1);
         }
         //己方
+        //再操作可以行走的棋子
         if (depth % 2 == 0) {
-            //先尝试翻开新的棋子
-            for (int x = 0; x < 8; x++) {
-                for (int y = 0; y < 4; y++) {
-                    SquareComponent thisComponent = squareComponents[x][y];
-                    if (thisComponent instanceof EmptySlotComponent)
-                        continue;
-                    int temp = 0;
-                    if (!thisComponent.isReversal()) {
-                        thisComponent.isReversal = true;
-                        temp = dfs(depth + 1, alpha, beta);
-                        thisComponent.isReversal = false;
-                        if (temp > alpha) {
-                            alpha = temp;
-                            if (depth == 0) {
-                                originX = -1;
-                                directionX = x;
-                                originY = -1;
-                                directionY = y;
-                            }
-                        }
-                        if (alpha >= beta) {
-                            ABcut++;
-                            return alpha;
-                        }
-                    }
-                }
-            }
-            //再操作可以行走的棋子
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 4; y++) {
                     SquareComponent thisComponent = squareComponents[x][y];
@@ -103,15 +76,80 @@ public class AlphaBetaAI extends AI {
                     }
                 }
             }
+            //先尝试翻开新的棋子
+            for (int x = 0; x < 8; x++) {
+                for (int y = 0; y < 4; y++) {
+                    SquareComponent thisComponent = squareComponents[x][y];
+                    if (thisComponent instanceof EmptySlotComponent)
+                        continue;
+                    int temp = 0;
+                    if (!thisComponent.isReversal()) {
+                        thisComponent.isReversal = true;
+                        temp = dfs(depth + 1, alpha, beta);
+                        thisComponent.isReversal = false;
+                        if (temp > alpha) {
+                            alpha = temp;
+                            if (depth == 0) {
+                                originX = -1;
+                                directionX = x;
+                                originY = -1;
+                                directionY = y;
+                            }
+                        }
+                        if (alpha >= beta) {
+                            ABcut++;
+                            return alpha;
+                        }
+                    }
+                }
+            }
+            if (alpha == 0) {
+                for (int x = 0; x < 8; x++) {
+                    for (int y = 0; y < 4; y++) {
+                        SquareComponent thisComponent = squareComponents[x][y];
+                        if (thisComponent instanceof EmptySlotComponent)
+                            continue;
+                        int[][] canMovePoints = getCanMovePoints(thisComponent);
+                        int temp = 0;
+                        if (thisComponent.isReversal) {
+                            if (thisComponent.getChessColor() != chessboard.getCurrentColor())
+                                continue;
+                            for (int i = 0; i < 4; i++) {
+                                if (canMovePoints[i][0] == -1) break;
+                                SquareComponent tempComponent = squareComponents[canMovePoints[i][0]][canMovePoints[i][1]];
+                                squareComponents[canMovePoints[i][0]][canMovePoints[i][1]] = squareComponents[x][y];
+                                squareComponents[x][y] = new EmptySlotComponent(thisComponent.getChessboardPoint(), thisComponent.getLocation(), null, 0);
+                                temp = dfs(depth + 1, alpha, beta);
+                                squareComponents[x][y] = squareComponents[canMovePoints[i][0]][canMovePoints[i][1]];
+                                squareComponents[canMovePoints[i][0]][canMovePoints[i][1]] = tempComponent;
+                                if (temp >= alpha) {
+                                    alpha = temp;
+                                    if (depth == 0) {
+                                        originX = x;
+                                        directionX = canMovePoints[i][0];
+                                        originY = y;
+                                        directionY = canMovePoints[i][1];
+                                    }
+                                }
+                                if (alpha >= beta) {
+                                    ABcut++;
+                                    return alpha;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             return alpha;
         }
         //对方
+        //先尝试翻开新的棋子
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 4; y++) {
                 SquareComponent thisComponent = squareComponents[x][y];
                 if (thisComponent instanceof EmptySlotComponent)
                     continue;
-                int[][] canMovePoints = getCanMovePoints(thisComponent);
                 int temp = 0;
                 if (!thisComponent.isReversal()) {
                     thisComponent.isReversal = true;
@@ -124,7 +162,18 @@ public class AlphaBetaAI extends AI {
                         ABcut++;
                         return beta;
                     }
-                } else {
+                }
+            }
+        }
+        //再操作可以行走的棋子
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 4; y++) {
+                SquareComponent thisComponent = squareComponents[x][y];
+                if (thisComponent instanceof EmptySlotComponent)
+                    continue;
+                int[][] canMovePoints = getCanMovePoints(thisComponent);
+                int temp = 0;
+                if (thisComponent.isReversal()) {
                     if (thisComponent.getChessColor() == chessboard.getCurrentColor())
                         continue;
                     for (int i = 0; i < 4; i++) {
