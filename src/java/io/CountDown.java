@@ -9,7 +9,7 @@ import javax.swing.*;
 import static view.StartMenuFrame.mainFrame;
 
 public class CountDown extends Thread {
-    private static final int roundTime = 10;
+    private static final int roundTime = 100000;
     private static int time = roundTime;
 
     private Chessboard chessboard;
