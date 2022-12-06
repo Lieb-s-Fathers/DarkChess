@@ -37,8 +37,8 @@ public class Winboard extends JFrame {
     public void showWinboard(GameData gameData) {
         replayFrame = new ReplayFrame(720, 720, gameData, this);
         replayFrame.setVisible(false);
-        chessGameFrame.dispose();
-        ChessGameFrame.getWinboard().setVisible(true);
+        chessGameFrame.setVisible(false);
+        setVisible(true);
     }
 
     private void addRestart() {
@@ -55,7 +55,7 @@ public class Winboard extends JFrame {
         JButton replayBtn = new JButton("Replay");
         replayBtn.addActionListener(e -> {
             setVisible(false);
-            chessGameFrame.dispose();
+            chessGameFrame.setVisible(false);
             replayFrame.setVisible(true);
         });
         replayBtn.setLocation(WIDTH / 2 - 70, HEIGHT / 10 + 50);

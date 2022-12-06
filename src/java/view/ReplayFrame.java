@@ -31,6 +31,7 @@ public class ReplayFrame extends ChessGameFrame {
         this.gameData = gameData;
 
         addChessboard(gameData, 0);
+        countDown.close();
         addEatenChesses();
 
         addTurnLabel();
@@ -63,6 +64,8 @@ public class ReplayFrame extends ChessGameFrame {
             steps++;
             gameController.reloadChessboard(gameData.getChessDatas(), steps);
             clickController.calculateScore(this);
+            clickController.swapPlayer();
+            countDown.close();
             showButton();
 
             clickController.setCanClick(true);
@@ -88,6 +91,8 @@ public class ReplayFrame extends ChessGameFrame {
             ArrayList<String[][]> chessboardDatas = gameData.getChessDatas();
             gameController.reloadChessboard(chessboardDatas, steps);
             clickController.calculateScore(this);
+            clickController.swapPlayer();
+            countDown.close();
             showButton();
 
             clickController.setCanClick(true);
@@ -114,7 +119,8 @@ public class ReplayFrame extends ChessGameFrame {
             clickController.setIsCheating(false);
             gameController.reloadChessboard(gameData.getChessDatas(), steps);
             notCheatButton.setVisible(false);
-            countDown.resumeThread();
+//            countDown.resumeThread();
+//            我是大傻逼
             addCheatButton();
             remove(notCheatButton);
         });

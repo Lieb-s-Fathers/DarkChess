@@ -100,7 +100,7 @@ public class ChessGameFrame extends JFrame {
         winboard = new Winboard(600, 300, this);
 
         addCountLabel();
-        addChessboard(gameData, gameData.getChessDatas().size()-1);
+        addChessboard(gameData);
         addEatenChesses();
         addMessageLabel();
 
@@ -177,6 +177,21 @@ public class ChessGameFrame extends JFrame {
     }
 
     public void addChessboard(GameData gameData, int steps) {
+        chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, gameData, steps);
+        gameController = new GameController(chessboard);
+        clickController = new ClickController(chessboard);
+        chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
+        add(chessboard);
+
+        defaultWriteController = new WriteController(chessboard.getGameData());
+        writeController = new WriteController(chessboard.getGameData());
+        AIFucker = new AIController(chessboard);
+
+        defaultWriteController.save();
+    }
+
+    public void addChessboard(GameData gameData) {
+        int steps = gameData.getChessDatas().size()-1;
         chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, gameData, steps);
         gameController = new GameController(chessboard);
         clickController = new ClickController(chessboard);
