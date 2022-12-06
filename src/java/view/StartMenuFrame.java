@@ -13,7 +13,6 @@ import static io.Write.defaultOutFile;
 public class StartMenuFrame extends JFrame {
     private final int WIDTH;
     private final int HEIGHT;
-    private final int extraDistance;
     public static Image icon = new ImageIcon("src/resources/image/icon.png").getImage();
 
     private GameController gameController;
@@ -41,7 +40,6 @@ public class StartMenuFrame extends JFrame {
         setLayout(null);
         setIconImage(icon);
 
-        extraDistance = isNewGame ? 0 : 100;
         if (!isNewGame) {
             //如果不是新游戏，添加继续游戏按钮
             addContinueButton();
@@ -79,7 +77,7 @@ public class StartMenuFrame extends JFrame {
     private void addStartButton() {
         JButton button = new JButton("Start");
         button.addActionListener((e) -> start());
-        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 220 + extraDistance);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 220);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBorderPainted(false);
@@ -91,7 +89,7 @@ public class StartMenuFrame extends JFrame {
 
     private void addLoadButton() {
         JButton button = new JButton("Load");
-        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 320 + extraDistance);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 320);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBorderPainted(false);
@@ -119,7 +117,7 @@ public class StartMenuFrame extends JFrame {
 
     private void addContinueButton() {
         JButton button = new JButton("Continue");
-        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 220);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 120);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
 
@@ -141,7 +139,7 @@ public class StartMenuFrame extends JFrame {
 
     private void addQuitButton() {
         JButton button = new JButton("Quit");
-        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 420 + extraDistance);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 420);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
 
@@ -159,7 +157,7 @@ public class StartMenuFrame extends JFrame {
     }
 
     private void start() {
-        ModeSelection modeSelection = new ModeSelection(720, 720);
+        ModeSelection modeSelection = new ModeSelection(720, 720, this);
         modeSelection.setVisible(true);
         this.dispose();
     }

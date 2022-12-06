@@ -82,7 +82,7 @@ public class Winboard extends JFrame {
         this.dispose();
 //        ChessGameFrame mainFrame = new ChessGameFrame(720, 720);
 //        mainFrame.setVisible(true);
-        ModeSelection modeSelection = new ModeSelection(720, 720);
+        ModeSelection modeSelection = new ModeSelection(720, 720, this);
         modeSelection.setVisible(true);
     }
 

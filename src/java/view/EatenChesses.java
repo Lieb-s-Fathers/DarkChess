@@ -27,7 +27,7 @@ public class EatenChesses extends Chessboard {
 
 
     public EatenChesses(int width, int height, Chessboard chessboard, ChessColor chessColor) {
-        super(width, height);
+        super(width, height, 0,0,0,0);
         setLayout(null); // Use absolute layout.
         setSize(width + 2, height);
         this.chessboard = chessboard;

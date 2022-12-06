@@ -93,6 +93,7 @@ public class ClickController {
                     next = new ArrayList<>();
 
                     //repaint in swap chess method.
+                    //todo: java动画
                     chessboard.swapChessComponents(first, squareComponent);
                     swapPlayer();
                     if (squareComponent instanceof EmptySlotComponent) {

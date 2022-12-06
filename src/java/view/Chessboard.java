@@ -33,7 +33,7 @@ public class Chessboard extends JComponent {
     private GameData gameData;
     private ArrayList<String[][]> chessBoardDatas;
 
-    public Chessboard(int width, int height) {
+    public Chessboard(int width, int height, int AIType01, int AIType02, int AIDifficulty01, int AIDifficulty02) {
         if (!(this instanceof EatenChesses)) {
             setLayout(null); // Use absolute layout.
             currentColor = ChessColor.RED;
@@ -42,11 +42,11 @@ public class Chessboard extends JComponent {
             SquareComponent.setSpacingLength(CHESS_SIZE / 12);
             System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
 
-            String[] types = JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
-            String[] difficultys = JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",");
+//            String[] types = JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
+//            String[] difficultys = JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",");
+//            gameData = new GameData(Integer.parseInt(types[0]), Integer.parseInt(types[1]), Integer.parseInt(difficultys[0]), Integer.parseInt(difficultys[1]));
 
-            gameData = new GameData(Integer.parseInt(types[0]), Integer.parseInt(types[1]), Integer.parseInt(difficultys[0]), Integer.parseInt(difficultys[1]));
-
+            gameData = new GameData(AIType01, AIType02, AIDifficulty01, AIDifficulty02);
 
             clickController = new ClickController(this);
             gameController = new GameController(this);

@@ -52,7 +52,7 @@ public class ChessGameFrame extends JFrame {
     protected GameData gameData;
     public ChessGameFrame() {
     }
-    public ChessGameFrame(int WIDTH, int HEIGHT, int AIPlayers) {
+    public ChessGameFrame(int WIDTH, int HEIGHT, int AIPlayers, int AIType01, int AIType02, int AIDifficulty01, int AIDifficulty02) {
         setTitle("2022 CS109 Project Demo"); //设置标题
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;
@@ -63,12 +63,13 @@ public class ChessGameFrame extends JFrame {
         setLocationRelativeTo(null); // Center the window.
         getContentPane().setBackground(Color.WHITE);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
-        setLayout(null);        winboard = new Winboard(600, 300, this);
+        setLayout(null);
+        winboard = new Winboard(600, 300, this);
 
         addCountLabel();
         addMessageLabel();
 
-        addChessboard();
+        addChessboard(AIType01, AIType02, AIDifficulty01, AIDifficulty02);
         addEatenChesses();
 
         addTurnLabel();
@@ -156,8 +157,8 @@ public class ChessGameFrame extends JFrame {
     /**
      * 在游戏窗体中添加棋盘
      */
-    public void addChessboard() {
-        chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE);
+    public void addChessboard(int AIType01, int AIType02, int AIDifficulty01, int AIDifficulty02) {
+        chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, AIType01, AIType02, AIDifficulty01, AIDifficulty02);
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
         add(chessboard);
 
