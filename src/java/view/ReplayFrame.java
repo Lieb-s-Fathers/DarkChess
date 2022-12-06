@@ -1,21 +1,36 @@
 package view;
 
+import model.GameData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ReplayFrame extends FatherFrame {
+public class ReplayFrame extends ChessGameFrame {
 
     private int steps = 0;
-    private ArrayList<String[][]> gameData;
     private JButton nextButton;
     private JButton lastButton;
+    private JFrame frame;
 
-    public ReplayFrame(int WIDTH, int HEIGHT, ArrayList<String[][]> gameData) {
-        super(WIDTH, HEIGHT);
+    public ReplayFrame(int WIDTH, int HEIGHT, GameData gameData, JFrame frame) {
+        super();
+        setTitle("2022 CS109 Project Demo"); //设置标题
+        this.WIDTH = WIDTH;
+        this.HEIGHT = HEIGHT;
+        this.CHESSBOARD_SIZE = HEIGHT * 4 / 5;
+        this.frame = frame;
+
+        setIconImage(StartMenuFrame.icon);
+        setSize(WIDTH, HEIGHT);
+        setLocationRelativeTo(null); // Center the window.
+        getContentPane().setBackground(Color.WHITE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
+        setLayout(null);
+
         this.gameData = gameData;
 
-        addChessboard();
+        addChessboard(gameData, 0);
         addEatenChesses();
 
         addTurnLabel();
@@ -46,7 +61,7 @@ public class ReplayFrame extends FatherFrame {
         nextButton.addActionListener((e) -> {
             System.out.println("click next");
             steps++;
-            gameController.reloadChessboard(gameData, steps);
+            gameController.reloadChessboard(gameData.getChessDatas(), steps);
             clickController.calculateScore(this);
             showButton();
 
@@ -70,7 +85,8 @@ public class ReplayFrame extends FatherFrame {
         lastButton.addActionListener((e) -> {
             System.out.println("click last");
             steps--;
-            gameController.reloadChessboard(gameData, steps);
+            ArrayList<String[][]> chessboardDatas = gameData.getChessDatas();
+            gameController.reloadChessboard(chessboardDatas, steps);
             clickController.calculateScore(this);
             showButton();
 
@@ -96,8 +112,9 @@ public class ReplayFrame extends FatherFrame {
             System.out.println("click notCheat");
             clickController.setCanClick(true);
             clickController.setIsCheating(false);
-            gameController.reloadChessboard(gameData, steps);
+            gameController.reloadChessboard(gameData.getChessDatas(), steps);
             notCheatButton.setVisible(false);
+            countDown.resumeThread();
             addCheatButton();
             remove(notCheatButton);
         });
@@ -109,6 +126,7 @@ public class ReplayFrame extends FatherFrame {
         button.addActionListener((e) -> {
             System.out.println("click back");
             this.setVisible(false);
+            frame.setVisible(true);
         });
         button.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 440);
         button.setSize(180, 40);
@@ -118,6 +136,6 @@ public class ReplayFrame extends FatherFrame {
 
     private void showButton() {
         lastButton.setVisible(steps != 0);
-        nextButton.setVisible(steps != gameData.size() - 1);
+        nextButton.setVisible(steps != gameData.getChessDatas().size() - 1);
     }
 }
