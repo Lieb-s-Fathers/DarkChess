@@ -1,7 +1,5 @@
 package controller;
 
-import model.ChessColor;
-import view.ChessGameFrame;
 import view.Chessboard;
 
 import java.util.ArrayList;
@@ -21,6 +19,7 @@ public class GameController {
     public void reloadChessboard(ArrayList<String[][]> gamedData,int step) {
         chessboard.loadGameData(gamedData);
         chessboard.loadGame(gamedData.get(step));
+
     }
 
     public void withdraw() {

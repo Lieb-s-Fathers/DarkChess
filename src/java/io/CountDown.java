@@ -78,6 +78,7 @@ public class CountDown extends Thread {
                     clickController.swapPlayer();
                     chessboard.addChessBoardData();
                     defaultWriteController.save();
+                    System.out.println(getPause());
                     messageLabel.setText("Time Out! Change Player");
                 }
             } catch (InterruptedException e) {

@@ -34,8 +34,6 @@ public class Chessboard extends JComponent {
     private GameData gameData;
     private ArrayList<String[][]> chessBoardDatas;
 
-
-
     public Chessboard(int width, int height) {
         if (!(this instanceof EatenChesses)) {
             setLayout(null); // Use absolute layout.
@@ -73,9 +71,9 @@ public class Chessboard extends JComponent {
             System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
             gameController.reloadChessboard(gameData.getChessDatas(), steps);
             if (steps % 2 == 0) {
-                currentColor = ChessColor.BLACK;
-            } else {
                 currentColor = ChessColor.RED;
+            } else {
+                currentColor = ChessColor.BLACK;
             }
         }
     }
