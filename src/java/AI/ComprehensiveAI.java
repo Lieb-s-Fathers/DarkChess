@@ -5,7 +5,7 @@ import chessComponent.SquareComponent;
 import model.ChessColor;
 import view.Chessboard;
 
-public class comprehensiveAI extends AI {
+public class ComprehensiveAI extends AI {
     public static final int[] componentsScore = {60, 30, 15, 10, 5, 5, 15, 0};
     public int originX, originY;
     public int directionX, directionY;
@@ -14,7 +14,7 @@ public class comprehensiveAI extends AI {
     SquareComponent[][] squareComponents = new SquareComponent[10][10];
 
 
-    public comprehensiveAI(Chessboard chessboard, int depth) {
+    public ComprehensiveAI(Chessboard chessboard, int depth) {
         this.chessboard = chessboard;
         for (int x = 0; x < 8; x++)
             for (int y = 0; y < 4; y++)

@@ -47,11 +47,11 @@ public class AIController extends JFrame {
             this.pressComponent(xy[2], xy[3]);
             this.pressComponent(xy[0], xy[1]);
         } else if (AIType == 4) {
-            AlphaBetaAI alphaBetaAI = new AlphaBetaAI(chessboard, difficulty);
-            int[] xy = alphaBetaAI.move();
+            ComprehensiveAI comprehensiveAI = new ComprehensiveAI(chessboard, difficulty);
+            int[] xy = comprehensiveAI.move();
             System.out.println(xy[2] + " " + xy[3]);
             System.out.println(xy[0] + " " + xy[1]);
-            System.out.println("剪枝数:" + alphaBetaAI.ABcut);
+            System.out.println("剪枝数:" + comprehensiveAI.ABcut);
             this.pressComponent(xy[2], xy[3]);
             this.pressComponent(xy[0], xy[1]);
         }
