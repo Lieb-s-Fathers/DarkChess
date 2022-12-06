@@ -9,6 +9,7 @@ import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
 import view.Chessboard;
+import view.SoundPlayer;
 import view.Winboard;
 
 import javax.swing.*;
@@ -24,6 +25,7 @@ public class ClickController {
     private ArrayList<SquareComponent> next = new ArrayList<>();
     private WriteController writeController;
     private AIController aiFucker;
+    private SoundPlayer audioPlayer = new SoundPlayer("src/resources/music/");
 
     public ClickController(Chessboard chessboard) {
         this.chessboard = chessboard;
@@ -97,8 +99,10 @@ public class ClickController {
                     chessboard.swapChessComponents(first, squareComponent);
                     swapPlayer();
                     if (squareComponent instanceof EmptySlotComponent) {
+                        playMoveMusic();
                         printMessage(first.getChessColor().getName(), first.getName());
                     } else {
+                        playEatMusic();
                         chessboard.printKilledComponents();
                         printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
                         calculateScore(mainFrame);
@@ -142,6 +146,7 @@ public class ClickController {
     private boolean handleFirst(SquareComponent squareComponent) {
         if (!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) {
             squareComponent.setReversal(true);
+            playReverseMusic();
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
             chessboard.addChessBoardData();
             writeController.save();
@@ -267,5 +272,17 @@ public class ClickController {
             ChessGameFrame.getWinboard().showWinboard(chessboard.getGameData());
             countDown.close();
         }
+    }
+
+    private void playEatMusic() {
+        audioPlayer.playMusic("吃子音效.wav");
+    }
+
+    private void playMoveMusic(){
+        audioPlayer.playMusic("移动音效.wav");
+    }
+
+    public void playReverseMusic() {
+        audioPlayer.playMusic("翻转音效.wav");
     }
 }

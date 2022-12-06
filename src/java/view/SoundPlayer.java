@@ -12,7 +12,7 @@ public class SoundPlayer {
         this.path = path;
     }
 
-    public void playMusic(String musicName) {
+    public void playMusicLoop(String musicName) {
         try {
             File musicPath = new File(path + musicName);
 
@@ -22,6 +22,23 @@ public class SoundPlayer {
                 clip.open(audioInput);
                 clip.start();
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                System.out.println("无法找到音乐路径");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void playMusic(String musicName) {
+        try {
+            File musicPath = new File(path + musicName);
+
+            if (musicPath.exists()) {
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start();
             } else {
                 System.out.println("无法找到音乐路径");
             }
