@@ -20,7 +20,7 @@ public class CountDown extends Thread {
     public CountDown(Chessboard chessboard) {
         this.chessboard = chessboard;
         clickController = new ClickController(chessboard);
-        defaultWriteController = new WriteController(chessboard);
+        defaultWriteController = new WriteController(chessboard.getGameData());
     }
 
     private final Object lock = new Object();

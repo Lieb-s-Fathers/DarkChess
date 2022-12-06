@@ -1,11 +1,15 @@
 package view;
 
 import AI.AIController;
+import controller.ClickController;
+import controller.GameController;
 import controller.ReadController;
 import controller.WriteController;
 import io.CountDown;
 import io.Write;
+import model.ChessColor;
 import model.ErrorType;
+import model.GameData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static io.Write.defaultOutFile;
+import static view.StartMenuFrame.mainFrame;
 
 /**
  * 这个类表示游戏窗体，窗体上包含：
@@ -20,20 +25,45 @@ import static io.Write.defaultOutFile;
  * 2 JLabel:  标签
  * 3 JButton： 按钮
  */
-public class ChessGameFrame extends FatherFrame {
+public class ChessGameFrame extends JFrame {
+    private static JLabel statusLabel;
+    private static JLabel redScoreLabel;
+    private static JLabel blackScoreLabel;
+    private static JLabel messageLabel;
+    protected static JButton cheatButton;
+    protected static JButton notCheatButton;
+
+    protected EatenChesses eatenBlackChesses;
+    protected EatenChesses eatenRedChesses;
+    public int CHESSBOARD_SIZE;
+    protected int WIDTH;
+    protected int HEIGHT;
+    protected Chessboard chessboard;
+    protected GameController gameController;
+    protected ClickController clickController;
     private static Winboard winboard;
     public static Write out = new Write(defaultOutFile);
     private static JLabel countLabel;
     public static CountDown countDown;
     private AIController AIFucker;
-    private ReadController readController = new ReadController(this);
+    private ReadController readController;
     private WriteController defaultWriteController;
     private WriteController writeController;
-    public static int AIType01, AIType02, difficulty01, difficulty02;
+    protected GameData gameData;
+    public ChessGameFrame() {
+    }
+    public ChessGameFrame(int WIDTH, int HEIGHT, int AIPlayers) {
+        setTitle("2022 CS109 Project Demo"); //设置标题
+        this.WIDTH = WIDTH;
+        this.HEIGHT = HEIGHT;
+        this.CHESSBOARD_SIZE = HEIGHT * 4 / 5;
 
-    public ChessGameFrame(int WIDTH, int HEIGHT) {
-        super(WIDTH, HEIGHT);
-        winboard = new Winboard(600, 300, this);
+        setIconImage(StartMenuFrame.icon);
+        setSize(WIDTH, HEIGHT);
+        setLocationRelativeTo(null); // Center the window.
+        getContentPane().setBackground(Color.WHITE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
+        setLayout(null);        winboard = new Winboard(600, 300, this);
 
         addCountLabel();
         addMessageLabel();
@@ -51,15 +81,26 @@ public class ChessGameFrame extends FatherFrame {
         addWithdrawButton();
         addSaveButton();
         addLoadButton();
-        addAIButton();
+        addAIButton(AIPlayers);
     }
 
-    public ChessGameFrame(int WIDTH, int HEIGHT, ArrayList<String[][]> gameData) {
-        super(WIDTH, HEIGHT);
+    public ChessGameFrame(int WIDTH, int HEIGHT, GameData gameData) {
+        setTitle("2022 CS109 Project Demo"); //设置标题
+        this.WIDTH = WIDTH;
+        this.HEIGHT = HEIGHT;
+        this.CHESSBOARD_SIZE = HEIGHT * 4 / 5;
+        this.gameData = gameData;
+
+        setIconImage(StartMenuFrame.icon);
+        setSize(WIDTH, HEIGHT);
+        setLocationRelativeTo(null); // Center the window.
+        getContentPane().setBackground(Color.WHITE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
+        setLayout(null);
         winboard = new Winboard(600, 300, this);
 
         addCountLabel();
-        addChessboard(gameData);
+        addChessboard(gameData, gameData.getChessDatas().size()-1);
         addEatenChesses();
         addMessageLabel();
 
@@ -69,20 +110,44 @@ public class ChessGameFrame extends FatherFrame {
         addBackButton();
 
         addCheatButton();
+        addNotCheatButton();
+        notCheatButton.setVisible(false);
 
         addWithdrawButton();
         addSaveButton();
         addLoadButton();
-        addAIButton();
+        addAIButton(gameData.getAIPlayers());
 
         clickController.calculateScore(this);
         clickController.winJudge();
+    }
+    public static JLabel getStatusLabel() {
+        return statusLabel;
+    }
+
+    public JLabel getRedScoreLabel() {
+        return redScoreLabel;
+    }
+
+    public JLabel getBlackScoreLabel() {
+        return blackScoreLabel;
+    }
+
+    public static JLabel getMessageLabel() {
+        return messageLabel;
+    }
+
+    public EatenChesses getEatenRedChesses(){
+        return eatenRedChesses;
+    }
+
+    public EatenChesses getEatenBlackChesses(){
+        return eatenBlackChesses;
     }
 
     public static Winboard getWinboard() {
         return winboard;
     }
-
 
     public static JLabel getCount() {
         return countLabel;
@@ -91,32 +156,35 @@ public class ChessGameFrame extends FatherFrame {
     /**
      * 在游戏窗体中添加棋盘
      */
-    @Override
     public void addChessboard() {
-        super.addChessboard();
-        defaultWriteController = new WriteController(chessboard);
-        writeController = new WriteController(chessboard);
+        chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE);
+        chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
+        add(chessboard);
+
+        gameData = chessboard.getGameData();
+
+        defaultWriteController = new WriteController(chessboard.getGameData());
+        writeController = new WriteController(chessboard.getGameData());
+        gameController = new GameController(chessboard);
+        clickController = new ClickController(chessboard);
+
 
         AIFucker = new AIController(chessboard);
-        //ai类型和难度初始化
-        String[] types = JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
-        String[] difficultys = JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",");
-        AIType01 = Integer.parseInt(types[0]);
-        AIType02 = Integer.parseInt(types[1]);
-        difficulty01 = Integer.parseInt(difficultys[0]);
-        difficulty02 = Integer.parseInt(difficultys[1]);
-
         countDown = new CountDown(chessboard);
         countDown.start();
 
         defaultWriteController.save();
     }
 
-    @Override
-    public void addChessboard(ArrayList<String[][]> gameData) {
-        super.addChessboard(gameData);
-        defaultWriteController = new WriteController(chessboard);
-        writeController = new WriteController(chessboard);
+    public void addChessboard(GameData gameData, int steps) {
+        chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, gameData, steps);
+        gameController = new GameController(chessboard);
+        clickController = new ClickController(chessboard);
+        chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
+        add(chessboard);
+
+        defaultWriteController = new WriteController(chessboard.getGameData());
+        writeController = new WriteController(chessboard.getGameData());
         AIFucker = new AIController(chessboard);
 
         countDown = new CountDown(chessboard);
@@ -133,6 +201,46 @@ public class ChessGameFrame extends FatherFrame {
         add(countLabel);
     }
 
+    protected void addEatenChesses() {
+        eatenBlackChesses = new EatenChesses(CHESSBOARD_SIZE / 8, CHESSBOARD_SIZE / 16 * 7, chessboard, ChessColor.BLACK);
+        eatenRedChesses = new EatenChesses(CHESSBOARD_SIZE / 8, CHESSBOARD_SIZE / 16 * 7, chessboard, ChessColor.RED);
+        eatenBlackChesses.setLocation(HEIGHT / 10 - 6 - chessboard.CHESS_SIZE, HEIGHT / 10 + chessboard.CHESS_SIZE);
+        eatenRedChesses.setLocation(HEIGHT / 10 + 8 + chessboard.CHESS_SIZE * 4, HEIGHT / 10 + chessboard.CHESS_SIZE);
+        add(eatenBlackChesses);
+        add(eatenRedChesses);
+    }
+
+    protected void addTurnLabel() {
+        statusLabel = new JLabel(gameController.getCurrentColor() + "'s TURN");
+        statusLabel.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10);
+        statusLabel.setSize(200, 60);
+        statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(statusLabel);
+    }
+
+    protected void addRedScoreLabel() {
+        redScoreLabel = new JLabel("Red Score:     0");
+        redScoreLabel.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 50);
+        redScoreLabel.setSize(200, 60);
+        redScoreLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(redScoreLabel);
+    }
+
+    protected void addBlackScoreLabel() {
+        blackScoreLabel = new JLabel("Black Score:   0");
+        blackScoreLabel.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 100);
+        blackScoreLabel.setSize(200, 60);
+        blackScoreLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(blackScoreLabel);
+    }
+    protected void addMessageLabel() {
+        messageLabel = new JLabel("");
+        messageLabel.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 150);
+        messageLabel.setSize(200, 60);
+        messageLabel.setFont(new Font("黑体", Font.BOLD, 20));
+        messageLabel.setForeground(Color.RED);
+        add(messageLabel);
+    }
 
     private void addWithdrawButton() {
         JButton button = new JButton("Withdraw");
@@ -155,6 +263,46 @@ public class ChessGameFrame extends FatherFrame {
             notCheatButton.setVisible(false);
             remove(notCheatButton);
             remove(cheatButton);
+            addCheatButton();
+        });
+    }
+
+    protected void addCheatButton() {
+        cheatButton = new JButton("Cheat");
+        cheatButton.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 420);
+        cheatButton.setSize(180, 20);
+        cheatButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(cheatButton);
+
+        cheatButton.addActionListener((e) -> {
+            System.out.println("click cheat");
+            countDown.pauseThread();
+            clickController.setCanClick(false);
+            clickController.setIsCheating(true);
+            clickController.setIsReversal(true);
+            cheatButton.setVisible(false);
+            remove(cheatButton);
+            addNotCheatButton();
+        });
+    }
+
+    protected void addNotCheatButton(){
+        notCheatButton = new JButton("NotCheat");
+        notCheatButton.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 420);
+        notCheatButton.setSize(180, 20);
+        notCheatButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        notCheatButton.setVisible(true);
+        add(notCheatButton);
+
+        notCheatButton.addActionListener((e) -> {
+            System.out.println("click notcheat");
+            clickController.setCanClick(true);
+            clickController.setIsCheating(false);
+            ArrayList<String[][]> gameData = chessboard.getChessBoardDatas();
+            gameController.reloadChessboard(gameData, gameData.size()-1);
+            notCheatButton.setVisible(false);
+            countDown.resumeThread();
+            remove(notCheatButton);
             addCheatButton();
         });
     }
@@ -188,75 +336,47 @@ public class ChessGameFrame extends FatherFrame {
         add(button);
 
         button.addActionListener(e -> {
-
             System.out.println("click load");
-//            String path = JOptionPane.showInputDialog(this, "Input Path here");
-//            if (path != null) {
-//                countDown.close();
-//                ArrayList<String[][]> gameData = readController.loadGameFromFile(path);
-//                gameController.reloadChessboard(gameData, gameData.size() - 1);
-//            }
-            String path = readController.readPath();
-            ArrayList<String[][]> gameData = new ArrayList<>();
+            readController = new ReadController();
+            String path = readController.readPath(this);
             if (path != null) {
-                try {
-                    gameData = readController.loadGameFromFile(path);
-                } catch (Exception ex) {
-                    readController.setErrors(ErrorType.ONE00);
-                }
+                readController.loadGameFromFile(path);
             }else {
                 readController.setErrors(ErrorType.ONE00);
             }
-            if (readController.getError() == ErrorType.NOError){
+            if (readController.getError(this) == ErrorType.NOError){
                 countDown.close();
-                gameController.reloadChessboard(gameData, gameData.size() - 1);
-            }
+                mainFrame = new ChessGameFrame(720, 720, readController.getGameData());
+                mainFrame.setVisible(true);
+                this.dispose();}
         });
     }
 
-    private void addAIButton() {
-        JButton button01 = new JButton("AI01");
-        button01.addActionListener((e) -> {
-            System.out.println("AIFuckyou");
-            AIFucker.play(AIType01, difficulty01);
-        });
-        button01.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 520);
-        button01.setSize(90, 40);
-        button01.setFont(new Font("Rockwell", Font.BOLD, 10));
-        add(button01);
+    private void addAIButton(int AIPlayers) {
+        if (AIPlayers >= 1){
+            JButton button01 = new JButton("AI01");
+            button01.addActionListener((e) -> {
+                System.out.println("AIFuckyou");
+                AIFucker.play(gameData.getAItype01(), gameData.getDifficulty01());
+            });
+            button01.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 520);
+            button01.setSize(180 / AIPlayers, 40);
+            button01.setFont(new Font("Rockwell", Font.BOLD, 10));
+            add(button01);
+        }
 
 
-        JButton button02 = new JButton("AI02");
-        button02.addActionListener((e) -> {
-            System.out.println("AIFucyou");
-            AIFucker.play(AIType02, difficulty02);
-        });
-        button02.setLocation(WIDTH * 3 / 5 + 90 + 10, HEIGHT / 10 + 520);
-        button02.setSize(90, 40);
-        button02.setFont(new Font("Rockwell", Font.BOLD, 10));
-        add(button02);
-
-        JButton aiPlay = new JButton("AIALTOPLAY");
-        aiPlay.addActionListener((e) -> {
-            for (int i = 1; i <= 10; i++) {
-                AIFucker.play(AIType01, difficulty01);
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
-                AIFucker.play(AIType02, difficulty02);
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-        aiPlay.setLocation(WIDTH * 3 / 5 + 90 + 10, HEIGHT / 10 + 520);
-        aiPlay.setSize(90, 40);
-        aiPlay.setFont(new Font("Rockwell", Font.BOLD, 10));
-        add(aiPlay);
+        if (AIPlayers == 2){
+            JButton button02 = new JButton("AI02");
+            button02.addActionListener((e) -> {
+                System.out.println("AIFucyou");
+                AIFucker.play(gameData.getAItype02(), gameData.getDifficulty02());
+            });
+            button02.setLocation(WIDTH * 3 / 5 + 90 + 10, HEIGHT / 10 + 520);
+            button02.setSize(90, 40);
+            button02.setFont(new Font("Rockwell", Font.BOLD, 10));
+            add(button02);
+        }
     }
 
     protected void addBackButton() {
@@ -270,7 +390,7 @@ public class ChessGameFrame extends FatherFrame {
             System.out.println("click back");
             this.setVisible(false);
             countDown.close();
-            StartMenuFrame firstFrame = new StartMenuFrame(720, 720, false);
+            StartMenuFrame firstFrame = new StartMenuFrame(1123, 767, false);
             firstFrame.setVisible(true);
         });
     }
