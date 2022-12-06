@@ -18,19 +18,18 @@ import java.util.Random;
  * SquareComponent[][]: 4*8个方块格子组件
  */
 public class Chessboard extends JComponent {
-    private boolean canClick = true;
-    private boolean isCheating = false;
+    public static final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5, 0};
     private static final int ROW_SIZE = 8;
     private static final int COL_SIZE = 4;
+    private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
+    private final int[][] componentList = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
+    public int CHESS_SIZE = 0;
+    private boolean canClick = true;
+    private boolean isCheating = false;
     //all chessComponents in this chessboard are shared only one model controller
     private ClickController clickController;
     private GameController gameController;
-
-    private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
-    public int CHESS_SIZE = 0;
     private ChessColor currentColor;
-    public static final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5, 0};
-    private final int[][] componentList = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
     private GameData gameData;
     private ArrayList<String[][]> chessBoardDatas;
 
@@ -123,7 +122,7 @@ public class Chessboard extends JComponent {
         return gameData;
     }
 
-    public void setGameData(GameData gameData){
+    public void setGameData(GameData gameData) {
         this.gameData = gameData;
     }
 
@@ -152,6 +151,10 @@ public class Chessboard extends JComponent {
 
     public ChessColor getCurrentColor() {
         return currentColor;
+    }
+
+    public void setCurrentColor(ChessColor currentColor) {
+        this.currentColor = currentColor;
     }
 
     public void addChessBoardData() {
@@ -183,10 +186,6 @@ public class Chessboard extends JComponent {
 
     public void setChessBoardDatas(ArrayList<String[][]> chessBoardDatas) {
         this.chessBoardDatas = chessBoardDatas;
-    }
-
-    public void setCurrentColor(ChessColor currentColor) {
-        this.currentColor = currentColor;
     }
 
     /**
@@ -231,31 +230,53 @@ public class Chessboard extends JComponent {
         for (int i = 0; i < squareComponents.length; i++) {
             for (int j = 0; j < squareComponents[i].length; j++) {
                 int colorID = random.nextInt(2);
-                int temp = random.nextInt(7);
-                while (componentList[colorID][temp] == 0) {
-                    temp = random.nextInt(7);
-                    colorID = random.nextInt(2);
-                }
+                int temp = random.nextInt(16);
+                int tempstyle = 0;
+                if (temp == 0) tempstyle = 0;
+                else if (0 < temp && temp <= 2) tempstyle = 1;
+                else if (temp > 2 && temp <= 4) tempstyle = 2;
+                else if (temp > 4 && temp <= 6) tempstyle = 3;
+                else if (temp > 6 && temp <= 8) tempstyle = 4;
+                else if (temp > 8 && temp <= 13) tempstyle = 5;
+                else tempstyle = 6;
 
+                while (componentList[colorID][tempstyle] == 0) {
+                    temp = random.nextInt(16);
+                    colorID = random.nextInt(2);
+                    if (temp == 0) tempstyle = 0;
+                    else if (0 < temp && temp <= 2) tempstyle = 1;
+                    else if (temp > 2 && temp <= 4) tempstyle = 2;
+                    else if (temp > 4 && temp <= 6) tempstyle = 3;
+                    else if (temp > 6 && temp <= 8) tempstyle = 4;
+                    else if (temp > 8 && temp <= 13) tempstyle = 5;
+                    else tempstyle = 6;
+                }
                 ChessColor color = colorID == 0 ? ChessColor.RED : ChessColor.BLACK;
                 SquareComponent squareComponent;
-
+                int style = 0;
                 if (temp == 0) {
+                    style = 0;
                     squareComponent = new GeneralChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (temp == 1) {
+                } else if (0 < temp && temp <= 2) {
+                    style = 1;
                     squareComponent = new AdvisorChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (temp == 2) {
+                } else if (temp > 2 && temp <= 4) {
+                    style = 2;
                     squareComponent = new MinisterChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (temp == 3) {
+                } else if (temp > 4 && temp <= 6) {
+                    style = 3;
                     squareComponent = new ChariotChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (temp == 4) {
+                } else if (temp > 6 && temp <= 8) {
+                    style = 4;
                     squareComponent = new HorseChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (temp == 5) {
+                } else if (temp > 8 && temp <= 13) {
+                    style = 5;
                     squareComponent = new SoldierChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
                 } else {
+                    style = 6;
                     squareComponent = new CannonChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
                 }
-                componentList[colorID][temp]--;
+                componentList[colorID][style]--;
                 squareComponent.setVisible(true);
                 putChessOnBoard(squareComponent);
             }
