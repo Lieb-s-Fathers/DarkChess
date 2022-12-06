@@ -64,11 +64,11 @@ public class StartMenuFrame extends JFrame {
         add(statusLabel);
     }
 
-    public void addBackImage(){
+    public void addBackImage() {
         ImageIcon icon = new ImageIcon("src/resources/image/首页背景2.jpg");
         JLabel backImage = new JLabel(icon);
         backImage.setSize(icon.getIconWidth(), icon.getIconWidth());
-        backImage.setLocation(0,-178);
+        backImage.setLocation(0, -178);
         getContentPane().add(backImage);
     }
 
@@ -102,19 +102,15 @@ public class StartMenuFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("click load");
-            readController = new ReadController(gameData);
-            String path = readController.readPath();
+            readController = new ReadController();
+            String path = readController.readPath(this);
             if (path != null) {
-                try {
-                    readController.loadGameFromFile(path);
-                } catch (Exception ex) {
-                    readController.setErrors(ErrorType.ONE00);
-                }
-            }else {
+                readController.loadGameFromFile(path);
+            } else {
                 readController.setErrors(ErrorType.ONE00);
             }
-            if (readController.getError() == ErrorType.NOError){
-                mainFrame = new ChessGameFrame(720, 720, gameData);
+            if (readController.getError(this) == ErrorType.NOError) {
+                mainFrame = new ChessGameFrame(720, 720, readController.getGameData());
                 mainFrame.setVisible(true);
                 this.dispose();
             }
@@ -135,14 +131,11 @@ public class StartMenuFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("click continue");
-//            try {
+            readController = new ReadController();
             readController.loadGameFromFile(defaultOutFile);
-            mainFrame = new ChessGameFrame(720, 720, gameData);
+            mainFrame = new ChessGameFrame(720, 720, readController.getGameData());
             mainFrame.setVisible(true);
             this.dispose();
-//            } catch (Exception ex) {
-//                JOptionPane.showMessageDialog(this, "存档已丢失，请重新开始游戏");
-//            }
         });
     }
 
@@ -166,7 +159,7 @@ public class StartMenuFrame extends JFrame {
     }
 
     private void start() {
-        ModeSelection modeSelection = new ModeSelection(720,720);
+        ModeSelection modeSelection = new ModeSelection(720, 720);
         modeSelection.setVisible(true);
         this.dispose();
     }

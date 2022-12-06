@@ -17,31 +17,35 @@ public class ReadController {
     private ErrorType error = ErrorType.NOError;
     private GameData gameData;
     private final String[] colorNames = {ChessColor.BLACK.getName(), ChessColor.RED.getName(), ChessColor.NONE.getName()};
-    private final String[] chessStyles = {"0","1","2","3","4","5","6","7"};
+    private final String[] chessStyles = {"0", "1", "2", "3", "4", "5", "6", "7"};
     private final String[] currentColors = {"0", "1"};
     private ArrayList<String[][]> chessDatas;
 
-    public ReadController(GameData gameData) {
+    public void setGameData(GameData gameData) {
         this.gameData = gameData;
     }
 
+    public GameData getGameData() {
+        return gameData;
+    }
+
     public void setErrors(ErrorType error) {
-        if (this.error == ErrorType.NOError){
+        if (this.error == ErrorType.NOError) {
             this.error = error;
         }
     }
 
-    public ErrorType getError(){
-        if (error != ErrorType.NOError){
-//            JOptionPane.showMessageDialog(frame, error.getName()+" "+error.getMessage());
+    public ErrorType getError(JFrame frame) {
+        if (error != ErrorType.NOError) {
+            JOptionPane.showMessageDialog(frame, error.getName() + " " + error.getMessage());
         }
         return error;
     }
 
-    public String readPath(){
+    public String readPath(JFrame frame) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(defaultOutFilePath));
-//        fileChooser.showOpenDialog();
+        fileChooser.showOpenDialog(frame);
         //todo: filechooser
         try {
             String filePath = fileChooser.getSelectedFile().getName();
@@ -65,11 +69,8 @@ public class ReadController {
             tempData = in.nextLine();
             String[] difficulties = tempData.split(" ");
 
-            gameData.setAItype01(Integer.parseInt(types[0]));
-            gameData.setAItype02(Integer.parseInt(types[1]));
-            gameData.setDifficulty01(Integer.parseInt(difficulties[0]));
-            gameData.setDifficulty02(Integer.parseInt(difficulties[1]));
-            gameData.setCurrentColor(Integer.parseInt(in.nextLine()));
+            gameData = new GameData(Integer.parseInt(types[0]), Integer.parseInt(types[1]), Integer.parseInt(difficulties[0]), Integer.parseInt(difficulties[1]));
+            gameData.setCurrentColor(in.nextLine());
 
             in.nextLine();
 
@@ -107,17 +108,16 @@ public class ReadController {
             setErrors(ErrorType.ONE04);
         }
 
-        //todo: 行棋步骤错误
-        for (int i=1;i<chessDatas.size(); i++) {
+        for (int i = 1; i < chessDatas.size(); i++) {
             int notSame = 0;
             String[][] chessBoardData = chessDatas.get(i);
-            String[][] lastChessBoardData = chessDatas.get(i-1);
-            for (int j=0; j<=32; j++){
-                if (!Arrays.deepEquals(chessBoardData, lastChessBoardData)) {
+            String[][] lastChessBoardData = chessDatas.get(i - 1);
+            for (int j = 0; j < 32; j++) {
+                if (!Arrays.deepEquals(chessBoardData[j], lastChessBoardData[j])) {
                     notSame++;
                 }
             }
-            if (notSame > 2){
+            if (notSame > 2) {
                 setErrors(ErrorType.ONE05);
             }
         }

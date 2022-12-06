@@ -31,8 +31,9 @@ public class Chessboard extends JComponent {
     private ChessColor currentColor;
     public static final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5};
     private final int[][] componentList = {{1, 2, 2, 2, 2, 5, 2}, {1, 2, 2, 2, 2, 5, 2}};
-    private ArrayList<String[][]> chessBoardDatas = new ArrayList<>();
     private GameData gameData;
+    private ArrayList<String[][]> chessBoardDatas;
+
 
 
     public Chessboard(int width, int height) {
@@ -52,15 +53,17 @@ public class Chessboard extends JComponent {
 
             clickController = new ClickController(this);
             gameController = new GameController(this);
+            chessBoardDatas = gameData.getChessDatas();
 
             initAllChessOnBoard();
             addChessBoardData();
         }
     }
 
-    public Chessboard(int width, int height, GameData gameData) {
+    public Chessboard(int width, int height, GameData gameData, int steps) {
         if (!(this instanceof EatenChesses)) {
             this.gameData = gameData;
+            chessBoardDatas = gameData.getChessDatas();
             clickController = new ClickController(this);
             gameController = new GameController(this);
             setLayout(null); // Use absolute layout.
@@ -68,7 +71,7 @@ public class Chessboard extends JComponent {
             CHESS_SIZE = (height - 6) / 8;
             SquareComponent.setSpacingLength(CHESS_SIZE / 12);
             System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
-            int steps = gameData.getChessDatas().size();
+            gameController.reloadChessboard(gameData.getChessDatas(), steps);
             if (steps % 2 == 0) {
                 currentColor = ChessColor.BLACK;
             } else {

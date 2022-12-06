@@ -9,7 +9,6 @@ import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
 import view.Chessboard;
-import view.FatherFrame;
 import view.Winboard;
 
 import javax.swing.*;
@@ -194,7 +193,7 @@ public class ClickController {
     }
 
     //计算分数
-    public void calculateScore(FatherFrame thisFrame) {
+    public void calculateScore(ChessGameFrame thisFrame) {
         thisFrame.getRedScoreLabel().setText("Red Score:     " + chessboard.getRedScore());
         thisFrame.getBlackScoreLabel().setText("Black Score:   " + chessboard.getBlackScore());
 
@@ -258,13 +257,13 @@ public class ClickController {
     public void winJudge() {
         if (chessboard.getRedScore() >= 60) {
             Winboard.setWinText("Red");
-            ChessGameFrame.getWinboard().showWinboard(chessboard.getChessBoardDatas());
+            ChessGameFrame.getWinboard().showWinboard(chessboard.getGameData());
             countDown.close();
         }
 
         if (chessboard.getBlackScore() >= 60) {
             Winboard.setWinText("Black");
-            ChessGameFrame.getWinboard().showWinboard(chessboard.getChessBoardDatas());
+            ChessGameFrame.getWinboard().showWinboard(chessboard.getGameData());
             countDown.close();
         }
     }

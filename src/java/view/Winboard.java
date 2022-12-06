@@ -1,8 +1,9 @@
 package view;
 
+import model.GameData;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Winboard extends JFrame {
     private final int WIDTH;
@@ -10,7 +11,6 @@ public class Winboard extends JFrame {
     private ChessGameFrame chessGameFrame;
     private ReplayFrame replayFrame;
     private static JLabel WinText;
-
 
 //    //todo replay
 //    static ReplayFrame replayFrame;
@@ -22,6 +22,7 @@ public class Winboard extends JFrame {
         this.WIDTH = WIDGH;
         this.HEIGHT = HEIGHT;
         setSize(WIDTH, HEIGHT);
+        setAlwaysOnTop(true);
         setLocationRelativeTo(null);
         setVisible(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -33,8 +34,8 @@ public class Winboard extends JFrame {
         addReplay();
     }
 
-    public void showWinboard(ArrayList<String[][]> gameData) {
-        replayFrame = new ReplayFrame(720, 720, gameData);
+    public void showWinboard(GameData gameData) {
+        replayFrame = new ReplayFrame(720, 720, gameData, this);
         replayFrame.setVisible(false);
         chessGameFrame.dispose();
         ChessGameFrame.getWinboard().setVisible(true);
@@ -53,6 +54,7 @@ public class Winboard extends JFrame {
     public void addReplay() {
         JButton replayBtn = new JButton("Replay");
         replayBtn.addActionListener(e -> {
+            setVisible(false);
             chessGameFrame.dispose();
             replayFrame.setVisible(true);
         });

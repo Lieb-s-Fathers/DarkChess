@@ -7,7 +7,7 @@ public class GameData {
     private int AItype02;
     private int difficulty01;
     private int difficulty02;
-    private int currentColor;
+    private String currentColor;
     private int AIPlayers;
     ArrayList<String[][]> chessDatas = new ArrayList<>();
 
@@ -16,6 +16,16 @@ public class GameData {
         this.AItype02 = AItype02;
         this.difficulty01 = difficulty01;
         this.difficulty02 = difficulty02;
+        if(AItype01 != 0 && AItype02 != 0){
+            AIPlayers = 2;
+        } else {
+            if (AItype01 == 0 && AItype02 == 0) {
+                AIPlayers = 0;
+            }
+            else{
+                AIPlayers = 1;
+            }
+        }
     }
 
     public int getAItype01() {
@@ -30,40 +40,24 @@ public class GameData {
         return AItype02;
     }
 
-    public void setAItype02(int AItype02) {
-        this.AItype02 = AItype02;
-    }
-
     public int getDifficulty01() {
         return difficulty01;
-    }
-
-    public void setDifficulty01(int difficulty01) {
-        this.difficulty01 = difficulty01;
     }
 
     public int getDifficulty02() {
         return difficulty02;
     }
 
-    public void setDifficulty02(int difficulty02) {
-        this.difficulty02 = difficulty02;
-    }
-
-    public int getCurrentColor() {
+    public String getCurrentColor() {
         return currentColor;
     }
 
-    public void setCurrentColor(int currentColor) {
+    public void setCurrentColor(String currentColor) {
         this.currentColor = currentColor;
     }
 
     public int getAIPlayers() {
         return AIPlayers;
-    }
-
-    public void setAIPlayers(int AIPlayers) {
-        this.AIPlayers = AIPlayers;
     }
 
     public ArrayList<String[][]> getChessDatas() {
@@ -73,5 +67,4 @@ public class GameData {
     public void setChessDatas(ArrayList<String[][]> chessDatas) {
         this.chessDatas = chessDatas;
     }
-
 }
