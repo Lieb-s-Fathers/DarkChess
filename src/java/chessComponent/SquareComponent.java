@@ -24,7 +24,7 @@ public abstract class SquareComponent extends JComponent {
      */
     private final ClickController clickController;
     protected int style;
-    protected boolean isReversal;
+    public boolean isReversal;
     protected boolean[][] canEat = {
             {true, true, true, true, true, false, true, true},
             {false, true, true, true, true, true, true, true},
