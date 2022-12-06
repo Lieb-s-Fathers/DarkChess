@@ -60,10 +60,10 @@ public class AlphaBetaAI extends AI {
                                 directionY = y;
                             }
                         }
-//                        if (alpha >= beta) {
-//                            ABcut++;
-//                            return alpha;
-//                        }
+                        if (alpha >= beta) {
+                            ABcut++;
+                            return alpha;
+                        }
                     }
                 }
             }
@@ -95,10 +95,10 @@ public class AlphaBetaAI extends AI {
                                     directionY = canMovePoints[i][1];
                                 }
                             }
-//                            if (alpha >= beta) {
-//                                ABcut++;
-//                                return alpha;
-//                            }
+                            if (alpha >= beta) {
+                                ABcut++;
+                                return alpha;
+                            }
                         }
                     }
                 }
@@ -120,10 +120,10 @@ public class AlphaBetaAI extends AI {
                     if (temp < beta) {
                         beta = temp;
                     }
-//                    if (alpha >= beta) {
-//                        ABcut++;
-//                        return beta;
-//                    }
+                    if (alpha >= beta) {
+                        ABcut++;
+                        return beta;
+                    }
                 } else {
                     if (thisComponent.getChessColor() == chessboard.getCurrentColor())
                         continue;
@@ -138,10 +138,10 @@ public class AlphaBetaAI extends AI {
                         if (temp < beta) {
                             beta = temp;
                         }
-//                        if (alpha >= beta) {
-//                            ABcut++;
-//                            return beta;
-//                        }
+                        if (alpha >= beta) {
+                            ABcut++;
+                            return beta;
+                        }
                     }
                 }
             }
