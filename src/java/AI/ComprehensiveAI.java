@@ -40,7 +40,7 @@ public class ComprehensiveAI extends AI {
                     for (int i = 0; i < 4; i++) {
                         if (row + directions[i][0] >= 0 && col + directions[i][1] >= 0 && row + directions[i][0] <= 7 && col + directions[i][1] <= 3) {
                             if (squareComponents[row + directions[i][0]][col + directions[i][1]].getStyle() == 5 && squareComponents[row + directions[i][0]][col + directions[i][1]].getChessColor() == chessboard.getCurrentColor()) {
-                                SquareComponent goodSoldier = squareComponents[row + directions[i][0]][col + directions[i][1]];
+                                SquareComponent goodSoldier= squareComponents[row + directions[i][0]][col + directions[i][1]];
                                 if (!thisComponent.isReversal()) {
                                     System.out.println("翻出对方将");
                                     canMoveTopoints[0] = row;
@@ -48,11 +48,17 @@ public class ComprehensiveAI extends AI {
                                     canMoveTopoints[2] = -1;
                                     canMoveTopoints[3] = -1;
                                     return canMoveTopoints;
-                                } else {
+                                } else  if (goodSoldier.isReversal){
                                     canMoveTopoints[0] = row;
                                     canMoveTopoints[1] = col;
                                     canMoveTopoints[2] = row + directions[i][0];
                                     canMoveTopoints[3] = col + directions[i][1];
+                                    return canMoveTopoints;
+                                } else if (!goodSoldier.isReversal) {
+                                    canMoveTopoints[0] = row + directions[i][0];
+                                    canMoveTopoints[1] = col + directions[i][1];
+                                    canMoveTopoints[2] = -1;
+                                    canMoveTopoints[3] = -1;
                                     return canMoveTopoints;
                                 }
                             }
