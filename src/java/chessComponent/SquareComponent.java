@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
  * 1. EmptySlotComponent: 空棋子
  * 2. ChessComponent: 表示非空棋子
  */
-public abstract class SquareComponent extends JComponent implements Runnable{
+public abstract class SquareComponent extends JComponent{
     private Font CHESS_FONT = new Font("宋体", Font.BOLD, 36);
     private Color squareColor = new Color(250, 220, 190);
     protected static int spacingLength;
@@ -186,16 +186,16 @@ public abstract class SquareComponent extends JComponent implements Runnable{
         return this.getChessColor().getName() + " " + this.getStyle() + " " + this.isReversal();
     }
 
-    public void run() {
-        synchronized (SquareComponent.class){
-            while (true) {
-                paintImmediately(getX(), getY(), getWidth(), getHeight());
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
+//    public void run() {
+//        synchronized (SquareComponent.class){
+//            while (true) {
+//                paintImmediately(getX(), getY(), getWidth(), getHeight());
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }
+//    }
 }

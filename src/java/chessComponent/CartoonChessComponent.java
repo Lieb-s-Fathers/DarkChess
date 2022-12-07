@@ -66,6 +66,5 @@ public class CartoonChessComponent extends SquareComponent implements Runnable {
             }
             paintImmediately(x,y,size,size);
         }
-        this.setVisible(false);
     }
 }

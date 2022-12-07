@@ -215,9 +215,9 @@ public class Chessboard extends JComponent {
         synchronized (getChessBoardDatas()) {
             SquareComponent chess0 = new EmptySlotComponent(chess1.getChessboardPoint(), chess1.getLocation(), clickController, CHESS_SIZE);
             chess0.setVisible(true);
-            Thread t0 = new Thread(chess0);
+//            Thread t0 = new Thread(chess0);
             add(chess0, 1);
-            t0.start();
+//            t0.start();
 
             cartoonChess1 = new CartoonChessComponent(chess1.getChessboardPoint(),
                     chess1.getLocation(), chess1.getChessColor(), new ClickController(this), chess1.getWidth(),
@@ -237,6 +237,7 @@ public class Chessboard extends JComponent {
                 try {
                     Thread.sleep(1);
                     cartoonOver(chess1, chess2, chess0);
+                    cartoonChess1.setVisible(false);
                     clickController.calculateScore(mainFrame);
                     clickController.winJudge();
                     addChessBoardData();
@@ -323,8 +324,6 @@ public class Chessboard extends JComponent {
                 }
                 componentList[colorID][style]--;
                 squareComponent.setVisible(true);
-                Thread t = new Thread(squareComponent);
-                t.start();
                 putChessOnBoard(squareComponent);
             }
         }
