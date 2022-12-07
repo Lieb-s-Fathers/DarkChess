@@ -32,6 +32,12 @@ public class Chessboard extends JComponent {
     private ChessColor currentColor;
     private GameData gameData;
     private ArrayList<String[][]> chessBoardDatas;
+    public CartoonChessComponent cartoonChess1;
+
+    public ClickController getClickController(){
+        return clickController;
+    }
+
 
     public Chessboard(int width, int height, int AIType01, int AIType02, int AIDifficulty01, int AIDifficulty02) {
         if (!(this instanceof EatenChesses)) {
@@ -209,19 +215,40 @@ public class Chessboard extends JComponent {
      */
     public void swapChessComponents(SquareComponent chess1, SquareComponent chess2) {
         // Note that chess1 has higher priority, 'destroys' chess2 if exists.
-        if (!(chess2 instanceof EmptySlotComponent)) {
-            remove(chess2);
-            add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE));
-        }
-        chess1.swapLocation(chess2);
-        int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
-        squareComponents[row1][col1] = chess1;
-        int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
-        squareComponents[row2][col2] = chess2;
+//        SquareComponent chess11 = switch (chess1.getStyle()) {
+//            case 0 ->
+//                    new GeneralChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(), clickController, CHESS_SIZE);
+//            case 1 ->
+//                    new AdvisorChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
+//            case 2 ->
+//                    new MinisterChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
+//            case 3 ->
+//                    new ChariotChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
+//            case 4 ->
+//                    new HorseChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
+//            case 5 ->
+//                    new SoldierChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
+//            case 6 ->
+//                    new CannonChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
+//            default ->
+//                    new EmptySlotComponent(chess1.getChessboardPoint(), chess1.getLocation(), clickController, CHESS_SIZE);
+//        };
 
-        //只重新绘制chess1 chess2，其他不变
-        chess1.repaint();
-        chess2.repaint();
+        SquareComponent chess0 = new EmptySlotComponent(chess1.getChessboardPoint(), chess1.getLocation(), clickController, CHESS_SIZE);
+
+        putChessOnBoard(chess0);
+        chess0.setVisible(true);
+        chess0.repaint();
+
+        cartoonChess1 = new CartoonChessComponent(chess1.getChessboardPoint(),
+                chess1.getLocation(), chess1.getChessColor(), new ClickController(this), chess1.getWidth(),
+                chess1.getStyle(), chess1.getX(), chess1.getY(), chess2.getX(), chess2.getY(), chess1.getName());
+        add(cartoonChess1, 0);
+        Thread t = new Thread(cartoonChess1);
+        t.start();
+
+        CartoonOver c = new CartoonOver(chess1, chess2, cartoonChess1, this);
+        c.start();
     }
 
     //初始化棋盘

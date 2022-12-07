@@ -115,7 +115,6 @@ public class EatenChesses extends Chessboard {
      *
      * @param g
      */
-    //todo: 重写这里的继承关系
 
     @Override
     protected void paintComponent(Graphics g) {

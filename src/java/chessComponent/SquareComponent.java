@@ -25,6 +25,7 @@ public abstract class SquareComponent extends JComponent {
     private final ClickController clickController;
     protected int style;
     public boolean isReversal;
+    protected boolean haveBackGround = true;
     protected boolean[][] canEat = {
             {true, true, true, true, true, false, true, true},
             {false, true, true, true, true, true, true, true},
@@ -177,8 +178,13 @@ public abstract class SquareComponent extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
         System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
-        g.setColor(squareColor);
+        if (haveBackGround){
+            g.setColor(squareColor);
+        } else {
+            g.setColor(new Color(0,0,0, 0));
+        }
         g.fillRect(1, 1, this.getWidth() - 2, this.getHeight() - 2);
+
     }
 
     @Override

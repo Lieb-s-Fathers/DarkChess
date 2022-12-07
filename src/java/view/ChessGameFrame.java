@@ -252,7 +252,7 @@ public class ChessGameFrame extends JFrame {
     protected void addMessageLabel() {
         messageLabel = new JLabel("");
         messageLabel.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 150);
-        messageLabel.setSize(200, 60);
+        messageLabel.setSize(400, 60);
         messageLabel.setFont(new Font("黑体", Font.BOLD, 20));
         messageLabel.setForeground(Color.RED);
         add(messageLabel);
