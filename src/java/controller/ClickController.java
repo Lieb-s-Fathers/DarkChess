@@ -200,7 +200,7 @@ public class ClickController {
 
     //计算分数
     public void calculateScore(ChessGameFrame thisFrame) {
-        synchronized (chessboard.getChessBoardDatas()){
+        synchronized (chessboard.getChessBoardDatas()) {
             thisFrame.getRedScoreLabel().setText("Red Score:     " + chessboard.getRedScore());
             thisFrame.getBlackScoreLabel().setText("Black Score:   " + chessboard.getBlackScore());
 
@@ -280,7 +280,7 @@ public class ClickController {
         audioPlayer.playMusic("吃子音效.wav");
     }
 
-    private void playMoveMusic(){
+    private void playMoveMusic() {
         audioPlayer.playMusic("移动音效.wav");
     }
 

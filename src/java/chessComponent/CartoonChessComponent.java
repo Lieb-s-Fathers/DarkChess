@@ -18,8 +18,7 @@ public class CartoonChessComponent extends SquareComponent implements Runnable {
 
 
     public CartoonChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor,
-                                 ClickController clickController, int size, int style, int x0, int y0, int x1, int y1, String name)
-    {
+                                 ClickController clickController, int size, int style, int x0, int y0, int x1, int y1, String name) {
         super(chessboardPoint, location, chessColor, clickController, size, style);
         //this.haveBackGround = false;
         this.x0 = x0;
@@ -33,7 +32,7 @@ public class CartoonChessComponent extends SquareComponent implements Runnable {
         y = y0;
     }
 
-    public boolean getFlag(){
+    public boolean getFlag() {
         return flag;
     }
 
@@ -59,12 +58,12 @@ public class CartoonChessComponent extends SquareComponent implements Runnable {
             x = x0 + i * (x1 - x0) / 100;
             y = y0 + i * (y1 - y0) / 100;
             this.setLocation(x, y);
-            try{
+            try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            paintImmediately(x,y,size,size);
+            paintImmediately(x, y, size, size);
         }
         this.setVisible(false);
     }

@@ -2,12 +2,13 @@ package controller;
 
 import io.Write;
 import model.GameData;
+
 import java.util.ArrayList;
 
 import static io.Write.defaultOutFile;
 
 public class WriteController {
-//    private final Chessboard chessboard;
+    //    private final Chessboard chessboard;
     private GameData gameData;
 
     public WriteController(GameData gameData) {
@@ -20,7 +21,7 @@ public class WriteController {
         out.printWriter.print(gameData.getDifficulty01() + " " + gameData.getDifficulty02() + "\n");
 
         ArrayList<String[][]> chessboardDatas = gameData.getChessDatas();
-        int currentColor = chessboardDatas.size()%2 == 0 ? 0 : 1;
+        int currentColor = chessboardDatas.size() % 2 == 0 ? 0 : 1;
         out.printWriter.println(currentColor);
         out.printWriter.println();
 
@@ -40,7 +41,7 @@ public class WriteController {
         out1.printWriter.print(gameData.getDifficulty01() + " " + gameData.getDifficulty02() + "\n");
 
         ArrayList<String[][]> chessboardData = gameData.getChessDatas();
-        int currentColor = chessboardData.size()%2 == 0 ? 0 : 1;
+        int currentColor = chessboardData.size() % 2 == 0 ? 0 : 1;
         out1.printWriter.println(currentColor);
         out1.printWriter.println();
         for (String[][] chessboardDatum : chessboardData) {

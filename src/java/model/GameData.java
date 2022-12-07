@@ -16,13 +16,12 @@ public class GameData {
         this.AItype02 = AItype02;
         this.difficulty01 = difficulty01;
         this.difficulty02 = difficulty02;
-        if(AItype01 != 0 && AItype02 != 0){
+        if (AItype01 != 0 && AItype02 != 0) {
             AIPlayers = 2;
         } else {
             if (AItype01 == 0 && AItype02 == 0) {
                 AIPlayers = 0;
-            }
-            else{
+            } else {
                 AIPlayers = 1;
             }
         }

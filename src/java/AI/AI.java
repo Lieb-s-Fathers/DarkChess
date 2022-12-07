@@ -30,7 +30,7 @@ public class AI {
 
     //获取ai将要操作的点坐标
     public int[] move() {
-        int[] canMoveTopoints=new int[10];
+        int[] canMoveTopoints = new int[10];
         return canMoveTopoints;
     }
 }

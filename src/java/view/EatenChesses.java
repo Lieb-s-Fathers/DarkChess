@@ -27,7 +27,7 @@ public class EatenChesses extends Chessboard {
 
 
     public EatenChesses(int width, int height, Chessboard chessboard, ChessColor chessColor) {
-        super(width, height, 0,0,0,0);
+        super(width, height, 0, 0, 0, 0);
         setLayout(null); // Use absolute layout.
         setSize(width + 2, height);
         this.chessboard = chessboard;
@@ -43,15 +43,15 @@ public class EatenChesses extends Chessboard {
         return squareComponents;
     }
 
-    public boolean getCanClick(){
+    public boolean getCanClick() {
         return canClick;
     }
 
-    public void setCanClick(boolean canClick){
+    public void setCanClick(boolean canClick) {
         this.canClick = canClick;
     }
 
-    public boolean getIsCheating(){
+    public boolean getIsCheating() {
         return isCheating;
     }
 
@@ -101,7 +101,7 @@ public class EatenChesses extends Chessboard {
             putChessOnBoard(squareComponent);
 
 
-            squareComponent = new DoubleEatenComponent(new ChessboardPoint(i, 1), calculatePoint(i, 1), color, clickController, CHESS_SIZE,2);
+            squareComponent = new DoubleEatenComponent(new ChessboardPoint(i, 1), calculatePoint(i, 1), color, clickController, CHESS_SIZE, 2);
             squareComponent.setCHESS_FONT(new Font("宋体", Font.BOLD, 18));
             squareComponent.setReversal(true);
             squareComponent.setSquareColor(Color.WHITE);
@@ -116,7 +116,6 @@ public class EatenChesses extends Chessboard {
      * @param g
      */
     //todo: 重写这里的继承关系
-
     @Override
     protected void paintComponent(Graphics g) {
 //        super.paintComponent(g);

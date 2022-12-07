@@ -54,7 +54,7 @@ public class ReplayFrame extends ChessGameFrame {
 
     private void addNextButton() {
         nextButton = new JButton("Next");
-        nextButton.setLocation(WIDTH * 3 / 5 +10,  HEIGHT / 10 + 200);
+        nextButton.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 200);
         nextButton.setSize(180, 40);
         nextButton.setFont(new Font("Rockwell", Font.BOLD, 20));
 
@@ -80,7 +80,7 @@ public class ReplayFrame extends ChessGameFrame {
 
     private void addLastButton() {
         lastButton = new JButton("Last");
-        lastButton.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 280);
+        lastButton.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 280);
         lastButton.setSize(180, 40);
         lastButton.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(lastButton);
@@ -105,9 +105,9 @@ public class ReplayFrame extends ChessGameFrame {
     }
 
     @Override
-    protected void addNotCheatButton(){
+    protected void addNotCheatButton() {
         notCheatButton = new JButton("NotCheat");
-        notCheatButton.setLocation(WIDTH * 3 / 5+10, HEIGHT / 10 + 420);
+        notCheatButton.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 420);
         notCheatButton.setSize(180, 20);
         notCheatButton.setFont(new Font("Rockwell", Font.BOLD, 20));
         notCheatButton.setVisible(true);

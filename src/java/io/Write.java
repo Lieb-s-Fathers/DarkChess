@@ -4,7 +4,7 @@ import java.io.*;
 
 public class Write {
 
-    public static String defaultOutFilePath = System.getProperty("user.dir").replace("\\", "/")+"/save";
+    public static String defaultOutFilePath = System.getProperty("user.dir").replace("\\", "/") + "/save";
     public static String defaultOutFile = defaultOutFilePath + "/save.txt";
     private File file;
     private FileOutputStream fileOutputStream;

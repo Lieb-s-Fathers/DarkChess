@@ -176,7 +176,7 @@ public class GreedyAI extends AI {
         if (componentToMove.isReversal()) {
             int[][] canMoveTopoints = getCanMovePoints(componentToMove);
             if (componentToMove.isReversal()) {
-               System.out.println("fuck you");
+                System.out.println("fuck you");
             }
             for (int iTomove = 0; iTomove < 4; iTomove++) {
                 if ((canMoveTopoints[iTomove][0] != -1 || canMoveTopoints[iTomove][1] != -1) &&
