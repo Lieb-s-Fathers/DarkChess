@@ -226,23 +226,45 @@ public class Chessboard extends JComponent {
             Thread t = new Thread(cartoonChess1);
             t.start();
 
-            new Thread(() -> {
-                try {
-                    Thread.sleep(800);
-                    cartoonOver(chess1, chess2, chess0);
-                    clickController.calculateScore(mainFrame);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }).start();
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
+            Thread1 t1 = new Thread1(t, chess1, chess2, chess0);
+            t1.start();
+
+            try {
+                t1.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
+    }
 
-
+    private class Thread1 extends Thread{
+        Thread t;
+        SquareComponent chess0,chess1,chess2;
+        public Thread1(Thread t, SquareComponent chess1, SquareComponent chess2, SquareComponent chess0){
+            this.t = t;
+            this.chess0 = chess0;
+            this.chess1 = chess1;
+            this.chess2 = chess2;
+        }
+        public void run(){
+//            while(t.isAlive()) {
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+            try {
+                t.join();
+                System.out.println("t finished");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            cartoonOver(chess1, chess2, chess0);
+            clickController.calculateScore(mainFrame);
+            System.out.println("t1 finished");
+        }
     }
 
     private void cartoonOver(SquareComponent chess1, SquareComponent chess2, SquareComponent chess0) {

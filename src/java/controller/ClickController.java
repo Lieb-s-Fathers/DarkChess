@@ -200,7 +200,7 @@ public class ClickController {
 
     //计算分数
     public void calculateScore(ChessGameFrame thisFrame) {
-        synchronized (chessboard.getChessBoardDatas()){
+//        synchronized (chessboard.getChessBoardDatas()){
             thisFrame.getRedScoreLabel().setText("Red Score:     " + chessboard.getRedScore());
             thisFrame.getBlackScoreLabel().setText("Black Score:   " + chessboard.getBlackScore());
 
@@ -251,7 +251,7 @@ public class ClickController {
                 }
             }
         }
-    }
+//    }
 
     private void printMessage(String color1, String component1) {
         ChessGameFrame.getMessageLabel().setText("move " + color1 + " " + component1);
