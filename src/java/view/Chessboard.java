@@ -227,7 +227,7 @@ public class Chessboard extends JComponent {
             t.start();
 
             new Thread(() -> {
-                while (t.isAlive()){
+                while (t.isAlive()) {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {

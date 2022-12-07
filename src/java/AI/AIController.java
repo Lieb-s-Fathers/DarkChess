@@ -34,7 +34,7 @@ public class AIController extends JFrame {
             this.pressComponent(xy[2], xy[3]);
             this.pressComponent(xy[0], xy[1]);
         } else if (AIType == 2) {
-            GreedyAI greedyAI = new GreedyAI(chessboard, difficulty);
+            GreedyAI greedyAI = new GreedyAI(chessboard, difficulty*2);
             int[] xy = greedyAI.move();
             this.pressComponent(xy[2], xy[3]);
             this.pressComponent(xy[0], xy[1]);
@@ -47,7 +47,7 @@ public class AIController extends JFrame {
             this.pressComponent(xy[2], xy[3]);
             this.pressComponent(xy[0], xy[1]);
         } else if (AIType == 4) {
-            ComprehensiveAI comprehensiveAI = new ComprehensiveAI(chessboard, difficulty);
+            ComprehensiveAI comprehensiveAI = new ComprehensiveAI(chessboard, difficulty+2);
             int[] xy = comprehensiveAI.move();
             System.out.println(xy[2] + " " + xy[3]);
             System.out.println(xy[0] + " " + xy[1]);

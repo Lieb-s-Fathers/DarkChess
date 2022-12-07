@@ -7,7 +7,7 @@ public enum ErrorType {
     ONE02(2, "Error 102", "棋盘错误"),
     ONE03(3, "Error 103", "棋子错误"),
     ONE04(4, "Error 104", "缺少行棋方"),
-    ONE05(5,"105","行棋步骤错误");
+    ONE05(5, "105", "行棋步骤错误");
 
     private final int num;
     private final String name;

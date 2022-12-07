@@ -16,7 +16,7 @@ public class GameController {
         this.chessboard = chessboard;
     }
 
-    public void reloadChessboard(ArrayList<String[][]> gamedData,int step) {
+    public void reloadChessboard(ArrayList<String[][]> gamedData, int step) {
         chessboard.loadGameData(gamedData);
         chessboard.loadGame(gamedData.get(step));
 

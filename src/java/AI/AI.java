@@ -30,29 +30,7 @@ public class AI {
 
     //获取ai将要操作的点坐标
     public int[] move() {
-        int[] canMoveTopoints=new int[10];
+        int[] canMoveTopoints = new int[10];
         return canMoveTopoints;
     }
-    //获取当前所有可以移动的棋子 (利用 components 和 colors)
-
-//    public int[][] getCanMovePoints() {
-//        int i = 0;
-//        int[][] canMovePoints = {{-1, -1, -1, -1}, {-1, -1, -1, -1}, {-1, -1, -1, -1}, {-1, -1, -1, -1}, {-1, -1, -1, -1}};
-//        SquareComponent[][] squareComponents = chessboard.getChessComponents();
-//        for (int x = 0; x < 7; x++) {
-//            for (int y = 0; y < 4; y++) {
-//                if (squareComponent.canMoveTo(squareComponents, squareComponents[x][y].getChessboardPoint())) {
-//                    canMovePoints[i][0] = x;
-//                    canMovePoints[i++][1] = y;
-//                }
-//            }
-//        }
-//        if (!squareComponent.isReversal()) {
-//            canMovePoints[0][0] = squareComponent.getChessboardPoint().getX();
-//            canMovePoints[0][1] = squareComponent.getChessboardPoint().getY();
-//        }
-//        return canMovePoints;
-//    }
-
-    //
 }
