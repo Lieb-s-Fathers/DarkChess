@@ -13,6 +13,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static view.StartMenuFrame.mainFrame;
+
 /**
  * 这个类表示棋盘组建，其包含：
  * SquareComponent[][]: 4*8个方块格子组件
@@ -32,6 +34,7 @@ public class Chessboard extends JComponent {
     private ChessColor currentColor;
     private GameData gameData;
     private ArrayList<String[][]> chessBoardDatas;
+    private CartoonChessComponent cartoonChess1;
 
     public Chessboard(int width, int height, int AIType01, int AIType02, int AIDifficulty01, int AIDifficulty02) {
         if (!(this instanceof EatenChesses)) {
@@ -209,6 +212,40 @@ public class Chessboard extends JComponent {
      */
     public void swapChessComponents(SquareComponent chess1, SquareComponent chess2) {
         // Note that chess1 has higher priority, 'destroys' chess2 if exists.
+        synchronized (getChessBoardDatas()) {
+            SquareComponent chess0 = new EmptySlotComponent(chess1.getChessboardPoint(), chess1.getLocation(), clickController, CHESS_SIZE);
+            chess0.setVisible(true);
+            Thread t0 = new Thread(chess0);
+            add(chess0, 1);
+            t0.start();
+
+            cartoonChess1 = new CartoonChessComponent(chess1.getChessboardPoint(),
+                    chess1.getLocation(), chess1.getChessColor(), new ClickController(this), chess1.getWidth(),
+                    chess1.getStyle(), chess1.getX(), chess1.getY(), chess2.getX(), chess2.getY(), chess1.getName());
+            add(cartoonChess1, 0);
+            Thread t = new Thread(cartoonChess1);
+            t.start();
+
+            new Thread(() -> {
+                try {
+                    Thread.sleep(800);
+                    cartoonOver(chess1, chess2, chess0);
+                    clickController.calculateScore(mainFrame);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+        }
+
+
+    }
+
+    private void cartoonOver(SquareComponent chess1, SquareComponent chess2, SquareComponent chess0) {
         if (!(chess2 instanceof EmptySlotComponent)) {
             remove(chess2);
             add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE));
@@ -218,10 +255,8 @@ public class Chessboard extends JComponent {
         squareComponents[row1][col1] = chess1;
         int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
         squareComponents[row2][col2] = chess2;
-
-        //只重新绘制chess1 chess2，其他不变
-        chess1.repaint();
-        chess2.repaint();
+        chess0.setVisible(false);
+        remove(chess0);
     }
 
     //初始化棋盘
@@ -278,6 +313,8 @@ public class Chessboard extends JComponent {
                 }
                 componentList[colorID][style]--;
                 squareComponent.setVisible(true);
+                Thread t = new Thread(squareComponent);
+                t.start();
                 putChessOnBoard(squareComponent);
             }
         }
