@@ -29,6 +29,15 @@ public class ComprehensiveAI extends AI {
 
     public int[] move() {
         int[] canMoveTopoints = new int[4];
+
+        deepth += (32 - counter()) / 10;
+        dfs(0, -100, 100);
+        canMoveTopoints[0] = directionX;
+        canMoveTopoints[1] = directionY;
+        canMoveTopoints[2] = originX;
+        canMoveTopoints[3] = originY;
+        if (squareComponents[directionX][directionY].getStyle() == 0)
+            return canMoveTopoints;
         //优先吃对方的将
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 4; col++) {
@@ -67,12 +76,6 @@ public class ComprehensiveAI extends AI {
                 }
             }
         }
-        deepth += (32 - counter()) / 10;
-        dfs(0, -100, 100);
-        canMoveTopoints[0] = directionX;
-        canMoveTopoints[1] = directionY;
-        canMoveTopoints[2] = originX;
-        canMoveTopoints[3] = originY;
         return canMoveTopoints;
     }
 
