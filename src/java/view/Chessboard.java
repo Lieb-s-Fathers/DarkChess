@@ -227,10 +227,20 @@ public class Chessboard extends JComponent {
             t.start();
 
             new Thread(() -> {
+                while (t.isAlive()){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 try {
-                    Thread.sleep(800);
+                    Thread.sleep(1);
                     cartoonOver(chess1, chess2, chess0);
                     clickController.calculateScore(mainFrame);
+                    clickController.winJudge();
+                    addChessBoardData();
+                    clickController.writeController.save();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

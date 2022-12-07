@@ -23,7 +23,7 @@ public class ClickController {
     private final Chessboard chessboard;
     private SquareComponent first;
     private ArrayList<SquareComponent> next = new ArrayList<>();
-    private WriteController writeController;
+    public WriteController writeController;
     private AIController aiFucker;
     private SoundPlayer audioPlayer = new SoundPlayer("src/resources/music/");
 
@@ -106,11 +106,11 @@ public class ClickController {
                         chessboard.printKilledComponents();
                         printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
 //                        calculateScore(mainFrame);
-                        winJudge();
+//                        winJudge();
                     }
-                    chessboard.addChessBoardData();
-                    writeController.save();
-
+//                    chessboard.addChessBoardData();
+//                    writeController.save();
+//
                     first.setSelected(false);
                     first = null;
                 }

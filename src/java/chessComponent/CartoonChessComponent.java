@@ -60,7 +60,7 @@ public class CartoonChessComponent extends SquareComponent implements Runnable {
             y = y0 + i * (y1 - y0) / 100;
             this.setLocation(x, y);
             try{
-                Thread.sleep(8);
+                Thread.sleep(6);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
