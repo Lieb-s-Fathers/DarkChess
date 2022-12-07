@@ -194,15 +194,15 @@ public abstract class SquareComponent extends JComponent implements Runnable{
     }
 
     public void run(){
-        while (true) {
-            synchronized (SquareComponent.class) {
+//        synchronized (this) {
+            while (true) {
                 paintImmediately(getX(), getY(), getWidth(), getHeight());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+//        }
     }
 }

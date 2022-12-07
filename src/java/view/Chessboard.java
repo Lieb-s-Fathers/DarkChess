@@ -151,9 +151,7 @@ public class Chessboard extends JComponent {
     }
 
     public SquareComponent[][] getChessComponents() {
-//        synchronized (this){
             return squareComponents;
-//        }
     }
 
     public ChessColor getCurrentColor() {

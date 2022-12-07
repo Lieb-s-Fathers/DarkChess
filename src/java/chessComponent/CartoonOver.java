@@ -17,7 +17,7 @@ public class CartoonOver extends Thread{
 
     @Override
     public void run() {
-        synchronized (Chessboard.class) {
+//        synchronized (chessboard.getChessBoardDatas()) {
             try {
                 Thread.sleep(800);
             } catch (InterruptedException e) {
@@ -41,5 +41,5 @@ public class CartoonOver extends Thread{
 
             cartoonChess.setVisible(false);
         }
-    }
+//    }
 }
