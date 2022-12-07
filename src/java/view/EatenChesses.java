@@ -39,10 +39,6 @@ public class EatenChesses extends Chessboard {
         clickController.setIsCheating(false);
     }
 
-    public SquareComponent[][] getChessComponents() {
-        return squareComponents;
-    }
-
     public boolean getCanClick(){
         return canClick;
     }

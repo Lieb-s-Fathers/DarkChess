@@ -31,92 +31,95 @@ public class ClickController {
         this.chessboard = chessboard;
         writeController = new WriteController(chessboard.getGameData());
         aiFucker = new AIController(chessboard);
+        Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
     }
 
     public void onClick(SquareComponent squareComponent) {
-        //判断第一次点击
-        if (chessboard.getCanClick()) {
-            if (first == null) {
-                if (handleFirst(squareComponent)) {
-                    squareComponent.setSelected(true);
-                    first = squareComponent;
-                    first.repaint();
-                    if (!(first instanceof CannonChessComponent)) {
-                        ChessboardPoint firstPoint = first.getChessboardPoint();
-                        int xx = firstPoint.getX();
-                        int yy = firstPoint.getY();
-                        for (int i = 0; i < 4; i++) {
-                            try {
-                                ChessboardPoint chessboardPoint = new ChessboardPoint(xx + directions[i][0], yy + directions[i][1]);
-                                if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
-                                    next.add(chessboard.getChessComponents()[chessboardPoint.getX()][chessboardPoint.getY()]);
-                                }
-                            } catch (ArrayIndexOutOfBoundsException ignored) {
-                            }
-                        }
-                        next.forEach((c) -> {
-                            c.setCanBeEaten(true);
-                            c.repaint();
-                        });
-                    } else {
-                        for (SquareComponent[] chessComponents : chessboard.getChessComponents()) {
-                            for (SquareComponent chessComponent : chessComponents) {
+        synchronized (SquareComponent.class){
+            //判断第一次点击
+            if (chessboard.getCanClick()) {
+                if (first == null) {
+                    if (handleFirst(squareComponent)) {
+                        squareComponent.setSelected(true);
+                        first = squareComponent;
+                        first.repaint();
+                        if (!(first instanceof CannonChessComponent)) {
+                            ChessboardPoint firstPoint = first.getChessboardPoint();
+                            int xx = firstPoint.getX();
+                            int yy = firstPoint.getY();
+                            for (int i = 0; i < 4; i++) {
                                 try {
-                                    ChessboardPoint chessboardPoint = chessComponent.getChessboardPoint();
+                                    ChessboardPoint chessboardPoint = new ChessboardPoint(xx + directions[i][0], yy + directions[i][1]);
                                     if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
                                         next.add(chessboard.getChessComponents()[chessboardPoint.getX()][chessboardPoint.getY()]);
                                     }
-                                    next.forEach((c) -> {
-                                        c.setCanBeEaten(true);
-                                        c.repaint();
-                                    });
                                 } catch (ArrayIndexOutOfBoundsException ignored) {
+                                }
+                            }
+                            next.forEach((c) -> {
+                                c.setCanBeEaten(true);
+                                c.repaint();
+                            });
+                        } else {
+                            for (SquareComponent[] chessComponents : chessboard.getChessComponents()) {
+                                for (SquareComponent chessComponent : chessComponents) {
+                                    try {
+                                        ChessboardPoint chessboardPoint = chessComponent.getChessboardPoint();
+                                        if (first.canMoveTo(chessboard.getChessComponents(), chessboardPoint)) {
+                                            next.add(chessboard.getChessComponents()[chessboardPoint.getX()][chessboardPoint.getY()]);
+                                        }
+                                        next.forEach((c) -> {
+                                            c.setCanBeEaten(true);
+                                            c.repaint();
+                                        });
+                                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            } else {
-                if (first == squareComponent) { // 再次点击取消选取
-                    squareComponent.setSelected(false);
-                    first.repaint();
-                    first = null;
+                } else {
+                    if (first == squareComponent) { // 再次点击取消选取
+                        squareComponent.setSelected(false);
+                        first.repaint();
+                        first = null;
 
-                    next.forEach((c) -> {
-                        c.setCanBeEaten(false);
-                        c.repaint();
-                    });
-                    next = new ArrayList<>();
-                } else if (handleSecond(squareComponent)) {
-                    next.forEach((c) -> {
-                        c.setCanBeEaten(false);
-                        c.repaint();
-                    });
-                    next = new ArrayList<>();
+                        next.forEach((c) -> {
+                            c.setCanBeEaten(false);
+                            c.repaint();
+                        });
+                        next = new ArrayList<>();
+                    } else if (handleSecond(squareComponent)) {
+                        next.forEach((c) -> {
+                            c.setCanBeEaten(false);
+                            c.repaint();
+                        });
+                        next = new ArrayList<>();
 
-                    //repaint in swap chess method.
-                    chessboard.swapChessComponents(first, squareComponent);
-                    swapPlayer();
+                        //repaint in swap chess method.
+                        chessboard.swapChessComponents(first, squareComponent);
+                        swapPlayer();
 
-                    if (squareComponent instanceof EmptySlotComponent) {
-                        playMoveMusic();
-                        printMessage(first.getChessColor().getName(), first.getName());
-                    } else {
-                        playEatMusic();
-                        chessboard.printKilledComponents();
-                        printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
-                        calculateScore(mainFrame);
-                        winJudge();
+                        if (squareComponent instanceof EmptySlotComponent) {
+                            playMoveMusic();
+                            printMessage(first.getChessColor().getName(), first.getName());
+                        } else {
+                            playEatMusic();
+                            chessboard.printKilledComponents();
+                            printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
+                            calculateScore(mainFrame);
+                            winJudge();
+                        }
+                        chessboard.addChessBoardData();
+                        writeController.save();
+
+                        first.setSelected(false);
+                        first = null;
                     }
-                    chessboard.addChessBoardData();
-                    writeController.save();
-
-                    first.setSelected(false);
-                    first = null;
                 }
+            } else if (chessboard.getIsCheating()) {
+                JOptionPane.showMessageDialog(mainFrame, "请退出作弊模式后再点击！");
             }
-        } else if (chessboard.getIsCheating()) {
-            JOptionPane.showMessageDialog(mainFrame, "请退出作弊模式后再点击！");
         }
     }
 

@@ -151,9 +151,10 @@ public class Chessboard extends JComponent {
     }
 
     public SquareComponent[][] getChessComponents() {
-        return squareComponents;
+//        synchronized (this){
+            return squareComponents;
+//        }
     }
-
 
     public ChessColor getCurrentColor() {
         return currentColor;
@@ -214,31 +215,10 @@ public class Chessboard extends JComponent {
      * @param chess2
      */
     public void swapChessComponents(SquareComponent chess1, SquareComponent chess2) {
-        // Note that chess1 has higher priority, 'destroys' chess2 if exists.
-//        SquareComponent chess11 = switch (chess1.getStyle()) {
-//            case 0 ->
-//                    new GeneralChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(), clickController, CHESS_SIZE);
-//            case 1 ->
-//                    new AdvisorChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
-//            case 2 ->
-//                    new MinisterChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
-//            case 3 ->
-//                    new ChariotChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
-//            case 4 ->
-//                    new HorseChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
-//            case 5 ->
-//                    new SoldierChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
-//            case 6 ->
-//                    new CannonChessComponent(chess1.getChessboardPoint(), chess1.getLocation(), chess1.getChessColor(),clickController, CHESS_SIZE);
-//            default ->
-//                    new EmptySlotComponent(chess1.getChessboardPoint(), chess1.getLocation(), clickController, CHESS_SIZE);
-//        };
-
         SquareComponent chess0 = new EmptySlotComponent(chess1.getChessboardPoint(), chess1.getLocation(), clickController, CHESS_SIZE);
-
-        putChessOnBoard(chess0);
         chess0.setVisible(true);
-        chess0.repaint();
+        Thread t0 = new Thread(chess0);
+        t0.start();
 
         cartoonChess1 = new CartoonChessComponent(chess1.getChessboardPoint(),
                 chess1.getLocation(), chess1.getChessColor(), new ClickController(this), chess1.getWidth(),
@@ -247,8 +227,23 @@ public class Chessboard extends JComponent {
         Thread t = new Thread(cartoonChess1);
         t.start();
 
-        CartoonOver c = new CartoonOver(chess1, chess2, cartoonChess1, this);
-        c.start();
+//        CartoonOver c = new CartoonOver(chess1, chess2, cartoonChess1, this);
+//        c.start();
+
+        if (!(chess2 instanceof EmptySlotComponent)) {
+            remove(chess2);
+            add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), getClickController(), CHESS_SIZE));
+        }
+
+        chess1.swapLocation(chess2);
+        int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
+        getChessComponents()[row1][col1] = chess1;
+        int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
+        getChessComponents()[row2][col2] = chess2;
+
+//        chess1.repaint();
+//        chess2.repaint();
+
     }
 
     //初始化棋盘
@@ -279,8 +274,8 @@ public class Chessboard extends JComponent {
                     else tempstyle = 6;
                 }
                 ChessColor color = colorID == 0 ? ChessColor.RED : ChessColor.BLACK;
-                SquareComponent squareComponent;
                 int style = 0;
+                SquareComponent squareComponent;
                 if (temp == 0) {
                     style = 0;
                     squareComponent = new GeneralChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
@@ -305,6 +300,9 @@ public class Chessboard extends JComponent {
                 }
                 componentList[colorID][style]--;
                 squareComponent.setVisible(true);
+                Thread t = new Thread(squareComponent);
+                t.start();
+
                 putChessOnBoard(squareComponent);
             }
         }
