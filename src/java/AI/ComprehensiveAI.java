@@ -30,7 +30,7 @@ public class ComprehensiveAI extends AI {
     public int[] move() {
         int[] canMoveTopoints = new int[4];
 
-        deepth += (32 - counter()) / 10;
+        deepth += (32 - counter()) / 15;
         dfs(0, -100, 100);
         canMoveTopoints[0] = directionX;
         canMoveTopoints[1] = directionY;

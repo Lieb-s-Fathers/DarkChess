@@ -10,7 +10,7 @@ public class AlphaBetaAI extends AI {
     public int originX, originY;
     public int directionX, directionY;
     public int deepth;
-    public int ABcut = 0;
+    public static int ABcut = 1000;
     SquareComponent[][] squareComponents = new SquareComponent[10][10];
 
 
@@ -24,6 +24,13 @@ public class AlphaBetaAI extends AI {
 
     public int[] move() {
         int[] canMoveTopoints = new int[4];
+        if (ABcut < 5000) {
+            deepth++;
+        }
+        if (ABcut < 1000) {
+            deepth++;
+        }
+        ABcut=0;
         dfs(0, -1000, 1000);
         canMoveTopoints[0] = directionX;
         canMoveTopoints[1] = directionY;
@@ -35,7 +42,9 @@ public class AlphaBetaAI extends AI {
     //depth初始需要为偶数
     public int dfs(int depth, int alpha, int beta) {
         if (depth == deepth) {
-            return getScore(chessboard.getCurrentColor() == ChessColor.BLACK ? 0 : 1);
+            int temp = getScore(chessboard.getCurrentColor() == ChessColor.BLACK ? 0 : 1);
+            if (temp >= 0) return temp;
+            else return -60;
         }
         //己方
         //再操作可以行走的棋子
