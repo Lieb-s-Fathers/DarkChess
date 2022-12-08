@@ -17,6 +17,7 @@ public class DifficultySelection extends JFrame {
     private JLabel label0;
     private JFrame frame;
     private JButton[][] difficultyButtons = new JButton[2][5];
+    private JButton startButton, backButton;
 
 
     public DifficultySelection(int width, int height, int AIPlayers, JFrame frame) {
@@ -48,6 +49,18 @@ public class DifficultySelection extends JFrame {
 
         addStartButton();
         addBackButton();
+
+        new Thread(()-> {
+            while (AIDifficulties[AIPlayers-1] == 0) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            startButton.setVisible(true);
+            backButton.setVisible(true);
+        }).start();
     }
 
     private void addLabel() {
@@ -102,7 +115,10 @@ public class DifficultySelection extends JFrame {
         comprehensiveButton.setLocation(WIDTH * 7 / 9 - 35, HEIGHT * (number + 1) / 5 + 90);
         add(comprehensiveButton);
 
+        addDifficultyButton(number);
+
         randomButton.addActionListener((e) -> {
+            closeDifficultyButtons(number);
             AIType[number] = 1;
             randomButton.setBackground(Color.CYAN);
             greedyButton.setBackground(Color.WHITE);
@@ -111,6 +127,7 @@ public class DifficultySelection extends JFrame {
         });
 
         greedyButton.addActionListener((e) -> {
+            showDifficultyButtons(number);
             AIType[number] = 2;
             randomButton.setBackground(Color.WHITE);
             greedyButton.setBackground(Color.CYAN);
@@ -119,6 +136,7 @@ public class DifficultySelection extends JFrame {
         });
 
         DFSButton.addActionListener((e) -> {
+            showDifficultyButtons(number);
             AIType[number] = 3;
             randomButton.setBackground(Color.WHITE);
             greedyButton.setBackground(Color.WHITE);
@@ -127,25 +145,29 @@ public class DifficultySelection extends JFrame {
         });
 
         comprehensiveButton.addActionListener((e) -> {
+            showDifficultyButtons(number);
             AIType[number] = 4;
             randomButton.setBackground(Color.WHITE);
             greedyButton.setBackground(Color.WHITE);
             DFSButton.setBackground(Color.WHITE);
             comprehensiveButton.setBackground(Color.CYAN);
         });
+    }
 
+    private void addDifficultyButton(int number){
         for (int i = 0; i < 5; i++) {
-            difficultyButtons[number][i] = new JButton("Difficulty0" + i + 1);
-            difficultyButtons[number][i].setSize(96, 40);
+            difficultyButtons[number][i] = new JButton("Difficulty0" + (i + 1));
+            difficultyButtons[number][i].setSize(120, 40);
             difficultyButtons[number][i].setFont(new Font("Rockwell", Font.BOLD, 10));
             difficultyButtons[number][i].setLocation(WIDTH * (2 * i + 1) / 11 - 30, HEIGHT * (number + 1) / 5 + 140);
             add(difficultyButtons[number][i]);
+            difficultyButtons[number][i].setVisible(false);
         }
-
         for (int i = 0; i < 5; i++) {
             int finalI = i;
             difficultyButtons[number][i].addActionListener((e) -> {
                 AIDifficulties[number] = finalI + 1;
+
                 for (int j = 0; j < 5; j++) {
                     if (j != finalI) {
                         difficultyButtons[number][j].setBackground(Color.WHITE);
@@ -157,14 +179,26 @@ public class DifficultySelection extends JFrame {
         }
     }
 
-    private void addStartButton() {
-        JButton button = new JButton("Start");
-        button.setLocation(WIDTH / 2 + 90, HEIGHT * (AIPlayers + 2) / 5 - 30);
-        button.setSize(140, 50);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
+    private void showDifficultyButtons(int number){
+        for (int i = 0; i < 5; i++) {
+            difficultyButtons[number][i].setVisible(true);
+        }
+    }
+    private void closeDifficultyButtons(int number) {
+        for (int i = 0; i < 5; i++) {
+            difficultyButtons[number][i].setVisible(false);
+        }
+    }
 
-        button.addActionListener((e) -> {
+    private void addStartButton() {
+        startButton = new JButton("Start");
+        startButton.setLocation(WIDTH / 2 + 90, HEIGHT * (AIPlayers + 2) / 5 - 30);
+        startButton.setSize(140, 50);
+        startButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        startButton.setVisible(false);
+        add(startButton);
+
+        startButton.addActionListener((e) -> {
             mainFrame = new ChessGameFrame(720, 720, AIPlayers, AIType[0], AIType[1], AIDifficulties[0], AIDifficulties[1]);
             mainFrame.setVisible(true);
             frame.dispose();
@@ -173,13 +207,14 @@ public class DifficultySelection extends JFrame {
     }
 
     private void addBackButton() {
-        JButton button = new JButton("Back");
-        button.setLocation(WIDTH / 2 - 90, HEIGHT * (AIPlayers + 2) / 5 - 30);
-        button.setSize(140, 50);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
+        backButton = new JButton("Back");
+        backButton.setLocation(WIDTH / 2 - 90, HEIGHT * (AIPlayers + 2) / 5 - 30);
+        backButton.setSize(140, 50);
+        backButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        backButton.setVisible(false);
+        add(backButton);
 
-        button.addActionListener((e) -> {
+        backButton.addActionListener((e) -> {
             this.dispose();
             frame.setVisible(true);
         });
