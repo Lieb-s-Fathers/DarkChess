@@ -113,6 +113,16 @@ public class ClickController {
 //
                     first.setSelected(false);
                     first = null;
+                } else if(!handleSecond(squareComponent)){
+                    first.setSelected(false);
+                    first.repaint();
+                    first = null;
+
+                    next.forEach((c) -> {
+                        c.setCanBeEaten(false);
+                        c.repaint();
+                    });
+                    next = new ArrayList<>();
                 }
             }
         } else if (chessboard.getIsCheating()) {
