@@ -19,7 +19,7 @@ import static view.StartMenuFrame.mainFrame;
  * 这个类表示棋盘组建，其包含：
  * SquareComponent[][]: 4*8个方块格子组件
  */
-public class Chessboard extends JComponent {
+public class Chessboard extends JComponent implements Runnable {
     public static final int[] componentsScore = {30, 10, 5, 5, 5, 1, 5, 0};
     private static final int ROW_SIZE = 8;
     private static final int COL_SIZE = 4;
@@ -34,7 +34,7 @@ public class Chessboard extends JComponent {
     private ChessColor currentColor;
     private GameData gameData;
     private ArrayList<String[][]> chessBoardDatas;
-    private CartoonChessComponent cartoonChess1;
+    private CartoonMoveChessComponent cartoonChess1;
 
     public Chessboard(int width, int height, int AIType01, int AIType02, int AIDifficulty01, int AIDifficulty02) {
         if (!(this instanceof EatenChesses)) {
@@ -57,6 +57,8 @@ public class Chessboard extends JComponent {
 
             initAllChessOnBoard();
             addChessBoardData();
+            Thread t = new Thread(this);
+            t.start();
         }
     }
 
@@ -219,7 +221,7 @@ public class Chessboard extends JComponent {
             add(chess0, 1);
 //            t0.start();
 
-            cartoonChess1 = new CartoonChessComponent(chess1.getChessboardPoint(),
+            cartoonChess1 = new CartoonMoveChessComponent(chess1.getChessboardPoint(),
                     chess1.getLocation(), chess1.getChessColor(), new ClickController(this), chess1.getWidth(),
                     chess1.getStyle(), chess1.getX(), chess1.getY(), chess2.getX(), chess2.getY(), chess1.getName());
             add(cartoonChess1, 0);
@@ -238,6 +240,7 @@ public class Chessboard extends JComponent {
                     Thread.sleep(1);
                     cartoonOver(chess1, chess2, chess0);
                     cartoonChess1.setVisible(false);
+                    remove(cartoonChess1);
                     clickController.calculateScore(mainFrame);
                     clickController.winJudge();
                     addChessBoardData();
@@ -391,8 +394,21 @@ public class Chessboard extends JComponent {
                 squareComponent.setReversal(isReversal);
                 putChessOnBoard(squareComponent);
                 squareComponent.setVisible(true);
-                squareComponent.repaint();
+//                squareComponent.repaint();
                 num++;
+            }
+        }
+    }
+
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(100);
+                synchronized (SquareComponent.class){
+                    paintImmediately(this.getX()-1, this.getY()-1, this.getWidth()+1, this.getHeight() + 1);
+                }//
+            } catch(InterruptedException e){
+                throw new RuntimeException(e);
             }
         }
     }

@@ -7,7 +7,7 @@ import view.Chessboard;
 
 import java.awt.*;
 
-public class CartoonChessComponent extends SquareComponent implements Runnable {
+public class CartoonMoveChessComponent extends SquareComponent implements Runnable {
     private int x0, y0, x1, y1;
     private int x, y;
     public String name;
@@ -17,8 +17,8 @@ public class CartoonChessComponent extends SquareComponent implements Runnable {
     private int size;
 
 
-    public CartoonChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor,
-                                 ClickController clickController, int size, int style, int x0, int y0, int x1, int y1, String name) {
+    public CartoonMoveChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor,
+                                     ClickController clickController, int size, int style, int x0, int y0, int x1, int y1, String name) {
         super(chessboardPoint, location, chessColor, clickController, size, style);
         //this.haveBackGround = false;
         this.x0 = x0;
@@ -30,10 +30,6 @@ public class CartoonChessComponent extends SquareComponent implements Runnable {
         this.setSquareColor(new Color(128, 128, 128, 0));
         x = x0;
         y = y0;
-    }
-
-    public boolean getFlag() {
-        return flag;
     }
 
     @Override
@@ -53,17 +49,19 @@ public class CartoonChessComponent extends SquareComponent implements Runnable {
     }
 
     public void run() {
-        setVisible(true);
-        for (int i = 0; i <= 100; i++) {
-            x = x0 + i * (x1 - x0) / 100;
-            y = y0 + i * (y1 - y0) / 100;
-            this.setLocation(x, y);
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            paintImmediately(x, y, size, size);
+//        synchronized (Chessboard.class) {
+            setVisible(true);
+            for (int i = 0; i <= 20; i++) {
+                x = x0 + i * (x1 - x0) / 20;
+                y = y0 + i * (y1 - y0) / 20;
+                this.setLocation(x, y);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//            }
         }
+
     }
 }

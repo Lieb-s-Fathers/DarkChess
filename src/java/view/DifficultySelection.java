@@ -50,17 +50,19 @@ public class DifficultySelection extends JFrame {
         addStartButton();
         addBackButton();
 
-        new Thread(()-> {
-            while (AIDifficulties[AIPlayers-1] == 0) {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        if (AIPlayers != 0){
+            new Thread(()-> {
+                while (AIDifficulties[AIPlayers-1] == 0) {
+                    startButton.setVisible(false);
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            }
-            startButton.setVisible(true);
-            backButton.setVisible(true);
-        }).start();
+                startButton.setVisible(true);
+            }).start();
+        }
     }
 
     private void addLabel() {
@@ -195,7 +197,6 @@ public class DifficultySelection extends JFrame {
         startButton.setLocation(WIDTH / 2 + 90, HEIGHT * (AIPlayers + 2) / 5 - 30);
         startButton.setSize(140, 50);
         startButton.setFont(new Font("Rockwell", Font.BOLD, 20));
-        startButton.setVisible(false);
         add(startButton);
 
         startButton.addActionListener((e) -> {
@@ -211,7 +212,6 @@ public class DifficultySelection extends JFrame {
         backButton.setLocation(WIDTH / 2 - 90, HEIGHT * (AIPlayers + 2) / 5 - 30);
         backButton.setSize(140, 50);
         backButton.setFont(new Font("Rockwell", Font.BOLD, 20));
-        backButton.setVisible(false);
         add(backButton);
 
         backButton.addActionListener((e) -> {

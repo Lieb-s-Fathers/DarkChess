@@ -2,9 +2,7 @@ package controller;
 
 
 import AI.AIController;
-import chessComponent.CannonChessComponent;
-import chessComponent.EmptySlotComponent;
-import chessComponent.SquareComponent;
+import chessComponent.*;
 import model.ChessColor;
 import model.ChessboardPoint;
 import view.ChessGameFrame;
@@ -26,6 +24,8 @@ public class ClickController {
     public WriteController writeController;
     private AIController aiFucker;
     private SoundPlayer audioPlayer = new SoundPlayer("src/resources/music/");
+    private CartoonShowChessComponent cartoonChess2;
+
 
     public ClickController(Chessboard chessboard) {
         this.chessboard = chessboard;
@@ -40,7 +40,7 @@ public class ClickController {
                 if (handleFirst(squareComponent)) {
                     squareComponent.setSelected(true);
                     first = squareComponent;
-                    first.repaint();
+
                     if (!(first instanceof CannonChessComponent)) {
                         ChessboardPoint firstPoint = first.getChessboardPoint();
                         int xx = firstPoint.getX();
@@ -56,7 +56,7 @@ public class ClickController {
                         }
                         next.forEach((c) -> {
                             c.setCanBeEaten(true);
-                            c.repaint();
+//                            c.repaint();
                         });
                     } else {
                         for (SquareComponent[] chessComponents : chessboard.getChessComponents()) {
@@ -68,7 +68,7 @@ public class ClickController {
                                     }
                                     next.forEach((c) -> {
                                         c.setCanBeEaten(true);
-                                        c.repaint();
+//                                        c.repaint();
                                     });
                                 } catch (ArrayIndexOutOfBoundsException ignored) {
                                 }
@@ -79,23 +79,22 @@ public class ClickController {
             } else {
                 if (first == squareComponent) { // 再次点击取消选取
                     squareComponent.setSelected(false);
-                    first.repaint();
+//                    first.repaint();
                     first = null;
 
                     next.forEach((c) -> {
                         c.setCanBeEaten(false);
-                        c.repaint();
+//                        c.repaint();
                     });
                     next = new ArrayList<>();
                 } else if (handleSecond(squareComponent)) {
                     next.forEach((c) -> {
                         c.setCanBeEaten(false);
-                        c.repaint();
+//                        c.repaint();
                     });
                     next = new ArrayList<>();
 
                     //repaint in swap chess method.
-                    //todo: java动画
                     chessboard.swapChessComponents(first, squareComponent);
                     swapPlayer();
                     if (squareComponent instanceof EmptySlotComponent) {
@@ -115,12 +114,12 @@ public class ClickController {
                     first = null;
                 } else if(!handleSecond(squareComponent)){
                     first.setSelected(false);
-                    first.repaint();
+//                    first.repaint();
                     first = null;
 
                     next.forEach((c) -> {
                         c.setCanBeEaten(false);
-                        c.repaint();
+//                        c.repaint();
                     });
                     next = new ArrayList<>();
                 }
@@ -142,7 +141,7 @@ public class ClickController {
         for (SquareComponent[] chessComponents : chessboard.getChessComponents()) {
             for (SquareComponent chesssComponent : chessComponents) {
                 chesssComponent.setReversal(true);
-                chesssComponent.repaint();
+//                chesssComponent.repaint();
             }
         }
     }
@@ -156,12 +155,36 @@ public class ClickController {
     private boolean handleFirst(SquareComponent squareComponent) {
         if (!squareComponent.isReversal() && !(squareComponent instanceof EmptySlotComponent)) {
             squareComponent.setReversal(true);
+            squareComponent.setVisible(false);
+
+            cartoonChess2 = new CartoonShowChessComponent(squareComponent.getChessboardPoint(),
+                    squareComponent.getLocation(), squareComponent.getChessColor(), this, squareComponent.getWidth(),
+                    squareComponent.getStyle(), squareComponent.getX(), squareComponent.getY(), squareComponent.getName());
+            chessboard.add(cartoonChess2, 0);
+            Thread t = new Thread(cartoonChess2);
+            t.start();
+            t.setPriority(Thread.MAX_PRIORITY);
+
             playReverseMusic();
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
-            chessboard.addChessBoardData();
-            writeController.save();
-            squareComponent.repaint();
             swapPlayer();
+            new Thread(() -> {
+                while (t.isAlive()){
+                    try {
+                        Thread.sleep(100);
+
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                System.out.println(-2);
+                chessboard.remove(cartoonChess2);
+                squareComponent.setVisible(true);
+//                squareComponent.repaint();
+                chessboard.addChessBoardData();
+                writeController.save();
+            }).start();
             return false;
         }
         return squareComponent.getChessColor() == chessboard.getCurrentColor();
@@ -220,44 +243,44 @@ public class ClickController {
                 if (killedComponents[0][i] != 0) {
                     SquareComponent chessComponent = thisFrame.getEatenBlackChesses().getChessComponents()[i][0];
                     chessComponent.setVisible(true);
-                    chessComponent.repaint();
+//                    chessComponent.repaint();
                 } else {
                     SquareComponent chessComponent = thisFrame.getEatenBlackChesses().getChessComponents()[i][0];
                     chessComponent.setVisible(false);
-                    chessComponent.repaint();
+//                    chessComponent.repaint();
                 }
 
                 if (killedComponents[0][i] >= 2) {
                     SquareComponent chessComponent = thisFrame.getEatenBlackChesses().getChessComponents()[i][1];
                     chessComponent.setVisible(true);
                     chessComponent.setName("x" + killedComponents[0][i]);
-                    chessComponent.repaint();
+//                    chessComponent.repaint();
                 } else {
                     SquareComponent chessComponent = thisFrame.getEatenBlackChesses().getChessComponents()[i][1];
                     chessComponent.setVisible(false);
-                    chessComponent.repaint();
+//                    chessComponent.repaint();
                 }
 
 
                 if (killedComponents[1][i] != 0) {
                     SquareComponent chessComponent = thisFrame.getEatenRedChesses().getChessComponents()[i][0];
                     chessComponent.setVisible(true);
-                    chessComponent.repaint();
+//                    chessComponent.repaint();
                 } else {
                     SquareComponent chessComponent = thisFrame.getEatenRedChesses().getChessComponents()[i][0];
                     chessComponent.setVisible(false);
-                    chessComponent.repaint();
+//                    chessComponent.repaint();
                 }
 
                 if (killedComponents[1][i] >= 2) {
                     SquareComponent chessComponent = thisFrame.getEatenRedChesses().getChessComponents()[i][1];
                     chessComponent.setVisible(true);
                     chessComponent.setName("x" + killedComponents[1][i]);
-                    chessComponent.repaint();
+//                    chessComponent.repaint();
                 } else {
                     SquareComponent chessComponent = thisFrame.getEatenRedChesses().getChessComponents()[i][1];
                     chessComponent.setVisible(false);
-                    chessComponent.repaint();
+//                    chessComponent.repaint();
                 }
             }
         }

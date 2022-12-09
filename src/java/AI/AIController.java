@@ -7,8 +7,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class AIController extends JFrame {
-
-
     private final Robot robot;
     private final Chessboard chessboard;
 

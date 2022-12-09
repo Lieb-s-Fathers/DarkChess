@@ -14,6 +14,7 @@ import model.GameData;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.time.chrono.ThaiBuddhistEra;
 import java.util.ArrayList;
 
 import static io.Write.defaultOutFile;
@@ -221,7 +222,11 @@ public class ChessGameFrame extends JFrame {
 
     protected void addEatenChesses() {
         eatenBlackChesses = new EatenChesses(CHESSBOARD_SIZE / 8, CHESSBOARD_SIZE / 16 * 7, chessboard, ChessColor.BLACK);
+        Thread t1 = new Thread(eatenBlackChesses);
+        t1.start();
         eatenRedChesses = new EatenChesses(CHESSBOARD_SIZE / 8, CHESSBOARD_SIZE / 16 * 7, chessboard, ChessColor.RED);
+        Thread t2 = new Thread(eatenRedChesses);
+        t2.start();
         eatenBlackChesses.setLocation(HEIGHT / 10 - 6 - chessboard.CHESS_SIZE, HEIGHT / 10 + chessboard.CHESS_SIZE);
         eatenRedChesses.setLocation(HEIGHT / 10 + 8 + chessboard.CHESS_SIZE * 4, HEIGHT / 10 + chessboard.CHESS_SIZE);
         add(eatenBlackChesses);
