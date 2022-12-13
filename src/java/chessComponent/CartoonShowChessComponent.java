@@ -6,7 +6,6 @@ import model.ChessboardPoint;
 import view.Chessboard;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class CartoonShowChessComponent extends SquareComponent implements Runnable {
     private int x, y;
@@ -50,9 +49,9 @@ public class CartoonShowChessComponent extends SquareComponent implements Runnab
             this.setLocation(x, y);
 
             setVisible(true);
-            for (int i = 0; i <= 255; i += 40) {
+            for (int i = 0; i <= 255; i += 10) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -62,8 +61,8 @@ public class CartoonShowChessComponent extends SquareComponent implements Runnab
                     tempColors[j] = tempColors[j] * 255;
                 }
                 color = new Color((int) tempColors[0], (int) tempColors[1], (int) tempColors[2], i);
-                //this.paintImmediately(x, y, size, size);
-                System.out.println(Arrays.toString(tempColors) + i);
+//                this.paintImmediately(x, y, size, size);
+//                System.out.println(Arrays.toString(tempColors) + i);
             }
         }
 //    }

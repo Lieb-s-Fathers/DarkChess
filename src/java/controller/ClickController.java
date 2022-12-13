@@ -11,6 +11,8 @@ import view.SoundPlayer;
 import view.Winboard;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.MemoryImageSource;
 import java.util.ArrayList;
 
 import static view.ChessGameFrame.countDown;
@@ -25,6 +27,7 @@ public class ClickController {
     private AIController aiFucker;
     private SoundPlayer audioPlayer = new SoundPlayer("src/resources/music/");
     private CartoonShowChessComponent cartoonChess2;
+    private Cursor cursor;
 
 
     public ClickController(Chessboard chessboard) {
@@ -327,5 +330,15 @@ public class ClickController {
 
     public void playReverseMusic() {
         audioPlayer.playMusic("翻转音效.wav");
+    }
+
+    public void hideCursor() {
+        Image image = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(0, 0, new int[0], 0, 0));
+        cursor = mainFrame.getCursor();
+        mainFrame.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), null));
+    }
+
+    public void showCursor() {
+        mainFrame.setCursor(cursor);
     }
 }

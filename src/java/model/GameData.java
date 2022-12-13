@@ -12,6 +12,17 @@ public class GameData {
     ArrayList<String[][]> chessDatas = new ArrayList<>();
     ArrayList<int[][]> stepDatas = new ArrayList<>();
 
+    public GameData(GameData formerGamedata){
+        this.AItype01 = formerGamedata.getAItype01();
+        this.AItype02 = formerGamedata.getAItype02();
+        this.difficulty01 = formerGamedata.getDifficulty01();
+        this.difficulty02 = formerGamedata.getDifficulty02();
+        this.currentColor = formerGamedata.currentColor;
+        this.AIPlayers = formerGamedata.getAIPlayers();
+        this.chessDatas = formerGamedata.chessDatas;
+        this.stepDatas = formerGamedata.stepDatas;
+    }
+
     public GameData(int AItype01, int AItype02, int difficulty01, int difficulty02) {
         this.AItype01 = AItype01;
         this.AItype02 = AItype02;

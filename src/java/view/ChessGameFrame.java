@@ -11,7 +11,6 @@ import model.GameData;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.time.chrono.ThaiBuddhistEra;
 import java.util.ArrayList;
 
 import static io.Write.defaultOutFile;
@@ -161,33 +160,40 @@ public class ChessGameFrame extends JFrame {
 
 
         new Thread(()->{
+            clickController.hideCursor();
             PressController pressController = new PressController(chessboard);
             int steps = 1;
+            int finalStep = gameData.getStepDatas().size();
+            GameData formerGameData = new GameData(gameData);
 
-            while (steps < gameData.getStepDatas().size()){
+            while (steps <= finalStep) {
                 int[][] stepData = gameData.getStepDatas().get(steps);
-                pressController.pressComponent(stepData[0][0], stepData[0][1]);
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                if (!(stepData[1][0] == 0 && stepData[1][1] == 0)) {
-                    pressController.pressComponent(stepData[1][0], stepData[1][1]);
+                pressController.pressComponent(stepData[0][0], stepData[0][1]);
+
+
+                if (!(stepData[1][0] == -1 && stepData[1][1] == -1)) {
                     try {
-                        Thread.sleep(800);
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+                    pressController.pressComponent(stepData[1][0], stepData[1][1]);
                 }
+                steps++;
             }
 
             clickController.calculateScore(this);
             clickController.winJudge();
+            clickController.showCursor();
             remove(chessboard);
-            addChessboard(gameData);
-        }).start();
 
+            addChessboard(formerGameData);
+        }).start();
     }
 
     public static JLabel getStatusLabel() {
