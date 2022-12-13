@@ -131,7 +131,7 @@ public class ReadController {
                 }
             }
             if (notSame > 2) {
-//                setErrors(ErrorType.ONE05);
+                setErrors(ErrorType.ONE05);
             }
         }
     }

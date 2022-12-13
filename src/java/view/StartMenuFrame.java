@@ -2,11 +2,15 @@ package view;
 
 import controller.GameController;
 import controller.ReadController;
+import io.Read;
 import model.ErrorType;
 import model.GameData;
+import model.Player;
+import model.UserData;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 import static io.Write.defaultOutFile;
 
@@ -24,6 +28,8 @@ public class StartMenuFrame extends JFrame {
 
     private static JLabel statusLabel;
     private GameData gameData;
+    private UserData userData = new UserData();
+    public static Boolean isLogged = false;
 
     public StartMenuFrame(int width, int height, boolean isNewGame) {
         setTitle("DarkChess");
@@ -40,6 +46,12 @@ public class StartMenuFrame extends JFrame {
         setLayout(null);
         setIconImage(icon);
 
+        try {
+            loadPlayers("src/resources/userData.txt");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         if (!isNewGame) {
             //如果不是新游戏，添加继续游戏按钮
             addContinueButton();
@@ -52,15 +64,25 @@ public class StartMenuFrame extends JFrame {
         addBackImage();
     }
 
-    //标题标签
-    private void addLabel() {
-        statusLabel = new JLabel("暗  棋");
-        statusLabel.setLocation(WIDTH / 2 - 140, HEIGHT / 5 - 20);
-        statusLabel.setSize(400, 100);
-        statusLabel.setFont(new Font("华文行楷", Font.BOLD, 100));
-        statusLabel.setForeground(Color.WHITE);
-        add(statusLabel);
+    public void loadPlayers(String path) throws IOException {
+        Read in = new Read(path);
+        String tempData = in.nextLine();
+        while (tempData != null) {
+            Player tempPlayer = new Player(tempData);
+            userData.getPlayers().add(tempPlayer);
+            tempData = in.nextLine();
+        }
     }
+
+    //标题标签
+//    private void addLabel() {
+//        statusLabel = new JLabel("暗  棋");
+//        statusLabel.setLocation(WIDTH / 2 - 140, HEIGHT / 5 - 20);
+//        statusLabel.setSize(400, 100);
+//        statusLabel.setFont(new Font("华文行楷", Font.BOLD, 100));
+//        statusLabel.setForeground(Color.WHITE);
+//        add(statusLabel);
+//    }
 
     public void addBackImage() {
         ImageIcon icon = new ImageIcon("src/resources/image/首页背景2.jpg");
@@ -157,8 +179,13 @@ public class StartMenuFrame extends JFrame {
     }
 
     private void start() {
-        ModeSelection modeSelection = new ModeSelection(720, 720, this);
-        modeSelection.setVisible(true);
-        this.dispose();
+        if (isLogged) {
+            ModeSelection modeSelection = new ModeSelection(720, 720, this);
+            modeSelection.setVisible(true);
+            this.dispose();
+        } else {
+            JFrame logInFrame = new LogInFrame(userData, this);
+            logInFrame.setVisible(true);
+        }
     }
 }

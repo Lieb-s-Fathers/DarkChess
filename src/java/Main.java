@@ -4,10 +4,7 @@ import view.StartMenuFrame;
 import javax.swing.*;
 
 public class Main {
-
-    public static String inPath = "save/";
-
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             SoundPlayer audioPlayer = new SoundPlayer("src/resources/music/");
             StartMenuFrame Homepage = new StartMenuFrame(1123, 767, true);
