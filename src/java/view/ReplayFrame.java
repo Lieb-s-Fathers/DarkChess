@@ -62,7 +62,7 @@ public class ReplayFrame extends ChessGameFrame {
         nextButton.addActionListener((e) -> {
             System.out.println("click next");
             steps++;
-            gameController.reloadChessboard(gameData.getChessDatas(), steps);
+            gameController.reloadChessboard(gameData.getChessDatas(), gameData.getStepDatas(), steps);
             clickController.calculateScore(this);
             clickController.swapPlayer();
             countDown.close();
@@ -89,7 +89,8 @@ public class ReplayFrame extends ChessGameFrame {
             System.out.println("click last");
             steps--;
             ArrayList<String[][]> chessboardDatas = gameData.getChessDatas();
-            gameController.reloadChessboard(chessboardDatas, steps);
+            ArrayList<int[][]> stepDatas = gameData.getStepDatas();
+            gameController.reloadChessboard(chessboardDatas, stepDatas, steps);
             clickController.calculateScore(this);
             clickController.swapPlayer();
             countDown.close();
@@ -117,10 +118,10 @@ public class ReplayFrame extends ChessGameFrame {
             System.out.println("click notCheat");
             clickController.setCanClick(true);
             clickController.setIsCheating(false);
-            gameController.reloadChessboard(gameData.getChessDatas(), steps);
+            gameController.reloadChessboard(gameData.getChessDatas(), gameData.getStepDatas(), steps);
             notCheatButton.setVisible(false);
 //            countDown.resumeThread();
-//            我是大傻逼
+//            我是大傻逼--tyk
             addCheatButton();
             remove(notCheatButton);
         });

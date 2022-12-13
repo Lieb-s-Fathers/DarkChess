@@ -10,6 +10,7 @@ public class GameData {
     private String currentColor;
     private int AIPlayers;
     ArrayList<String[][]> chessDatas = new ArrayList<>();
+    ArrayList<int[][]> stepDatas = new ArrayList<>();
 
     public GameData(int AItype01, int AItype02, int difficulty01, int difficulty02) {
         this.AItype01 = AItype01;
@@ -25,6 +26,8 @@ public class GameData {
                 AIPlayers = 1;
             }
         }
+        int[][] tempStepData = {{-1,-1},{-1,-1}};
+        stepDatas.add(tempStepData);
     }
 
     public int getAItype01() {
@@ -61,6 +64,10 @@ public class GameData {
 
     public ArrayList<String[][]> getChessDatas() {
         return chessDatas;
+    }
+
+    public ArrayList<int[][]> getStepDatas() {
+        return stepDatas;
     }
 
     public void setChessDatas(ArrayList<String[][]> chessDatas) {

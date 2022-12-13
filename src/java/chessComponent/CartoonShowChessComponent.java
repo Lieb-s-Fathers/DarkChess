@@ -50,9 +50,9 @@ public class CartoonShowChessComponent extends SquareComponent implements Runnab
             this.setLocation(x, y);
 
             setVisible(true);
-            for (int i = 0; i <= 255; i += 10) {
+            for (int i = 0; i <= 255; i += 40) {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

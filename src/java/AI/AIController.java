@@ -1,23 +1,20 @@
 package AI;
 
+import controller.PressController;
 import view.Chessboard;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class AIController extends JFrame {
-    private final Robot robot;
+public class AIController {
     private final Chessboard chessboard;
+    private PressController pressController;
 
 
     public AIController(Chessboard chessboard) {
         this.chessboard = chessboard;
-        try {
-            robot = new Robot();
-        } catch (AWTException e) {
-            throw new RuntimeException(e);
-        }
+        pressController = new PressController(chessboard);
     }
 
     // 使用 AI 传入 xy 数组, 其中 xy[0, 1] 表示目标点的xy坐标, xy[2, 3] 表示起始点的坐标,
@@ -25,77 +22,80 @@ public class AIController extends JFrame {
     // AIType: 使用的AI类型 [1, 2]
     // difficulty: 使用的AI难度 [1, 10]
     public void play(int AIType, int difficulty) {
-        System.out.println(chessboard.getCurrentColor());
-        if (AIType == 1) {
-            RandomAI randomAI = new RandomAI(chessboard);
-            int[] xy = randomAI.move();
-            this.pressComponent(xy[2], xy[3]);
-            this.pressComponent(xy[0], xy[1]);
-        } else if (AIType == 2) {
-            GreedyAI greedyAI = new GreedyAI(chessboard, difficulty*2);
-            int[] xy = greedyAI.move();
-            this.pressComponent(xy[2], xy[3]);
-            this.pressComponent(xy[0], xy[1]);
-        } else if (AIType == 3) {
-            AlphaBetaAI alphaBetaAI = new AlphaBetaAI(chessboard, difficulty);
-            int[] xy = alphaBetaAI.move();
-            System.out.println(xy[2] + " " + xy[3]);
-            System.out.println(xy[0] + " " + xy[1]);
-            System.out.println("剪枝数:" + alphaBetaAI.ABcut);
-            this.pressComponent(xy[2], xy[3]);
-            this.pressComponent(xy[0], xy[1]);
-        } else if (AIType == 4) {
-            ComprehensiveAI comprehensiveAI = new ComprehensiveAI(chessboard, difficulty+2);
-            int[] xy = comprehensiveAI.move();
-            System.out.println(xy[2] + " " + xy[3]);
-            System.out.println(xy[0] + " " + xy[1]);
-            System.out.println("剪枝数:" + comprehensiveAI.ABcut);
-            this.pressComponent(xy[2], xy[3]);
-            this.pressComponent(xy[0], xy[1]);
-        }
-    }
-
-
-    public void pressComponent(int row, int col) {
-        if (row >= 0 && col >= 0) {
-            Point directionPoint = this.findDirectionPoint(row, col);
-            try {
-                this.AIpress(directionPoint.x, directionPoint.y);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        synchronized (Chessboard.class){
+            System.out.println(chessboard.getCurrentColor());
+            if (AIType == 1) {
+                RandomAI randomAI = new RandomAI(chessboard);
+                int[] xy = randomAI.move();
+                pressController.pressComponent(xy[2], xy[3]);
+                pressController.pressComponent(xy[0], xy[1]);
+            } else if (AIType == 2) {
+                GreedyAI greedyAI = new GreedyAI(chessboard, difficulty*2);
+                int[] xy = greedyAI.move();
+                pressController.pressComponent(xy[2], xy[3]);
+                pressController.pressComponent(xy[0], xy[1]);
+            } else if (AIType == 3) {
+                AlphaBetaAI alphaBetaAI = new AlphaBetaAI(chessboard, difficulty);
+                int[] xy = alphaBetaAI.move();
+                System.out.println(xy[2] + " " + xy[3]);
+                System.out.println(xy[0] + " " + xy[1]);
+                System.out.println("剪枝数:" + alphaBetaAI.ABcut);
+                pressController.pressComponent(xy[2], xy[3]);
+                pressController.pressComponent(xy[0], xy[1]);
+            } else if (AIType == 4) {
+                ComprehensiveAI comprehensiveAI = new ComprehensiveAI(chessboard, difficulty+2);
+                int[] xy = comprehensiveAI.move();
+                System.out.println(xy[2] + " " + xy[3]);
+                System.out.println(xy[0] + " " + xy[1]);
+                System.out.println("剪枝数:" + comprehensiveAI.ABcut);
+                pressController.pressComponent(xy[2], xy[3]);
+                pressController.pressComponent(xy[0], xy[1]);
             }
         }
+
     }
 
-    // 获取当前的鼠标位置
-    public Point getNowpoint() {
-        return MouseInfo.getPointerInfo().getLocation();
-    }
 
-    public void press() {
-        robot.mousePress(KeyEvent.BUTTON1_DOWN_MASK);
-        robot.mouseRelease(KeyEvent.BUTTON1_DOWN_MASK);
-    }
-
-    public void moveTo(Point point) {
-        robot.mouseMove(point.x, point.y);
-    }
-
-    public void AIpress(int x, int y) throws InterruptedException {
-        Point nowPoint = getNowpoint();
-        Point directionPoint = new Point();
-        directionPoint.x = x;
-        directionPoint.y = y;
-        moveTo(directionPoint);
-        Thread.sleep(5);
-        press();
-        Thread.sleep(5);
-        moveTo(nowPoint);
-    }
-
-    private Point findDirectionPoint(int row, int col) {
-        Point chessPoint = chessboard.getChessComponents()[row][col].getLocationOnScreen();
-        return new Point(chessPoint.x + chessboard.CHESS_SIZE / 2, chessPoint.y + chessboard.CHESS_SIZE / 2);
-    }
+//    public void pressComponent(int row, int col) {
+//        if (row >= 0 && col >= 0) {
+//            Point directionPoint = this.findDirectionPoint(row, col);
+//            try {
+//                this.AIpress(directionPoint.x, directionPoint.y);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//    }
+//
+//    // 获取当前的鼠标位置
+//    public Point getNowpoint() {
+//        return MouseInfo.getPointerInfo().getLocation();
+//    }
+//
+//    public void press() {
+//        robot.mousePress(KeyEvent.BUTTON1_DOWN_MASK);
+//        robot.mouseRelease(KeyEvent.BUTTON1_DOWN_MASK);
+//    }
+//
+//    public void moveTo(Point point) {
+//        robot.mouseMove(point.x, point.y);
+//    }
+//
+//    public void AIpress(int x, int y) throws InterruptedException {
+//        Point nowPoint = getNowpoint();
+//        Point directionPoint = new Point();
+//        directionPoint.x = x;
+//        directionPoint.y = y;
+//        moveTo(directionPoint);
+//        Thread.sleep(5);
+//        press();
+//        Thread.sleep(5);
+//        moveTo(nowPoint);
+//    }
+//
+//    private Point findDirectionPoint(int row, int col) {
+//        Point chessPoint = chessboard.getChessComponents()[row][col].getLocationOnScreen();
+//        return new Point(chessPoint.x + chessboard.CHESS_SIZE / 2, chessPoint.y + chessboard.CHESS_SIZE / 2);
+//    }
 
 }

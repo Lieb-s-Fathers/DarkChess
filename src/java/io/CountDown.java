@@ -75,11 +75,13 @@ public class CountDown extends Thread {
             try {
                 Thread.sleep(1000);
                 if (getTime() == 0) {
-                    clickController.swapPlayer();
-                    chessboard.addChessBoardData();
-                    defaultWriteController.save();
-                    System.out.println(getPause());
-                    messageLabel.setText("Time Out! Change Player");
+                    synchronized (Chessboard.class){
+                        clickController.swapPlayer();
+                        chessboard.addChessBoardData();
+                        defaultWriteController.save();
+                        System.out.println(getPause());
+                        messageLabel.setText("Time Out! Change Player");
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

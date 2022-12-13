@@ -134,17 +134,16 @@ public class EatenChesses extends Chessboard {
         return new Point(col * CHESS_SIZE + 3, row * CHESS_SIZE + 3);
     }
 
-    public void run() {
-        while (true) {
-            try {
-                Thread.sleep(100);
-                synchronized (SquareComponent.class){
-                    paintImmediately(this.getX()-1, this.getY()-1, this.getWidth()+1, this.getHeight() + 1);
-                }
-
-            } catch(InterruptedException e){
-                throw new RuntimeException(e);
-            }
-        }
-    }
+//    public void run() {
+//        while (true) {
+//            try {
+//                Thread.sleep(100);
+//                synchronized (EatenChesses.class){
+//                    paintImmediately(this.getX()-CHESS_SIZE, this.getY()-CHESS_SIZE*2, this.getWidth()+CHESS_SIZE, this.getHeight() + CHESS_SIZE);
+//                }
+//            } catch(InterruptedException e){
+//                throw new RuntimeException(e);
+//            }
+//        }
+//    }
 }

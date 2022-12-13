@@ -34,52 +34,63 @@ public class Chessboard extends JComponent implements Runnable {
     private ChessColor currentColor;
     private GameData gameData;
     private ArrayList<String[][]> chessBoardDatas;
+    private ArrayList<int[][]> stepDatas;
     private CartoonMoveChessComponent cartoonChess1;
 
     public Chessboard(int width, int height, int AIType01, int AIType02, int AIDifficulty01, int AIDifficulty02) {
-        if (!(this instanceof EatenChesses)) {
-            setLayout(null); // Use absolute layout.
-            currentColor = ChessColor.RED;
-            setSize(width + 2, height);
-            CHESS_SIZE = (height - 6) / 8;
-            SquareComponent.setSpacingLength(CHESS_SIZE / 12);
-            System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
+        synchronized (Chessboard.class) {
+            if (!(this instanceof EatenChesses)) {
+                setLayout(null); // Use absolute layout.
+                currentColor = ChessColor.RED;
+                setSize(width + 2, height);
+                CHESS_SIZE = (height - 6) / 8;
+                SquareComponent.setSpacingLength(CHESS_SIZE / 12);
+                System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
 
 //            String[] types = JOptionPane.showInputDialog(this, "Input AIType01,AIType02  here").split(",");
 //            String[] difficultys = JOptionPane.showInputDialog(this, "Input difficulty01,difficulty02  here").split(",");
 //            gameData = new GameData(Integer.parseInt(types[0]), Integer.parseInt(types[1]), Integer.parseInt(difficultys[0]), Integer.parseInt(difficultys[1]));
 
-            gameData = new GameData(AIType01, AIType02, AIDifficulty01, AIDifficulty02);
+                gameData = new GameData(AIType01, AIType02, AIDifficulty01, AIDifficulty02);
 
-            clickController = new ClickController(this);
-            gameController = new GameController(this);
-            chessBoardDatas = gameData.getChessDatas();
+                clickController = new ClickController(this);
+                gameController = new GameController(this);
+                chessBoardDatas = gameData.getChessDatas();
+                stepDatas = gameData.getStepDatas();
 
-            initAllChessOnBoard();
-            addChessBoardData();
-            Thread t = new Thread(this);
-            t.start();
+                initAllChessOnBoard();
+                addChessBoardData();
+                Thread t = new Thread(this);
+                t.start();
+            }
         }
+
     }
 
     public Chessboard(int width, int height, GameData gameData, int steps) {
-        if (!(this instanceof EatenChesses)) {
-            this.gameData = gameData;
-            chessBoardDatas = gameData.getChessDatas();
-            clickController = new ClickController(this);
-            gameController = new GameController(this);
-            setLayout(null); // Use absolute layout.
-            setSize(width + 2, height);
-            CHESS_SIZE = (height - 6) / 8;
-            SquareComponent.setSpacingLength(CHESS_SIZE / 12);
-            System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
-            gameController.reloadChessboard(gameData.getChessDatas(), steps);
-            if (steps % 2 == 0) {
-                currentColor = ChessColor.RED;
-            } else {
-                currentColor = ChessColor.BLACK;
+        synchronized (Chessboard.class) {
+            if (!(this instanceof EatenChesses)) {
+                this.gameData = gameData;
+                chessBoardDatas = gameData.getChessDatas();
+                stepDatas = gameData.getStepDatas();
+                clickController = new ClickController(this);
+                gameController = new GameController(this);
+                setLayout(null); // Use absolute layout.
+                setSize(width + 2, height);
+                CHESS_SIZE = (height - 6) / 8;
+                SquareComponent.setSpacingLength(CHESS_SIZE / 12);
+                System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
+                gameController.reloadChessboard(gameData.getChessDatas(), gameData.getStepDatas(), steps);
+                if (steps % 2 == 0) {
+                    currentColor = ChessColor.RED;
+                } else {
+                    currentColor = ChessColor.BLACK;
+                }
+                Thread t = new Thread(this);
+                t.start();
             }
         }
+
     }
 
     public int[][] getkilledComponents() {
@@ -176,9 +187,26 @@ public class Chessboard extends JComponent implements Runnable {
         chessBoardDatas.add(chessBoardData);
     }
 
+    public void addStepFirstClick(int x, int y){
+        int[][] tempStepData = {{-1,-1},{-1,-1}};
+        tempStepData[0][0] = x;
+        tempStepData[0][1] = y;
+        stepDatas.add(tempStepData);
+    }
+
+    public void addStepSecondClick(int x0, int y0, int x1, int y1) {
+        int[][] tempStepData = {{-1, -1},{-1,-1}};
+        tempStepData[0][0] = x0;;
+        tempStepData[0][1] = y0;
+        tempStepData[1][0] = x1;
+        tempStepData[1][1] = y1;
+        stepDatas.add(tempStepData);
+    }
+
     public void deleteLastStep() {
         if (chessBoardDatas.size() > 1) {
             chessBoardDatas.remove(chessBoardDatas.size() - 1);
+            stepDatas.remove(chessBoardDatas.size() - 1);
         } else {
             JOptionPane.showMessageDialog(this, "This is the first step");
             clickController.swapPlayer();
@@ -189,8 +217,8 @@ public class Chessboard extends JComponent implements Runnable {
         return chessBoardDatas;
     }
 
-    public void setChessBoardDatas(ArrayList<String[][]> chessBoardDatas) {
-        this.chessBoardDatas = chessBoardDatas;
+    public ArrayList<int[][]> getStepDatas() {
+        return stepDatas;
     }
 
     /**
@@ -357,8 +385,12 @@ public class Chessboard extends JComponent implements Runnable {
     }
 
 
-    public void loadGameData(ArrayList<String[][]> gameData) {
-        chessBoardDatas = gameData;
+    public void loadGameData(ArrayList<String[][]> chessBoardDatas) {
+        this.chessBoardDatas = chessBoardDatas;
+    }
+
+    public void loadStepData(ArrayList<int[][]> stepDatas){
+        this.stepDatas = stepDatas;
     }
 
 
@@ -403,10 +435,10 @@ public class Chessboard extends JComponent implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(100);
-                synchronized (SquareComponent.class){
-                    paintImmediately(this.getX()-1, this.getY()-1, this.getWidth()+1, this.getHeight() + 1);
-                }//
+                Thread.sleep(200);
+                synchronized (Chessboard.class){
+                    paintImmediately(this.getX()-CHESS_SIZE, this.getY()-CHESS_SIZE-2, this.getWidth(), this.getHeight());
+                }
             } catch(InterruptedException e){
                 throw new RuntimeException(e);
             }

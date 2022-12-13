@@ -108,7 +108,7 @@ public class StartMenuFrame extends JFrame {
                 readController.setErrors(ErrorType.ONE00);
             }
             if (readController.getError(this) == ErrorType.NOError) {
-                mainFrame = new ChessGameFrame(720, 720, readController.getGameData());
+                mainFrame = new ChessGameFrame(720, 720, readController.getGameData(), true);
                 mainFrame.setVisible(true);
                 this.dispose();
             }

@@ -1,10 +1,7 @@
 package view;
 
 import AI.AIController;
-import controller.ClickController;
-import controller.GameController;
-import controller.ReadController;
-import controller.WriteController;
+import controller.*;
 import io.CountDown;
 import io.Write;
 import model.ChessColor;
@@ -79,6 +76,8 @@ public class ChessGameFrame extends JFrame {
         addBlackScoreLabel();
         addBackButton();
         addCheatButton();
+        addNotCheatButton();
+        notCheatButton.setVisible(false);
 
 
         addWithdrawButton();
@@ -123,6 +122,72 @@ public class ChessGameFrame extends JFrame {
 
         clickController.calculateScore(this);
         clickController.winJudge();
+    }
+    public ChessGameFrame(int WIDTH, int HEIGHT, GameData gameData, boolean isReplay) {
+        setTitle("2022 CS109 Project Demo"); //设置标题
+        this.WIDTH = WIDTH;
+        this.HEIGHT = HEIGHT;
+        this.CHESSBOARD_SIZE = HEIGHT * 4 / 5;
+        this.gameData = gameData;
+
+        setIconImage(StartMenuFrame.icon);
+        setSize(WIDTH, HEIGHT);
+        setLocationRelativeTo(null); // Center the window.
+        getContentPane().setBackground(Color.WHITE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
+        setLayout(null);
+        winboard = new Winboard(600, 300, this);
+        addChessboard(gameData,0, true);
+
+        addCountLabel();
+        addEatenChesses();
+        addMessageLabel();
+
+        addTurnLabel();
+        addRedScoreLabel();
+        addBlackScoreLabel();
+        addBackButton();
+
+        addCheatButton();
+        addNotCheatButton();
+        notCheatButton.setVisible(false);
+
+        addWithdrawButton();
+        addSaveButton();
+        addLoadButton();
+        addAIButton(gameData.getAIPlayers());
+
+
+
+
+        new Thread(()->{
+            PressController pressController = new PressController(chessboard);
+            int steps = 1;
+
+            while (steps < gameData.getStepDatas().size()){
+                int[][] stepData = gameData.getStepDatas().get(steps);
+                pressController.pressComponent(stepData[0][0], stepData[0][1]);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                if (!(stepData[1][0] == 0 && stepData[1][1] == 0)) {
+                    pressController.pressComponent(stepData[1][0], stepData[1][1]);
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            clickController.calculateScore(this);
+            clickController.winJudge();
+            remove(chessboard);
+            addChessboard(gameData);
+        }).start();
+
     }
 
     public static JLabel getStatusLabel() {
@@ -182,6 +247,7 @@ public class ChessGameFrame extends JFrame {
 
     public void addChessboard(GameData gameData, int steps) {
         chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, gameData, steps);
+
         gameController = new GameController(chessboard);
         clickController = new ClickController(chessboard);
         chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
@@ -192,6 +258,19 @@ public class ChessGameFrame extends JFrame {
         AIFucker = new AIController(chessboard);
 
         defaultWriteController.save();
+    }
+
+    public void addChessboard(GameData gameData, int steps, boolean isReplay) {
+        chessboard = new Chessboard(CHESSBOARD_SIZE / 2, CHESSBOARD_SIZE, gameData, steps);
+        gameController = new GameController(chessboard);
+        clickController = new ClickController(chessboard);
+        chessboard.setLocation(HEIGHT / 10, HEIGHT / 10);
+        add(chessboard);
+
+        defaultWriteController = new WriteController(chessboard.getGameData());
+        writeController = new WriteController(chessboard.getGameData());
+        AIFucker = new AIController(chessboard);
+
     }
 
     public void addChessboard(GameData gameData) {
@@ -276,8 +355,9 @@ public class ChessGameFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("click withdraw");
             gameController.withdraw();
-            ArrayList<String[][]> gameData = gameController.getChessboardDatas();
-            gameController.reloadChessboard(gameData, gameData.size() - 1);
+            ArrayList<String[][]> chessboardDatas = gameController.getChessboardDatas();
+            ArrayList<int[][]> stepDatas = gameController.getStepDatas();
+            gameController.reloadChessboard(chessboardDatas, stepDatas, chessboardDatas.size() - 1);
             writeController.save();
             clickController.swapPlayer();
             clickController.calculateScore(this);
@@ -322,8 +402,9 @@ public class ChessGameFrame extends JFrame {
             //      System.out.println("click notcheat");
             clickController.setCanClick(true);
             clickController.setIsCheating(false);
-            ArrayList<String[][]> gameData = chessboard.getChessBoardDatas();
-            gameController.reloadChessboard(gameData, gameData.size() - 1);
+            ArrayList<String[][]> chessBoardDatas = chessboard.getChessBoardDatas();
+            ArrayList<int[][]> stepDatas = chessboard.getStepDatas();
+            gameController.reloadChessboard(chessBoardDatas, stepDatas, chessBoardDatas.size() - 1);
             notCheatButton.setVisible(false);
             countDown.resumeThread();
             remove(notCheatButton);

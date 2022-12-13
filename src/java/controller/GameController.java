@@ -16,9 +16,10 @@ public class GameController {
         this.chessboard = chessboard;
     }
 
-    public void reloadChessboard(ArrayList<String[][]> gamedData, int step) {
-        chessboard.loadGameData(gamedData);
-        chessboard.loadGame(gamedData.get(step));
+    public void reloadChessboard(ArrayList<String[][]> chessboardDatas, ArrayList<int[][]> stepData, int step) {
+        chessboard.loadGameData(chessboardDatas);
+        chessboard.loadStepData(stepData);
+        chessboard.loadGame(chessboardDatas.get(step));
 
     }
 
@@ -28,6 +29,10 @@ public class GameController {
 
     public ArrayList<String[][]> getChessboardDatas() {
         return chessboard.getChessBoardDatas();
+    }
+
+    public ArrayList<int[][]> getStepDatas() {
+        return chessboard.getStepDatas();
     }
 
     public String getCurrentColor() {

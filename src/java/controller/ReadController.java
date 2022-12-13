@@ -20,6 +20,7 @@ public class ReadController {
     private final String[] chessStyles = {"0", "1", "2", "3", "4", "5", "6", "7"};
     private final String[] currentColors = {"0", "1"};
     private ArrayList<String[][]> chessDatas;
+    private ArrayList<int[][]> stepDatas;
 
     public void setGameData(GameData gameData) {
         this.gameData = gameData;
@@ -46,7 +47,6 @@ public class ReadController {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(defaultOutFilePath));
         fileChooser.showOpenDialog(frame);
-        //todo: filechooser
         try {
             String filePath = fileChooser.getSelectedFile().getName();
             String[] filePaths = filePath.split("\\.");
@@ -76,8 +76,20 @@ public class ReadController {
 
             tempData = in.nextLine();
             chessDatas = gameData.getChessDatas();
+            stepDatas = gameData.getStepDatas();
+
             while (tempData != null) {
+                int[][] stepData = new int[2][2];
+                String[] tempStepData;
                 String[][] chessData = new String[32][3];
+
+                tempStepData = tempData.split(" ");
+                stepData[0][0] = Integer.parseInt(tempStepData[0]);
+                stepData[0][1] = Integer.parseInt(tempStepData[1]);
+                stepData[1][0] = Integer.parseInt(tempStepData[2]);
+                stepData[1][1] = Integer.parseInt(tempStepData[3]);
+
+                tempData = in.nextLine();
                 for (int i = 0; i < 32; i++) {
                     if (tempData.equals("")) {
                         setErrors(ErrorType.ONE02);
@@ -86,6 +98,7 @@ public class ReadController {
                     tempData = in.nextLine();
                 }
                 chessDatas.add(chessData);
+                stepDatas.add(stepData);
                 tempData = in.nextLine();
             }
             checkFileData();
@@ -118,7 +131,7 @@ public class ReadController {
                 }
             }
             if (notSame > 2) {
-                setErrors(ErrorType.ONE05);
+//                setErrors(ErrorType.ONE05);
             }
         }
     }
