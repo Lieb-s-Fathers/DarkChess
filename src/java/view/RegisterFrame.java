@@ -15,7 +15,6 @@ public class RegisterFrame extends JFrame{
         this.setTitle("用户注册界面");
         this.setSize(250, 220);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());//设置为流式布局
