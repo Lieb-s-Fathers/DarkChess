@@ -1,6 +1,8 @@
 package model;
 
-import io.Write;
+import web.Client;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -40,11 +42,20 @@ public class UserData {
     }
 
     private void save(){
-        Write out = new Write("src/resources/userData.txt");
-        for (Player player : players) {
-            out.printWriter.println(player);
+        Client client = new Client();
+        try {
+            System.out.println("刷新排行榜");
+            client.saveUserData(this);
+            client.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        out.flush();
-        out.close();
+
+//        Write out = new Write("src/resources/userData.txt");
+//        for (Player player : players) {
+//            out.printWriter.println(player);
+//        }
+//        out.flush();
+//        out.close();
     }
 }

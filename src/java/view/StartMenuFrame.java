@@ -7,6 +7,7 @@ import model.ErrorType;
 import model.GameData;
 import model.Player;
 import model.UserData;
+import web.Client;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +29,17 @@ public class StartMenuFrame extends JFrame {
 
     private static JLabel statusLabel;
     private GameData gameData;
-    public static UserData userData = new UserData();
+    public static Client client = new Client();
+    public static UserData userData;
+
+    static {
+        try {
+            userData = client.getUserData();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Boolean isLogged = false;
     public static Player player;
 
@@ -47,11 +58,17 @@ public class StartMenuFrame extends JFrame {
         setLayout(null);
         setIconImage(icon);
 
-        try {
-            loadPlayers("src/resources/userData.txt");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            loadPlayers("src/resources/userData.txt");
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        try {
+//            userData = client.getUserData();
+//            client.close();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         if (!isNewGame) {
             //如果不是新游戏，添加继续游戏按钮

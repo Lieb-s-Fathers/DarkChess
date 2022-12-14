@@ -1,2 +1,2 @@
-admin MTIzNDU2 1 6
+admin MTIzNDU2 50 1000
 tyk130424 VHlrMDQwNTAz 0 0
