@@ -13,9 +13,8 @@ public class RankingFrame extends JFrame {
         this.userData = userData;
         userData.sort();
         this.setTitle("排行榜");
-        this.setSize(720, 720);
+        this.setSize(720, userData.getPlayers().size()*50+350);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());//设置为流式布局
@@ -24,7 +23,7 @@ public class RankingFrame extends JFrame {
         label3.setFont(new Font("黑体", Font.BOLD, 30));
         panel.add(label3);
 
-        JLabel label0 = new JLabel("                              排行榜                             ");
+        JLabel label0 = new JLabel("                            排行榜                             ");
         label0.setFont(new Font("黑体", Font.BOLD, 60));
         panel.add(label0);//把组件添加到面板panel
 
