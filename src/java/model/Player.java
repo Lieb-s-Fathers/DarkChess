@@ -3,14 +3,22 @@ package model;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
-public class Player {
+public class Player implements Comparable<Player> {
     private String name;
     private String password;
     private int winNumbers;
     private int credits;
 
-    public String getName(){
+    public String getName() {
         return name;
+    }
+
+    public int getWinNumbers(){
+        return winNumbers;
+    }
+
+    public int getCredits() {
+        return credits;
     }
 
     //Register
@@ -26,12 +34,17 @@ public class Player {
         this.credits = credits;
     }
 
-    public Player(String tempData){
+    public Player(String tempData) {
         String[] tempDatas = tempData.split(" ");
         this.name = tempDatas[0];
         this.password = tempDatas[1];
         this.winNumbers = Integer.parseInt(tempDatas[2]);
         this.credits = Integer.parseInt(tempDatas[3]);
+    }
+
+    public void addScore(int score) {
+        winNumbers++;
+        credits += score;
     }
 
     public boolean checkPassword(String password) throws UnsupportedEncodingException {
@@ -43,7 +56,16 @@ public class Player {
         return false;
     }
 
-    public String toString(){
+    public int compareTo(Player o) {
+        if (this.credits > o.credits) {
+            return -1;
+        } else if (this.credits < o.credits) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public String toString() {
         return String.format("%s %s %d %d", name, password, winNumbers, credits);
     }
 }

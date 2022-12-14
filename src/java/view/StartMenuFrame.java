@@ -28,8 +28,9 @@ public class StartMenuFrame extends JFrame {
 
     private static JLabel statusLabel;
     private GameData gameData;
-    private UserData userData = new UserData();
+    public static UserData userData = new UserData();
     public static Boolean isLogged = false;
+    public static Player player;
 
     public StartMenuFrame(int width, int height, boolean isNewGame) {
         setTitle("DarkChess");
@@ -60,6 +61,7 @@ public class StartMenuFrame extends JFrame {
 //        addLabel();
         addStartButton();
         addLoadButton();
+        addRankingButton();
         addQuitButton();
         addBackImage();
     }
@@ -99,7 +101,7 @@ public class StartMenuFrame extends JFrame {
     private void addStartButton() {
         JButton button = new JButton("Start");
         button.addActionListener((e) -> start());
-        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 220);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 120);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBorderPainted(false);
@@ -111,7 +113,7 @@ public class StartMenuFrame extends JFrame {
 
     private void addLoadButton() {
         JButton button = new JButton("Load");
-        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 320);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 220);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         button.setBorderPainted(false);
@@ -139,7 +141,7 @@ public class StartMenuFrame extends JFrame {
 
     private void addContinueButton() {
         JButton button = new JButton("Continue");
-        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 120);
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 20);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
 
@@ -156,6 +158,24 @@ public class StartMenuFrame extends JFrame {
             mainFrame = new ChessGameFrame(720, 720, readController.getGameData());
             mainFrame.setVisible(true);
             this.dispose();
+        });
+    }
+    private void addRankingButton() {
+        JButton button = new JButton("排行榜");
+        button.setLocation(WIDTH / 2 + 300, HEIGHT / 5 + 320);
+        button.setSize(180, 60);
+        button.setFont(new Font("黑体", Font.BOLD, 20));
+
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setForeground(fontColor);
+        button.setBackground(buttonColor);
+        add(button);
+
+        button.addActionListener(e -> {
+            System.out.println("click 排行榜");
+            JFrame rankingFrame = new RankingFrame(userData, this);
+            rankingFrame.setVisible(true);
         });
     }
 

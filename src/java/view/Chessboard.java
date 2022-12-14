@@ -310,22 +310,22 @@ public class Chessboard extends JComponent implements Runnable {
                 int temp = random.nextInt(16);
                 int tempstyle = 0;
                 if (temp == 0) tempstyle = 0;
-                else if (0 < temp && temp <= 2) tempstyle = 1;
-                else if (temp > 2 && temp <= 4) tempstyle = 2;
-                else if (temp > 4 && temp <= 6) tempstyle = 3;
-                else if (temp > 6 && temp <= 8) tempstyle = 4;
-                else if (temp > 8 && temp <= 13) tempstyle = 5;
+                else if (temp <= 2) tempstyle = 1;
+                else if (temp <= 4) tempstyle = 2;
+                else if (temp <= 6) tempstyle = 3;
+                else if (temp <= 8) tempstyle = 4;
+                else if (temp <= 13) tempstyle = 5;
                 else tempstyle = 6;
 
                 while (componentList[colorID][tempstyle] == 0) {
                     temp = random.nextInt(16);
                     colorID = random.nextInt(2);
                     if (temp == 0) tempstyle = 0;
-                    else if (0 < temp && temp <= 2) tempstyle = 1;
-                    else if (temp > 2 && temp <= 4) tempstyle = 2;
-                    else if (temp > 4 && temp <= 6) tempstyle = 3;
-                    else if (temp > 6 && temp <= 8) tempstyle = 4;
-                    else if (temp > 8 && temp <= 13) tempstyle = 5;
+                    else if (temp <= 2) tempstyle = 1;
+                    else if (temp <= 4) tempstyle = 2;
+                    else if (temp <= 6) tempstyle = 3;
+                    else if (temp <= 8) tempstyle = 4;
+                    else if (temp <= 13) tempstyle = 5;
                     else tempstyle = 6;
                 }
                 ChessColor color = colorID == 0 ? ChessColor.RED : ChessColor.BLACK;
@@ -334,19 +334,19 @@ public class Chessboard extends JComponent implements Runnable {
                 if (temp == 0) {
                     style = 0;
                     squareComponent = new GeneralChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (0 < temp && temp <= 2) {
+                } else if (temp <= 2) {
                     style = 1;
                     squareComponent = new AdvisorChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (temp > 2 && temp <= 4) {
+                } else if (temp <= 4) {
                     style = 2;
                     squareComponent = new MinisterChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (temp > 4 && temp <= 6) {
+                } else if (temp <= 6) {
                     style = 3;
                     squareComponent = new ChariotChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (temp > 6 && temp <= 8) {
+                } else if (temp <= 8) {
                     style = 4;
                     squareComponent = new HorseChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-                } else if (temp > 8 && temp <= 13) {
+                } else if (temp <= 13) {
                     style = 5;
                     squareComponent = new SoldierChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
                 } else {
@@ -433,7 +433,7 @@ public class Chessboard extends JComponent implements Runnable {
     }
 
     public void run() {
-        while (true) {
+         while (true) {
             try {
                 Thread.sleep(200);
                 synchronized (Chessboard.class){

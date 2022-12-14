@@ -22,7 +22,7 @@ import static view.StartMenuFrame.mainFrame;
  * 2 JLabel:  标签
  * 3 JButton： 按钮
  */
-public class ChessGameFrame extends JFrame {
+public class ChessGameFrame extends JFrame implements Runnable {
     public static Write out = new Write(defaultOutFile);
     public static CountDown countDown;
     protected static JButton cheatButton;
@@ -46,6 +46,7 @@ public class ChessGameFrame extends JFrame {
     private ReadController readController;
     private WriteController defaultWriteController;
     private WriteController writeController;
+    private JButton aiButton01, aiButton02;
 
     public ChessGameFrame() {
     }
@@ -83,6 +84,8 @@ public class ChessGameFrame extends JFrame {
         addSaveButton();
         addLoadButton();
         addAIButton(AIPlayers);
+
+        new Thread((this)).start();
     }
 
     public ChessGameFrame(int WIDTH, int HEIGHT, GameData gameData) {
@@ -121,6 +124,8 @@ public class ChessGameFrame extends JFrame {
 
         clickController.calculateScore(this);
         clickController.winJudge();
+
+        new Thread((this)).start();
     }
     public ChessGameFrame(int WIDTH, int HEIGHT, GameData gameData, boolean isReplay) {
         setTitle("2022 CS109 Project Demo"); //设置标题
@@ -193,6 +198,8 @@ public class ChessGameFrame extends JFrame {
             remove(chessboard);
 
             addChessboard(formerGameData);
+
+            new Thread((this)).start();
         }).start();
     }
 
@@ -466,28 +473,28 @@ public class ChessGameFrame extends JFrame {
 
     private void addAIButton(int AIPlayers) {
         if (AIPlayers >= 1) {
-            JButton button01 = new JButton("AI01");
-            button01.addActionListener((e) -> {
+            aiButton01 = new JButton("AI01");
+            aiButton01.addActionListener((e) -> {
                 //   System.out.println("AIFuckyou");
                 AIFucker.play(gameData.getAItype01(), gameData.getDifficulty01());
             });
-            button01.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 520);
-            button01.setSize(180 / AIPlayers, 40);
-            button01.setFont(new Font("Rockwell", Font.BOLD, 10));
-            add(button01);
+            aiButton01.setLocation(WIDTH * 3 / 5 + 10, HEIGHT / 10 + 520);
+            aiButton01.setSize(180 / AIPlayers, 40);
+            aiButton01.setFont(new Font("Rockwell", Font.BOLD, 10));
+            add(aiButton01);
         }
 
 
         if (AIPlayers == 2) {
-            JButton button02 = new JButton("AI02");
-            button02.addActionListener((e) -> {
+            aiButton02 = new JButton("AI02");
+            aiButton02.addActionListener((e) -> {
                 System.out.println("AIFucyou");
                 AIFucker.play(gameData.getAItype02(), gameData.getDifficulty02());
             });
-            button02.setLocation(WIDTH * 3 / 5 + 90 + 10, HEIGHT / 10 + 520);
-            button02.setSize(90, 40);
-            button02.setFont(new Font("Rockwell", Font.BOLD, 10));
-            add(button02);
+            aiButton02.setLocation(WIDTH * 3 / 5 + 90 + 10, HEIGHT / 10 + 520);
+            aiButton02.setSize(90, 40);
+            aiButton02.setFont(new Font("Rockwell", Font.BOLD, 10));
+            add(aiButton02);
         }
     }
 
@@ -505,5 +512,56 @@ public class ChessGameFrame extends JFrame {
             StartMenuFrame firstFrame = new StartMenuFrame(1123, 767, false);
             firstFrame.setVisible(true);
         });
+    }
+    
+    public void run(){
+        PressController pressController =  new PressController(chessboard);
+        while (true) {
+            try{
+                if (gameData.getAIPlayers() == 1){
+                    if(chessboard.getCurrentColor() == ChessColor.BLACK){
+                        try {
+                            pressController.AIPress(aiButton01.getLocationOnScreen().x, aiButton01.getLocationOnScreen().y);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                if (gameData.getAIPlayers() == 2){
+                    if (chessboard.getCurrentColor() == ChessColor.RED) {
+                        try {
+                            pressController.AIPress(aiButton01.getLocationOnScreen().x, aiButton01.getLocationOnScreen().y);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    if(chessboard.getCurrentColor() ==ChessColor.BLACK){
+                        try {
+                            pressController.AIPress(aiButton02.getLocationOnScreen().x, aiButton02.getLocationOnScreen().y);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            } catch (IllegalComponentStateException ignored){
+
+            }
+        }
     }
 }

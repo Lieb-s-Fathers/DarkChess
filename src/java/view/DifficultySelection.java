@@ -118,6 +118,9 @@ public class DifficultySelection extends JFrame {
         add(comprehensiveButton);
 
         addDifficultyButton(number);
+//        addStartButton();
+//
+//        startButton.setVisible(false);
 
         randomButton.addActionListener((e) -> {
             closeDifficultyButtons(number);
@@ -126,6 +129,7 @@ public class DifficultySelection extends JFrame {
             greedyButton.setBackground(Color.WHITE);
             DFSButton.setBackground(Color.WHITE);
             comprehensiveButton.setBackground(Color.WHITE);
+            startButton.setVisible(true);
         });
 
         greedyButton.addActionListener((e) -> {
@@ -169,6 +173,7 @@ public class DifficultySelection extends JFrame {
             int finalI = i;
             difficultyButtons[number][i].addActionListener((e) -> {
                 AIDifficulties[number] = finalI + 1;
+                startButton.setVisible(true);
 
                 for (int j = 0; j < 5; j++) {
                     if (j != finalI) {

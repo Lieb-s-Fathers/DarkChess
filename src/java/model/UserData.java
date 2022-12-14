@@ -2,17 +2,28 @@ package model;
 
 import io.Write;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class UserData {
     ArrayList<Player> players = new ArrayList<>();
 
     public void addPlayer(Player player) {
-        players.add(player);
+        if (findPlayerByName(player.getName()) == null)
+            players.add(player);
         save();
     }
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public void addWinGame(Player player, int score){
+        for (Player thisPlayer : players) {
+            if (thisPlayer.equals(player)) {
+                thisPlayer.addScore(score);
+            }
+        }
+        save();
     }
 
     public Player findPlayerByName(String name){
@@ -22,6 +33,10 @@ public class UserData {
             }
         }
         return null;
+    }
+
+    public void sort(){
+        Collections.sort(players);
     }
 
     private void save(){

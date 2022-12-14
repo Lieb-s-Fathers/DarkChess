@@ -24,9 +24,9 @@ public class RegisterFrame extends JFrame{
         JLabel label3 = new JLabel("重复密码");
         JButton loginButton = new JButton("注册");
         JButton exitButton = new JButton("退出");
-        JTextField jTextField = new JTextField(16);//设置文本框的长度
-        JPasswordField passwordField1 = new JPasswordField(16);//设置密码框
-        JPasswordField passwordField2 = new JPasswordField(10);
+        JTextField jTextField = new JTextField(18);//设置文本框的长度
+        JPasswordField passwordField1 = new JPasswordField(18);//设置密码框
+        JPasswordField passwordField2 = new JPasswordField(18);
 
         loginButton.addActionListener((e) -> {
             String name = jTextField.getText();

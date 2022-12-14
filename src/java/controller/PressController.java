@@ -23,7 +23,7 @@ public class PressController {
             System.out.printf("AI Click %d %d\n", row, col);
             Point directionPoint = this.findDirectionPoint(row, col);
             try {
-                this.AIpress(directionPoint.x, directionPoint.y);
+                this.AIPress(directionPoint.x, directionPoint.y);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -31,7 +31,7 @@ public class PressController {
     }
 
     // 获取当前的鼠标位置
-    public Point getNowpoint() {
+    public Point getNowPoint() {
         return MouseInfo.getPointerInfo().getLocation();
     }
 
@@ -44,8 +44,8 @@ public class PressController {
         robot.mouseMove(point.x, point.y);
     }
 
-    public void AIpress(int x, int y) throws InterruptedException {
-        Point nowPoint = getNowpoint();
+    public void AIPress(int x, int y) throws InterruptedException {
+        Point nowPoint = getNowPoint();
         Point directionPoint = new Point();
         directionPoint.x = x;
         directionPoint.y = y;

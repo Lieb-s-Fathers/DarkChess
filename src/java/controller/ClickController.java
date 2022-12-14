@@ -16,7 +16,7 @@ import java.awt.image.MemoryImageSource;
 import java.util.ArrayList;
 
 import static view.ChessGameFrame.countDown;
-import static view.StartMenuFrame.mainFrame;
+import static view.StartMenuFrame.*;
 
 public class ClickController {
     private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
@@ -308,6 +308,9 @@ public class ClickController {
 
     public void winJudge() {
         if (chessboard.getRedScore() >= 60) {
+            if(chessboard.getGameData().getAIPlayers() == 1){
+                userData.addWinGame(player, chessboard.getGameData().getAItype01()*chessboard.getGameData().getDifficulty01());
+            }
             Winboard.setWinText("Red");
             ChessGameFrame.getWinboard().showWinboard(chessboard.getGameData());
             countDown.close();

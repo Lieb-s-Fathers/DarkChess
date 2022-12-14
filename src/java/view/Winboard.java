@@ -13,8 +13,6 @@ public class Winboard extends JFrame {
     private static JLabel WinText;
 
 //    //todo replay
-//    static ReplayFrame replayFrame;
-
 
     public Winboard(int WIDGH, int HEIGHT, ChessGameFrame chessGameFrame) {
         setIconImage(StartMenuFrame.icon);

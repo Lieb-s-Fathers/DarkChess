@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static view.StartMenuFrame.isLogged;
+import static view.StartMenuFrame.player;
 
 public class LogInFrame extends JFrame {
     private UserData userData;
@@ -25,8 +26,11 @@ public class LogInFrame extends JFrame {
         JButton loginButton = new JButton("登录");
         JButton registerButton = new JButton("注册");
         JButton exitButton = new JButton("退出");
-        JTextField jTextField = new JTextField(16);//设置文本框的长度
-        JPasswordField passwordField = new JPasswordField(16);//设置密码框
+        JTextField jTextField = new JTextField(18);//设置文本框的长度
+        JPasswordField passwordField = new JPasswordField(18);//设置密码框
+
+        jTextField.setText("admin");
+        passwordField.setText("123456");
 
         loginButton.addActionListener((e) -> {
             try {
@@ -34,7 +38,7 @@ public class LogInFrame extends JFrame {
                 String password = String.valueOf(passwordField.getPassword());
                 if (tempPlayer != null && tempPlayer.checkPassword(password)) {
                     JOptionPane.showMessageDialog(this,"登录成功！" );
-                    //todo: 创建新游戏
+                    player = tempPlayer;
                     isLogged = true;
                     ModeSelection modeSelection = new ModeSelection(720, 720, frame);
                     modeSelection.setVisible(true);
