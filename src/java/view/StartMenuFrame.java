@@ -18,7 +18,7 @@ import static io.Write.defaultOutFile;
 public class StartMenuFrame extends JFrame {
     private final int WIDTH;
     private final int HEIGHT;
-    public static Image icon = new ImageIcon("src/resources/image/icon.png").getImage();
+    public static Image icon = new ImageIcon(System.getProperty("user.dir").replace("\\", "/")+"src/resources/image/icon.png").getImage();
 
     private GameController gameController;
     public ReadController readController;
