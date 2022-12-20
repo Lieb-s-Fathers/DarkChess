@@ -2,6 +2,7 @@ package io;
 
 import controller.ClickController;
 import controller.WriteController;
+import view.ChessGameFrame;
 import view.Chessboard;
 
 import javax.swing.*;
@@ -15,6 +16,12 @@ public class CountDown extends Thread {
     private Chessboard chessboard;
     private ClickController clickController;
     private WriteController defaultWriteController;
+    private final Object lock = new Object();
+
+    private JLabel countLabel = ChessGameFrame.getCount();
+    private JLabel messageLabel = ChessGameFrame.getMessageLabel();
+
+    private boolean pause = false;
 
 
     public CountDown(Chessboard chessboard) {
@@ -23,11 +30,7 @@ public class CountDown extends Thread {
         defaultWriteController = new WriteController(chessboard.getGameData());
     }
 
-    private final Object lock = new Object();
-    private JLabel countLabel = mainFrame.getCount();
-    private JLabel messageLabel = mainFrame.getMessageLabel();
 
-    private boolean pause = false;
 
     public boolean getPause() {
         return pause;
@@ -69,7 +72,10 @@ public class CountDown extends Thread {
             if (getPause()) {
                 onPause();
             }
-            countLabel.setText(String.valueOf(getTime()));
+            try {
+                countLabel.setText(String.valueOf(getTime()));
+            } catch (RuntimeException ignored){};
+
             resumeThread();
             minusTime();
             try {

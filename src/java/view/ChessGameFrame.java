@@ -27,12 +27,12 @@ public class ChessGameFrame extends JFrame implements Runnable {
     public static CountDown countDown;
     protected static JButton cheatButton;
     protected static JButton notCheatButton;
-    private static JLabel statusLabel;
-    private static JLabel redScoreLabel;
-    private static JLabel blackScoreLabel;
-    private static JLabel messageLabel;
+    protected static JLabel statusLabel;
+    protected static JLabel redScoreLabel;
+    protected static JLabel blackScoreLabel;
+    protected static JLabel messageLabel;
     private static Winboard winboard;
-    private static JLabel countLabel;
+    protected static JLabel countLabel;
     public int CHESSBOARD_SIZE;
     protected EatenChesses eatenBlackChesses;
     protected EatenChesses eatenRedChesses;
@@ -44,9 +44,11 @@ public class ChessGameFrame extends JFrame implements Runnable {
     protected GameData gameData;
     private AIController AIFucker;
     private ReadController readController;
-    private WriteController defaultWriteController;
-    private WriteController writeController;
+    protected WriteController defaultWriteController;
+    protected WriteController writeController;
     private JButton aiButton01, aiButton02;
+
+
 
     public ChessGameFrame() {
     }
@@ -211,7 +213,7 @@ public class ChessGameFrame extends JFrame implements Runnable {
         return messageLabel;
     }
 
-    public static Winboard getWinboard() {
+    public Winboard getWinboard() {
         return winboard;
     }
 

@@ -9,6 +9,7 @@ public class ModeSelection extends JFrame {
     private final int WIDTH;
     private final int HEIGHT;
     private final JFrame frame;
+    public static OnlineWaitFrame onlineWaitFrame;
 
     public ModeSelection(int width, int height, JFrame frame) {
         setTitle("DarkChess");
@@ -25,6 +26,7 @@ public class ModeSelection extends JFrame {
 
         addLabel();
 
+        addOnlineButton();
         addP2PButton();
         addP2CButton();
         addC2CButton();
@@ -41,9 +43,23 @@ public class ModeSelection extends JFrame {
         add(label);
     }
 
+    private void addOnlineButton() {
+        JButton button = new JButton("Online");
+        button.setLocation(WIDTH / 2 - 90, HEIGHT * 3 / 10);
+        button.setSize(180, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+
+        button.addActionListener((e) -> {
+//            this.setVisible(false);
+            onlineWaitFrame = new OnlineWaitFrame(this);
+            onlineWaitFrame.setVisible(true);
+        });
+    }
+
     private void addP2PButton() {
         JButton button = new JButton("P2P");
-        button.setLocation(WIDTH / 2 - 90, HEIGHT * 2 / 5);
+        button.setLocation(WIDTH / 2 - 90, HEIGHT * 4 / 10);
         button.setSize(180, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);

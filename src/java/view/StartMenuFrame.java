@@ -29,16 +29,8 @@ public class StartMenuFrame extends JFrame {
 
     private static JLabel statusLabel;
     private GameData gameData;
-    public static Client client = new Client();
     public static UserData userData;
 
-    static {
-        try {
-            userData = client.getUserData();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static Boolean isLogged = false;
     public static Player player;
@@ -50,6 +42,13 @@ public class StartMenuFrame extends JFrame {
 //        this.setUndecorated(true);
         int extraHeight = this.isUndecorated() ? 0 : 35;
         this.HEIGHT = height + extraHeight;
+
+        Client client = new Client();
+        try {
+            userData = client.getUserData();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null); // Center the window.
@@ -190,6 +189,12 @@ public class StartMenuFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
+            Client client = new Client();
+            try {
+                userData = client.getUserData();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             System.out.println("click 排行榜");
             JFrame rankingFrame = new RankingFrame(userData, this);
             rankingFrame.setVisible(true);

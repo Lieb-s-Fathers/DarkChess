@@ -16,6 +16,8 @@ import java.awt.image.MemoryImageSource;
 import java.util.ArrayList;
 
 import static view.ChessGameFrame.countDown;
+import static view.OnlineChessGameFrame.client;
+import static view.OnlineChessGameFrame.isOnline;
 import static view.StartMenuFrame.*;
 
 public class ClickController {
@@ -112,6 +114,9 @@ public class ClickController {
                             playEatMusic();
                             chessboard.printKilledComponents();
                             printMessage(first.getChessColor().getName(), first.getName(), squareComponent.getChessColor().getName(), squareComponent.getName());
+                            if (isOnline) {
+                                client.sendStep(first.getChessboardPoint().getX()+" "+first.getChessboardPoint().getY()+" "+squareComponent.getChessboardPoint().getX()+" "+squareComponent.getChessboardPoint().getY());
+                            }
 //                        calculateScore(mainFrame);
 //                        winJudge();
                         }
@@ -194,6 +199,9 @@ public class ClickController {
 //                squareComponent.repaint();
                 chessboard.addChessBoardData();
                 chessboard.addStepFirstClick(squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
+                if (isOnline){
+                    client.sendStep(squareComponent.getChessboardPoint().getX()+" "+squareComponent.getChessboardPoint().getY()+" -1 -1");
+                }
                 writeController.save();
             }).start();
             return false;
@@ -238,7 +246,7 @@ public class ClickController {
 
     public void swapPlayer() {
         chessboard.setCurrentColor(chessboard.getCurrentColor() == ChessColor.BLACK ? ChessColor.RED : ChessColor.BLACK);
-        ChessGameFrame.getStatusLabel().setText(String.format("%s's TURN", chessboard.getCurrentColor().getName()));
+        mainFrame.getStatusLabel().setText(String.format("%s's TURN", chessboard.getCurrentColor().getName()));
         countDown.restart();
     }
 
@@ -298,12 +306,12 @@ public class ClickController {
     }
 
     private void printMessage(String color1, String component1) {
-        ChessGameFrame.getMessageLabel().setText("move " + color1 + " " + component1);
+        mainFrame.getMessageLabel().setText("move " + color1 + " " + component1);
     }
 
 
     private void printMessage(String color1, String component1, String color2, String component2) {
-        ChessGameFrame.getMessageLabel().setText(color1 + " " + component1 + " eats " + color2 + " " + component2);
+        mainFrame.getMessageLabel().setText(color1 + " " + component1 + " eats " + color2 + " " + component2);
     }
 
     public void winJudge() {
@@ -312,13 +320,13 @@ public class ClickController {
                 userData.addWinGame(player, chessboard.getGameData().getAItype01()*chessboard.getGameData().getDifficulty01());
             }
             Winboard.setWinText("Red");
-            ChessGameFrame.getWinboard().showWinboard(chessboard.getGameData());
+            mainFrame.getWinboard().showWinboard(chessboard.getGameData());
             countDown.close();
         }
 
         if (chessboard.getBlackScore() >= 60) {
             Winboard.setWinText("Black");
-            ChessGameFrame.getWinboard().showWinboard(chessboard.getGameData());
+            mainFrame.getWinboard().showWinboard(chessboard.getGameData());
             countDown.close();
         }
     }

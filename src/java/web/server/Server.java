@@ -1,11 +1,18 @@
 package web.server;
 
+import model.Player;
+import model.UserData;
+import web.Client;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
+    public static ArrayList<Socket> players = new ArrayList<>();
+    public static UserData userData;
     public static void main(String[] args) throws IOException {
         ServerSocket server = new ServerSocket(5521);
 

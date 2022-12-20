@@ -25,7 +25,7 @@ public class RegisterFrame extends JFrame{
         JButton exitButton = new JButton("退出");
         JTextField jTextField = new JTextField(18);//设置文本框的长度
         JPasswordField passwordField1 = new JPasswordField(18);//设置密码框
-        JPasswordField passwordField2 = new JPasswordField(18);
+        JPasswordField passwordField2 = new JPasswordField(14);
 
         loginButton.addActionListener((e) -> {
             String name = jTextField.getText();
